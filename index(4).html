@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>pHealth — журнал о здоровье без мифов</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF3F1; --paper:#FFFFFF; --ink:#1C2A33; --muted:#5B6B73;
+  --accent:#2446C7; --sage:#8FB9A8; --line:#D3DDD9;
+  --display:"Unbounded", "Arial Black", system-ui, sans-serif;
+  --text:"Literata", Georgia, "Times New Roman", serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#121B20; --paper:#18242B; --ink:#E4ECE9; --muted:#9AAAB1;
+    --accent:#8EA6FF; --sage:#5E8C7A; --line:#2A3A42;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121B20; --paper:#18242B; --ink:#E4ECE9; --muted:#9AAAB1;
+  --accent:#8EA6FF; --sage:#5E8C7A; --line:#2A3A42;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.125rem/1.7 var(--text)}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:68rem;margin:0 auto;padding:0 1.25rem}
+
+header.top{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0}
+.logo{font:700 1rem var(--display);color:var(--ink);text-decoration:none}
+nav a{margin-left:1.25rem;color:var(--muted);text-decoration:none;font-size:1rem}
+nav a:hover{color:var(--ink)}
+
+/* Hero: the pH scale is the one bold element */
+.hero{padding:3rem 0 2.5rem}
+.hero h1{font:900 clamp(3rem,13vw,8.5rem)/.95 var(--display);margin:0;letter-spacing:-.04em}
+.hero p{max-width:34rem;margin:1.25rem 0 0;font-size:1.25rem;color:var(--muted)}
+.scale{display:grid;grid-template-columns:repeat(15,1fr);margin-top:2.5rem;border-radius:6px;overflow:hidden}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1.5rem}
+.chip{display:inline-flex;align-items:center;gap:.45rem;font:400 .95rem var(--text);color:var(--ink);background:var(--paper);
+  border:1px solid var(--line);border-radius:999px;padding:.25rem .8rem .25rem .3rem;cursor:pointer}
+.chip i{font:700 .68rem var(--display);font-style:normal;color:#fff;background:var(--c);border-radius:999px;padding:.2rem .45rem;white-space:nowrap}
+.chip.empty{opacity:.45}
+.chip.dim{opacity:.3}
+.chip[aria-pressed="true"],.chip.hl{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);opacity:1}
+.zone{margin-top:.9rem;min-height:1.6rem;font-size:1rem;color:var(--muted)}
+.zone b{font:700 .95rem var(--display)}
+.zone button{font:inherit;font-size:.95rem;background:none;border:0;color:var(--accent);text-decoration:underline;cursor:pointer;margin-left:.5rem;padding:0}
+.scale button{all:unset;box-sizing:border-box;height:2.75rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  font:700 .8rem var(--display);color:#fff;opacity:0;animation:in .5s forwards;cursor:pointer;position:relative}
+.scale button:focus-visible{outline:3px solid var(--ink);outline-offset:-3px}
+.scale button.has::after{content:"";width:5px;height:5px;border-radius:50%;background:#fff}
+.scale button.dim{filter:saturate(.25) brightness(1.15)}
+.scale button.out{margin-left:6px}
+.scale button.hov{filter:brightness(1.12)}
+.scale button[aria-pressed="true"]{box-shadow:inset 0 3px 0 var(--ink),inset 0 -3px 0 var(--ink)}
+.scale button[aria-pressed="true"].gs{box-shadow:inset 0 3px 0 var(--ink),inset 0 -3px 0 var(--ink),inset 3px 0 0 var(--ink)}
+.scale button[aria-pressed="true"].ge{box-shadow:inset 0 3px 0 var(--ink),inset 0 -3px 0 var(--ink),inset -3px 0 0 var(--ink)}
+.scale button[aria-pressed="true"].gs.ge{box-shadow:inset 0 0 0 3px var(--ink)}
+@keyframes in{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.scale button{animation:none;opacity:1}}
+.scale-cap{display:grid;grid-template-columns:repeat(15,1fr);font-size:.9rem;color:var(--muted);margin-top:.4rem}
+.scale-cap span:nth-child(1){grid-column:1/5}.scale-cap span:nth-child(2){grid-column:5/11;padding-left:6px}.scale-cap span:nth-child(3){grid-column:11/16;padding-left:6px}
+
+.filters{display:flex;flex-wrap:wrap;gap:.5rem;margin:3rem 0 .75rem}
+.chips .chip{display:none}.chips.all .chip,.chips .chip.show{display:inline-flex}
+.chips:not(.all):not(:has(.show)){margin-top:0}
+.more{font:inherit;font-size:.95rem;background:none;border:0;color:var(--accent);text-decoration:underline;cursor:pointer;padding:.25rem .3rem}
+.filters.authors{margin:0 0 1.5rem}
+.filters.authors::before{content:"Автор:";align-self:center;color:var(--muted);font-size:.95rem;margin-right:.25rem}
+.filters button{font:400 .95rem var(--text);background:none;color:var(--ink);
+  border:1px solid var(--line);border-radius:999px;padding:.4rem 1rem;cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+.posts{list-style:none;margin:0;padding:0}
+.post{border-top:1px solid var(--line)}
+.post:last-child{border-bottom:1px solid var(--line)}
+.post button.head{all:unset;box-sizing:border-box;display:grid;grid-template-columns:7rem 1fr;gap:1rem;
+  width:100%;padding:1.4rem 0;cursor:pointer}
+.post button.head:focus-visible{outline:3px solid var(--accent)}
+.date{color:var(--muted);font-size:.95rem;padding-top:.3rem}
+.post h2{font:700 clamp(1.15rem,2.6vw,1.6rem)/1.3 var(--display);margin:0;max-width:44rem}
+.ph{display:inline-flex;align-items:center;gap:.4rem}
+.ph i{font:700 .72rem var(--display);font-style:normal;color:#fff;background:var(--c);border-radius:4px;padding:.15rem .4rem}
+.tag::before{content:"";display:inline-block;width:.6rem;height:.6rem;border-radius:50%;
+  background:var(--c,var(--sage));margin-right:.4rem;vertical-align:.05rem}
+.body{display:none;grid-template-columns:7rem 1fr;gap:1rem;padding-bottom:2rem}
+.post.open .body{display:grid}
+.body div{max-width:40rem}
+.body p{margin:0 0 1rem}
+.meta{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.5rem;font-size:.9rem;color:var(--muted)}
+.by{display:inline-flex;align-items:center;gap:.35rem}
+.av{width:1.1rem;height:1.1rem;display:inline-flex;align-items:center;justify-content:center;font:700 .55rem var(--display);color:var(--bg);background:var(--ink);border-radius:50%}
+.av.archi{border-radius:3px;background:var(--accent);color:#fff}
+.note{margin-top:1.5rem;padding:.8rem 1rem;border-left:3px solid var(--accent);background:var(--paper);font-size:.95rem;color:var(--muted)}
+.sign{font-style:italic;color:var(--muted)}
+.read{display:inline-block;font:700 .85rem var(--display);color:#fff;background:var(--accent);text-decoration:none;border-radius:8px;padding:.6rem 1.1rem}
+.read:hover{filter:brightness(1.1)}
+
+.editorial{margin:5rem 0 0}
+.editorial h3{font:700 1.4rem var(--display);margin:0}
+.editorial .lead{color:var(--muted);margin:.5rem 0 1.5rem;max-width:38rem}
+.tagline{display:inline-flex;align-items:center;gap:.4rem}
+.tagline i{font:700 .72rem var(--display);font-style:normal;color:var(--bg);background:var(--ink);border-radius:4px;padding:.15rem .4rem}
+.about{margin:5rem 0 3rem;display:grid;grid-template-columns:1fr 2fr;gap:2rem;align-items:start}
+.about h3{font:700 1.4rem var(--display);margin:0}
+.about p{margin:0 0 1rem;max-width:38rem}
+.subscribe{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
+.subscribe input{flex:1 1 14rem;font:inherit;font-size:1rem;padding:.7rem 1rem;border:1px solid var(--line);
+  border-radius:8px;background:var(--paper);color:var(--ink)}
+.subscribe button{font:700 .9rem var(--display);padding:.7rem 1.25rem;border:0;border-radius:8px;
+  background:var(--accent);color:#fff;cursor:pointer}
+.msg{font-size:.95rem;color:var(--muted);min-height:1.5rem;margin-top:.5rem}
+footer{border-top:1px solid var(--line);padding:1.5rem 0 2.5rem;color:var(--muted);font-size:.9rem}
+
+@media (max-width:640px){
+  nav a:not(:last-child){display:none}
+  .post button.head,.body{grid-template-columns:1fr;gap:.25rem}
+  .body>span{display:none}
+  .about{grid-template-columns:1fr}
+  .scale button{font-size:.68rem}
+  .scale-cap{font-size:.75rem}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="#">pHealth</a>
+    <nav><a href="#posts">Статьи</a><a href="#editorial">От редакции</a><a href="#about">О журнале</a></nav>
+  </header>
+
+  <section class="hero">
+    <h1>pHealth</h1>
+    <p>Разбираем добавки, лекарства и привычки по исследованиям, а не по рекламе. Коротко и без мифов.</p>
+    <div class="scale" id="scale" role="group" aria-label="Статьи по средам организма"></div>
+    <div class="scale-cap"><span>желудок</span><span>органы и клетки</span><span>вне тела</span></div>
+    <button type="button" class="more" id="envtoggle" aria-expanded="false" style="margin-top:1rem">Показать среды организма</button>
+    <div class="chips" id="chips" role="group" aria-label="Среды организма"></div>
+    <div class="zone" id="zone" aria-live="polite"></div>
+  </section>
+
+  <div class="filters" id="topics" role="group" aria-label="Темы"></div>
+  <div class="filters authors" id="authors" role="group" aria-label="Авторы"></div>
+  <ul class="posts" id="posts"></ul>
+
+  <section class="editorial" id="editorial">
+    <h3>От редакции</h3>
+    <p class="lead">Как устроен журнал и как мы проверяем факты.</p>
+    <ul class="posts" id="edposts"></ul>
+  </section>
+
+  <section class="about" id="about">
+    <h3>О журнале</h3>
+    <div>
+      <p>pHealth — независимый журнал о здоровье из Алматы. Разбираем добавки, лекарства и привычки: что в составе, какие дозы изучены, где правда, а где маркетинг.</p>
+      <p>В каждой статье опираемся на исследования и официальные инструкции, а спорные места так и называем спорными. Новые материалы выходят раз в неделю.</p>
+      <form class="subscribe" id="sub" novalidate>
+        <input type="email" id="email" placeholder="Ваш email" aria-label="Email">
+        <button type="submit">Подписаться</button>
+      </form>
+      <div class="msg" id="msg" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <footer>© 2026 pHealth. Статьи носят информационный характер и не заменяют консультацию врача.</footer>
+</div>
+
+<script>
+const colors=["#D7263D","#E4572E","#F08A24","#F3B61F","#C9C531","#8CC63F","#46B85A","#2FA37A","#1F9A9E","#2287C4","#2F6CC4","#3E55B8","#4E3FA8","#5E2E96","#6B2182"];
+const zones=[
+ {ph:2,v:"1–3",name:"Желудок"},
+ {ph:4,v:"3,8–4,5",name:"Влагалище"},{ph:4.5,v:"4–5",name:"Зубной налёт"},{ph:4.5,v:"~4,5",name:"Рассасывание кости"},{ph:4.7,v:"4,5–5",name:"Лизосомы"},
+ {ph:5,v:"4,5–5,5",name:"Кожа"},
+ {ph:6,v:"4,5–8",name:"Почки и моча"},{ph:6,v:"4,5–7",name:"Пот"},{ph:6,v:"6–6,5",name:"Двенадцатиперстная кишка"},{ph:6.5,v:"6–7",name:"Пищевод"},{ph:6.9,v:"6,5–7",name:"Мышцы"},{ph:6.8,v:"5,5–7",name:"Толстый кишечник"},
+ {ph:7,v:"6,2–7,6",name:"Рот и слюна"},{ph:7.1,v:"7,1",name:"Грудное молоко"},{ph:7.2,v:"7,2",name:"Клетка"},{ph:7.3,v:"7,3",name:"Мозг"},{ph:7.4,v:"7,35–7,45",name:"Кровь"},{ph:7.4,v:"7,4",name:"Глаза и слёзы"},{ph:7.5,v:"7–7,5",name:"Тонкий кишечник"},
+ {ph:8,v:"7–8",name:"Печень и желчь"},{ph:8,v:"7,8–8",name:"Митохондрии"},{ph:8.5,v:"7,5–8,8",name:"Поджелудочная"},
+ {ph:12,v:"10–14",name:"Вне тела"}
+];
+const posts=[
+ {d:"22 сентября 2026",t:"Витамины",a:"Archi",z:"Кровь",h:"Витамин D: что доказано, а что нет",
+  u:"/vitamin-d/",
+  b:["Витамин D называют средством почти от всего. Сильные доказательства есть для одной ситуации - дефицита.",
+     "Разбираем по пунктам, что известно про простуду, переломы, рак и депрессию, и почему зимой в Алматы его не хватает."]},
+ {d:"18 сентября 2026",t:"Добавки",a:"az",z:"Клетка",h:"Как читать состав БАДа: что значит «в пересчёте на элементный магний»",
+  b:["На банке написано «магния цитрат 500 мг», но магния в этой таблетке гораздо меньше. Цитрат — это соль, и сам магний составляет в ней лишь около 16%, то есть примерно 80 мг.",
+     "Хорошие производители указывают именно элементный магний. Если такой строки нет, стоит пересчитать самому, иначе легко переоценить дозу."]},
+ {d:"15 сентября 2026",t:"Первая помощь",a:"az",z:"Вне тела",h:"Щелочной ожог: почему он опаснее кислотного",
+  b:["Кислота сворачивает белки, и образуется плотный струп, который тормозит её проникновение. Щёлочь омыляет жиры мембран и разжижает ткань, поэтому уходит вглубь и продолжает действовать после контакта.",
+     "Первая помощь: промывать проточной водой минимум 20 минут и сразу к врачу. Нейтрализовать уксусом или лимоном нельзя."]},
+ {d:"8 сентября 2026",t:"Лекарства",a:"Archi",z:"Желудок",h:"Изжога и таблетки от неё: чем антациды отличаются от омепразола",
+  b:["Антациды нейтрализуют кислоту, которая уже есть в желудке, и помогают за минуты. Омепразол и похожие препараты снижают её выработку, но начинают работать не сразу.",
+     "Если изжога бывает чаще двух раз в неделю, это повод обратиться к врачу, а не подбирать таблетки самостоятельно."]},
+ {d:"4 сентября 2026",t:"Спорт",a:"az",z:"Мышцы",h:"Кофеин перед стартом: работает ли чашка кофе на 10 км",
+  b:["Кофеин один из немногих спортивных стимуляторов с хорошей доказательной базой. Эффект на выносливость небольшой, но заметный.",
+     "Главное правило: не пробовать ничего нового в день забега. Проверьте на тренировке, как организм реагирует."]},
+ {d:"28 августа 2026",t:"Добавки",a:"Archi",z:"Печень и желчь",h:"Почему омега-3 пахнет рыбой и что это говорит о качестве",
+  b:["Сильный запах при открытии банки часто означает окисление жира. Окисленная омега-3 хуже по качеству, а продавцы редко об этом говорят.",
+     "Ищите на упаковке данные об окислении (показатель TOTOX) или сертификаты независимых лабораторий."]},
+ {d:"21 августа 2026",t:"Сон",a:"az",z:"Мозг",h:"Мелатонин: почему меньше дозы иногда работают лучше",
+  b:["В аптеках продают мелатонин по 3–10 мг, хотя в исследованиях эффект часто получали на дозах меньше миллиграмма.",
+     "Мелатонин скорее сдвигает время засыпания, чем «вырубает». Поэтому важнее время приёма, чем доза."]}
+];
+const edposts=[
+ {d:"20 сентября 2026",a:"az",h:"Почему журнал называется pHealth и при чём тут шкала",
+  b:["pH показывает, насколько среда кислая или щелочная. У каждой части тела своя норма: в желудке почти кислота, в крови слабая щёлочь. Нам понравилась идея, что здоровье это во многом про баланс сред.",
+     "Шкала на главной работает как навигация: нажмите на деление или область тела, и увидите статьи, которые к ней относятся. Но основной путь к статьям всё же темы."]},
+ {d:"19 сентября 2026",a:"az",h:"Как мы проверяем факты",
+  b:["Для каждой статьи мы опираемся на обзорные исследования, клинические рекомендации и официальные инструкции к препаратам. Отдельные исследования на мышах или маленьких группах людей не считаем доказательством.",
+     "Если данные противоречат друг другу, так и пишем. Заметили ошибку — напишите нам, исправим и отметим это в статье."]}
+];
+const Z=Object.fromEntries(zones.map(z=>[z.name,z]));
+const col=ph=>colors[Math.min(14,Math.round(ph))];
+const bucket=ph=>ph>=10?10:ph<4?0:Math.floor(ph);
+const label=b=>b===0?"0–3":b===10?"10–14":String(b);
+const state={f:null,author:"Все",topic:"Все"}; // f: {zone:name} | {b:bucket} | null
+const $=id=>document.getElementById(id);
+const topics=$("topics"), list=$("posts"), authors=$("authors"), zoneEl=$("zone"), scale=$("scale"), chips=$("chips");
+const count=name=>posts.filter(p=>p.z===name).length;
+
+const first=k=>k===0?0:k===10?10:k, last=k=>k===0?3:k===10?14:k;
+colors.forEach((c,i)=>{
+  const k=bucket(i), b=document.createElement("button");b.type="button";b.style.background=c;b.style.animationDelay=(i*40)+"ms";
+  b.innerHTML=`<span>${i}</span>`;b.dataset.i=i;b.dataset.b=k;
+  if(i===4||i===10)b.classList.add("out");
+  if(i===first(k))b.classList.add("gs");
+  if(i===last(k))b.classList.add("ge");
+  if(i===first(k)&&posts.some(p=>bucket(Z[p.z].ph)===k))b.classList.add("has");
+  b.setAttribute("aria-label",`pH ${label(k)}`);
+  b.onclick=()=>{state.f=(state.f&&state.f.b===k)?null:{b:k};render()};
+  b.onmouseenter=()=>scale.querySelectorAll(`[data-b="${k}"]`).forEach(x=>x.classList.add("hov"));
+  b.onmouseleave=()=>scale.querySelectorAll(".hov").forEach(x=>x.classList.remove("hov"));
+  scale.appendChild(b);
+});
+zones.forEach(z=>{
+  const b=document.createElement("button");b.type="button";b.className="chip"+(count(z.name)?"":" empty");
+  b.style.setProperty("--c",col(z.ph));b.dataset.z=z.name;
+  b.innerHTML=`<i>${z.v}</i>${z.name}`;
+  b.onclick=()=>{state.f=(state.f&&state.f.zone===z.name)?null:{zone:z.name};render()};
+  chips.appendChild(b);
+});
+$("envtoggle").onclick=e=>{const a=chips.classList.toggle("all");e.currentTarget.textContent=a?"Скрыть среды организма":"Показать среды организма";e.currentTarget.setAttribute("aria-expanded",a)};
+["Все",...new Set(posts.map(p=>p.t))].forEach((name,i)=>{
+  const b=document.createElement("button");b.type="button";b.textContent=name;b.setAttribute("aria-pressed",i===0);
+  b.onclick=()=>{topics.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));state.topic=name;render()};
+  topics.appendChild(b);
+});
+["Все","az","Archi"].forEach((name,i)=>{
+  const b=document.createElement("button");b.type="button";b.textContent=name;b.setAttribute("aria-pressed",i===0);
+  b.onclick=()=>{authors.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));state.author=name;render()};
+  authors.appendChild(b);
+});
+
+function match(p){
+  const f=state.f, z=Z[p.z];
+  const okF=!f||(f.zone?p.z===f.zone:bucket(z.ph)===f.b);
+  return okF&&(state.topic==="Все"||p.t===state.topic)&&(state.author==="Все"||p.a===state.author);
+}
+function render(){
+  const f=state.f, activeB=f?(f.zone?bucket(Z[f.zone].ph):f.b):null;
+  scale.querySelectorAll("button").forEach(b=>{b.classList.toggle("dim",activeB!==null&&+b.dataset.b!==activeB);b.setAttribute("aria-pressed",activeB!==null&&+b.dataset.b===activeB)});
+  chips.querySelectorAll(".chip").forEach(c=>{
+    const zb=bucket(Z[c.dataset.z].ph);
+    c.classList.toggle("show",!!(f&&(f.zone===c.dataset.z||(f.b!==undefined&&zb===f.b))));
+    c.setAttribute("aria-pressed",!!(f&&f.zone===c.dataset.z));
+    c.classList.toggle("hl",!!(f&&f.b!==undefined&&zb===f.b));
+    c.classList.toggle("dim",!!(f&&f.b!==undefined&&zb!==f.b));
+  });
+  zoneEl.innerHTML=f?`Показаны статьи: <b>${f.zone||"pH "+label(f.b)}</b> <button type="button" id="reset">Показать все</button>`:"Нажмите на деление шкалы или откройте список сред.";
+  const r=$("reset");if(r)r.onclick=()=>{state.f=null;render()};
+  list.innerHTML="";
+  const shown=posts.filter(match);
+  if(!shown.length){list.innerHTML='<li class="post"><p style="padding:1.4rem 0;margin:0;color:var(--muted)">Здесь пока нет статей. Попробуйте другую тему или область тела.</p></li>';return}
+  shown.forEach(p=>list.appendChild(item(p)));
+}
+function item(p){
+  const archi=p.a==="Archi", z=p.z?Z[p.z]:null;
+  const li=document.createElement("li");li.className="post";
+  const tag=z?`<span class="ph" style="--c:${col(z.ph)}"><i>pH ${z.v}</i>${z.name}</span>`:`<span class="tagline"><i>pH</i>От редакции</span>`;
+  li.innerHTML=`<button class="head" aria-expanded="false"><span class="date">${p.d}</span>
+    <span><h2>${p.h}</h2><span class="meta">${tag}${p.t?`<span class="tag">${p.t}</span>`:""}
+    <span class="by"><span class="av${archi?" archi":""}">${archi?"A":"az"}</span>${p.a}</span></span></span></button>
+    <div class="body"><span></span><div>${p.b.map(x=>`<p>${x}</p>`).join("")}
+    ${p.u?`<p><a class="read" href="${p.u}">Читать статью</a></p>`:""}
+    ${archi?"":`<p class="sign">— az</p>`}</div></div>`;
+  const btn=li.querySelector(".head");
+  btn.onclick=()=>{const o=li.classList.toggle("open");btn.setAttribute("aria-expanded",o)};
+  return li;
+}
+edposts.forEach(p=>$("edposts").appendChild(item(p)));
+render();
+
+$("sub").onsubmit=e=>{
+  e.preventDefault();
+  const v=$("email").value.trim(), m=$("msg");
+  m.textContent=/^\S+@\S+\.\S+$/.test(v)?"Готово, вы подписаны. Первое письмо придёт с новой статьёй.":"Проверьте email: в нём должны быть @ и домен, например name@mail.kz.";
+};
+</script>
+</body>
+</html>
