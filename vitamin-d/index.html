@@ -6,7 +6,7 @@
 <title>Витамин D: что доказано, а что нет - pHealth</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Literata:opsz,wght@7..72,400;7..72,600&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#EEF3F1; --paper:#FFFFFF; --ink:#1C2A33; --muted:#5B6B73;
@@ -14,6 +14,8 @@
   --l4:#2FA37A; --l3:#2287C4; --l2:#E0A81A; --l1:#9AA7AD;
   --display:"Unbounded", "Arial Black", system-ui, sans-serif;
   --text:"Literata", Georgia, "Times New Roman", serif;
+  --ui:"Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --soft:#E2EBE7; --on-accent:#FFFFFF;
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
@@ -21,12 +23,12 @@
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --bg:#121B20; --paper:#18242B; --ink:#E4ECE9; --muted:#9AAAB1;
-    --accent:#8EA6FF; --sage:#5E8C7A; --line:#2A3A42; --l1:#6E7C83;
+    --accent:#8EA6FF; --sage:#5E8C7A; --line:#2A3A42; --l1:#6E7C83; --soft:#1E2C33; --on-accent:#0E1630; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#121B20; --paper:#18242B; --ink:#E4ECE9; --muted:#9AAAB1;
-  --accent:#8EA6FF; --sage:#5E8C7A; --line:#2A3A42; --l1:#6E7C83;
+  --accent:#8EA6FF; --sage:#5E8C7A; --line:#2A3A42; --l1:#6E7C83; --soft:#1E2C33; --on-accent:#0E1630; color-scheme:dark;
 }
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *,*::before,*::after{box-sizing:inherit}
@@ -35,10 +37,6 @@ a{color:var(--accent)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 .wrap{max-width:68rem;margin:0 auto;padding:0 1.25rem}
 
-header.top{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0}
-.logo{font:700 1rem var(--display);color:var(--ink);text-decoration:none}
-nav a{margin-left:1.25rem;color:var(--muted);text-decoration:none;font-size:1rem}
-nav a:hover{color:var(--ink)}
 
 /* article grid: left rail (7rem) like the list on the main page */
 .art{display:grid;grid-template-columns:7rem minmax(0,40rem) 1fr;gap:1rem;padding:2.5rem 0 1rem}
@@ -101,26 +99,58 @@ p{margin:0 0 1rem}
 .src ol{margin:0;padding-left:1.4rem;font-size:.9rem;line-height:1.55;color:var(--muted)}
 .src li{margin-bottom:.5rem}
 .ai{font-size:.9rem;color:var(--muted);margin-top:1.5rem}
-footer{border-top:1px solid var(--line);padding:1.5rem 0 2.5rem;color:var(--muted);font-size:.9rem;margin-top:3rem}
 
 @media (prefers-reduced-motion:reduce){.claim{transition:none}}
 @media (max-width:640px){
-  nav a:not(:last-child){display:none}
   .art{grid-template-columns:minmax(0,1fr)}
   .art>*{grid-column:1}
   .lv{grid-template-columns:repeat(2,1fr)}
 }
+
+/* общая шапка и подвал, как на главной */
+.btn{display:inline-flex;align-items:center;gap:.5rem;min-height:48px;padding:0 1.4rem;border-radius:999px;font:600 .95rem var(--ui);text-decoration:none;border:1.5px solid var(--ink);color:var(--ink);background:transparent;cursor:pointer}
+.btn.accent{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn:hover{filter:brightness(1.08)}
+.launch{background:var(--soft);font:400 .88rem/1.4 var(--ui);color:var(--muted);text-align:center}
+.launch .sw{padding-block:.55rem}
+header.top{border-bottom:1px solid var(--line)}
+header.top .sw{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.75rem 1.5rem;padding-block:1rem}
+.logo{display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--ink)}
+.mark{display:inline-grid;place-items:center;width:2.4rem;height:2.4rem;border-radius:.7rem;background:var(--ink);color:var(--bg);font:700 .9rem var(--display);letter-spacing:-.02em}
+.word{font:700 1.2rem var(--display);letter-spacing:-.02em}
+nav.main{display:flex;flex-wrap:wrap;gap:.25rem 1.5rem;font:500 .95rem var(--ui)}
+nav.main a{color:var(--ink);text-decoration:none;padding:.4rem 0}
+nav.main a:hover{color:var(--accent)}
+footer{border-top:1px solid var(--line);padding-block:3rem 2.5rem;font:400 .92rem var(--ui);color:var(--muted)}
+.fgrid{display:grid;grid-template-columns:1.4fr repeat(3,minmax(0,1fr));gap:2rem}
+.fgrid h4{font:600 .78rem var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin:0 0 .8rem}
+.fgrid ul{list-style:none;margin:0;padding:0;display:grid;gap:.45rem}
+.fgrid a{color:var(--muted);text-decoration:none}
+.fgrid a:hover{color:var(--accent)}
+.fstrip{height:6px;border-radius:3px;margin-top:2.5rem;background:linear-gradient(90deg,#D7263D,#E4572E,#F08A24,#F3B61F,#C9C531,#8CC63F,#46B85A,#2FA37A,#1F9A9E,#2287C4,#2F6CC4,#3E55B8,#4E3FA8,#5E2E96,#6B2182)}
+.legal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.75rem;margin-top:1rem}
+@media (max-width:760px){header.top .btn{display:none}nav.main{order:3;width:100%;gap:.25rem 1.1rem}.fgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.fgrid>div:first-child{grid-column:1/-1}}
+.sw{max-width:72rem;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+footer{margin-top:4rem}
 </style>
 </head>
 <body>
+<div class="launch"><div class="sw">pHealth только запускается. Первый разбор уже вышел, новые статьи, чекапы и товары скоро.</div></div>
+
+<header class="top">
+  <div class="sw">
+    <a class="logo" href="../" aria-label="pHealth, на главную"><span class="mark" aria-hidden="true">pH</span><span class="word">pHealth</span></a>
+    <nav class="main" aria-label="Разделы">
+      <a href="../#journal">Журнал</a><a href="../#checkups">Чекапы</a><a href="../#shop">Товары</a><a href="../#money">Как мы зарабатываем</a><a href="../#about">О нас</a>
+    </nav>
+    <a class="btn accent" href="../#about">Подписаться</a>
+  </div>
+</header>
+
 <div class="wrap">
-  <header class="top">
-    <a class="logo" href="https://phealth.space">pHealth</a>
-    <nav><a href="https://phealth.space/#posts">Статьи</a><a href="https://phealth.space/#editorial">От редакции</a><a href="https://phealth.space/#about">О журнале</a></nav>
-  </header>
 
   <article class="art" id="art">
-    <a class="back" href="https://phealth.space/#posts">&larr; Все статьи</a>
+    <a class="back" href="../#journal">&larr; Все статьи</a>
 
     <div class="meta">
       <span>22 сентября 2026</span>
@@ -134,7 +164,7 @@ footer{border-top:1px solid var(--line);padding:1.5rem 0 2.5rem;color:var(--mute
 
     <section class="legend" aria-labelledby="lg">
       <h2 id="lg">Как читать метки</h2>
-      <p>Метка стоит у каждого утверждения об эффекте и показывает, насколько надёжно он доказан. Нажмите на уровень, чтобы подсветить утверждения. Подробнее в статье <a href="https://phealth.space/#editorial">«Как мы оцениваем доказательства»</a>.</p>
+      <p>Метка стоит у каждого утверждения об эффекте и показывает, насколько надёжно он доказан. Нажмите на уровень, чтобы подсветить утверждения. Подробнее в статье <a href="../#evidence">«Как читать метки»</a>.</p>
       <div class="lv" role="group" aria-label="Уровни доказательств">
         <button type="button" data-l="4" aria-pressed="false"><span class="bar"><b></b><b></b><b></b><b></b></span><strong>Сильные</strong><span>Согласованные метаанализы клинических испытаний</span></button>
         <button type="button" data-l="3" aria-pressed="false"><span class="bar"><b></b><b></b><b></b><b></b></span><strong>Умеренные</strong><span>Несколько испытаний, но с оговорками</span></button>
@@ -188,8 +218,23 @@ footer{border-top:1px solid var(--line);padding:1.5rem 0 2.5rem;color:var(--mute
     </section>
   </article>
 
-  <footer>© 2026 pHealth. Статьи носят информационный характер и не заменяют консультацию врача.</footer>
 </div>
+
+<footer>
+  <div class="sw">
+    <div class="fgrid">
+      <div>
+        <a class="logo" href="../"><span class="mark" aria-hidden="true">pH</span><span class="word">pHealth</span></a>
+        <p style="margin:1rem 0 0;max-width:20rem">Журнал о здоровье без мифов. Анализы и товары для здоровья в Алматы.</p>
+      </div>
+      <div><h4>Журнал</h4><ul><li><a href="../#journal">Все статьи</a></li><li><a href="../#journal">Добавки</a></li><li><a href="../#journal">Анализы</a></li><li><a href="../#evidence">Как читать метки</a></li></ul></div>
+      <div><h4>Сервис</h4><ul><li><a href="../#checkups">Чекапы</a></li><li><a href="../#shop">Товары</a></li><li><a href="../#checkups">Доставка и оплата</a></li></ul></div>
+      <div><h4>О проекте</h4><ul><li><a href="../#about">О нас</a></li><li><a href="../#money">Как мы зарабатываем</a></li><li><a href="../#about">Как мы проверяем факты</a></li><li><a href="../#about">Контакты</a></li></ul></div>
+    </div>
+    <div class="fstrip" aria-hidden="true"></div>
+    <div class="legal"><span>© 2026 pHealth · phealth.space</span><span>Материалы носят информационный характер и не заменяют консультацию врача. БАД не является лекарственным средством.</span></div>
+  </div>
+</footer>
 
 <script>
 const art=document.getElementById("art"), hint=document.getElementById("hint");
