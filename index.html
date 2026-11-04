@@ -3,306 +3,526 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Разбираем добавки, анализы и привычки по исследованиям, а не по рекламе.">
 <title>pHealth — журнал о здоровье без мифов</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Literata:opsz,wght@7..72,400;7..72,600&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+/* Layout: журнальная лента в одной колонке 72rem; сплошная шкала pH — единственный яркий элемент, всё остальное спокойное */
 :root{
-  --bg:#EEF3F1; --paper:#FFFFFF; --ink:#1C2A33; --muted:#5B6B73;
-  --accent:#2446C7; --sage:#8FB9A8; --line:#D3DDD9;
-  --display:"Unbounded", "Arial Black", system-ui, sans-serif;
-  --text:"Literata", Georgia, "Times New Roman", serif;
-  box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#EEF3F1; --paper:#FFFFFF; --ink:#1C2A33; --muted:#53636B; --line:#D3DDD9; --soft:#E2EBE7;
+  --accent:#2446C7; --on-accent:#FFFFFF; --inv-bg:#1C2A33; --inv-ink:#EEF3F1; --inv-muted:#AFC0C7;
+  --l4:#2FA37A; --l3:#2287C4; --l2:#E0A81A; --l1:#9AA7AD; --l0:#D3DDD9;
+  --display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --text:"Literata",Georgia,"Times New Roman",serif;
+  --ui:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --bg:#121B20; --paper:#18242B; --ink:#E4ECE9; --muted:#9AAAB1;
-    --accent:#8EA6FF; --sage:#5E8C7A; --line:#2A3A42;
+    --bg:#121B20; --paper:#18242B; --ink:#E4ECE9; --muted:#9AAAB1; --line:#2A3A42; --soft:#1E2C33;
+    --accent:#8EA6FF; --on-accent:#0E1630; --inv-bg:#0B1216; --inv-ink:#E4ECE9; --inv-muted:#9AAAB1;
+    --l1:#6E7C83; --l0:#2A3A42; color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#121B20; --paper:#18242B; --ink:#E4ECE9; --muted:#9AAAB1;
-  --accent:#8EA6FF; --sage:#5E8C7A; --line:#2A3A42;
+  --bg:#121B20; --paper:#18242B; --ink:#E4ECE9; --muted:#9AAAB1; --line:#2A3A42; --soft:#1E2C33;
+  --accent:#8EA6FF; --on-accent:#0E1630; --inv-bg:#0B1216; --inv-ink:#E4ECE9; --inv-muted:#9AAAB1;
+  --l1:#6E7C83; --l0:#2A3A42; color-scheme:dark;
 }
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-*,*::before,*::after{box-sizing:inherit}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 1.125rem/1.7 var(--text)}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.65 var(--text)}
 a{color:var(--accent)}
-:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
-.wrap{max-width:68rem;margin:0 auto;padding:0 1.25rem}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+h1,h2,h3{text-wrap:balance}
+.wrap{max-width:72rem;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.eyebrow{font:600 .78rem/1 var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.h2{font:700 clamp(1.6rem,3.4vw,2.4rem)/1.12 var(--display);letter-spacing:-.025em;margin:0}
+.lead{font-size:1.15rem;color:var(--muted);max-width:38rem;margin:0}
+section{padding-block:4.5rem}
+.sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:1.25rem;margin-bottom:2rem}
+.sec-head>div{display:grid;gap:.75rem;min-width:0}
+.sec-head>.tabs{display:flex}
 
-header.top{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0}
-.logo{font:700 1rem var(--display);color:var(--ink);text-decoration:none}
-nav a{margin-left:1.25rem;color:var(--muted);text-decoration:none;font-size:1rem}
-nav a:hover{color:var(--ink)}
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:.5rem;min-height:48px;padding:0 1.4rem;border-radius:999px;font:600 .95rem var(--ui);text-decoration:none;border:1.5px solid var(--ink);color:var(--ink);background:transparent;cursor:pointer}
+.btn.primary{background:var(--ink);color:var(--bg)}
+.btn.accent{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn:hover{filter:brightness(1.08)}
+.more{font:600 .95rem var(--ui);color:var(--accent);text-decoration:none;white-space:nowrap}
+.more:hover{text-decoration:underline}
 
-/* Hero: the pH scale is the one bold element */
-.hero{padding:3rem 0 2.5rem}
-.hero h1{font:900 clamp(3rem,13vw,8.5rem)/.95 var(--display);margin:0;letter-spacing:-.04em}
-.hero p{max-width:34rem;margin:1.25rem 0 0;font-size:1.25rem;color:var(--muted)}
-.scale{display:grid;grid-template-columns:repeat(15,1fr);margin-top:2.5rem;border-radius:6px;overflow:hidden}
-.chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1.5rem}
-.chip{display:inline-flex;align-items:center;gap:.45rem;font:400 .95rem var(--text);color:var(--ink);background:var(--paper);
-  border:1px solid var(--line);border-radius:999px;padding:.25rem .8rem .25rem .3rem;cursor:pointer}
-.chip i{font:700 .68rem var(--display);font-style:normal;color:#fff;background:var(--c);border-radius:999px;padding:.2rem .45rem;white-space:nowrap}
-.chip.empty{opacity:.45}
-.chip.dim{opacity:.3}
-.chip[aria-pressed="true"],.chip.hl{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);opacity:1}
-.zone{margin-top:.9rem;min-height:1.6rem;font-size:1rem;color:var(--muted)}
-.zone b{font:700 .95rem var(--display)}
-.zone button{font:inherit;font-size:.95rem;background:none;border:0;color:var(--accent);text-decoration:underline;cursor:pointer;margin-left:.5rem;padding:0}
-.scale button{all:unset;box-sizing:border-box;height:2.75rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
-  font:700 .8rem var(--display);color:#fff;opacity:0;animation:in .5s forwards;cursor:pointer;position:relative}
-.scale button:focus-visible{outline:3px solid var(--ink);outline-offset:-3px}
-.scale button.has::after{content:"";width:5px;height:5px;border-radius:50%;background:#fff}
-.scale button.dim{filter:saturate(.25) brightness(1.15)}
-.scale button.out{margin-left:6px}
-.scale button.hov{filter:brightness(1.12)}
-.scale button[aria-pressed="true"]{box-shadow:inset 0 3px 0 var(--ink),inset 0 -3px 0 var(--ink)}
-.scale button[aria-pressed="true"].gs{box-shadow:inset 0 3px 0 var(--ink),inset 0 -3px 0 var(--ink),inset 3px 0 0 var(--ink)}
-.scale button[aria-pressed="true"].ge{box-shadow:inset 0 3px 0 var(--ink),inset 0 -3px 0 var(--ink),inset -3px 0 0 var(--ink)}
-.scale button[aria-pressed="true"].gs.ge{box-shadow:inset 0 0 0 3px var(--ink)}
-@keyframes in{to{opacity:1}}
-@media (prefers-reduced-motion:reduce){.scale button{animation:none;opacity:1}}
-.scale-cap{display:grid;grid-template-columns:repeat(15,1fr);font-size:.9rem;color:var(--muted);margin-top:.4rem}
-.scale-cap span:nth-child(1){grid-column:1/5}.scale-cap span:nth-child(2){grid-column:5/11;padding-left:6px}.scale-cap span:nth-child(3){grid-column:11/16;padding-left:6px}
+/* header */
+.launch{background:var(--soft);font:400 .88rem/1.4 var(--ui);color:var(--muted);text-align:center}
+.launch .wrap{padding-block:.55rem}
+header.top{border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.75rem 1.5rem;padding-block:1rem}
+.logo{display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--ink)}
+.mark{display:inline-grid;place-items:center;width:2.4rem;height:2.4rem;border-radius:.7rem;background:var(--ink);color:var(--bg);font:700 .9rem var(--display);letter-spacing:-.02em}
+.word{font:700 1.2rem var(--display);letter-spacing:-.02em}
+nav.main{display:flex;flex-wrap:wrap;gap:.25rem 1.5rem;font:500 .95rem var(--ui)}
+nav.main a{color:var(--ink);text-decoration:none;padding:.4rem 0}
+nav.main a:hover{color:var(--accent)}
+@media (max-width:760px){
+  header.top .btn{display:none}
+  nav.main{order:3;width:100%;gap:.25rem 1.1rem}
+}
 
-.filters{display:flex;flex-wrap:wrap;gap:.5rem;margin:3rem 0 .75rem}
-.chips .chip{display:none}.chips.all .chip,.chips .chip.show{display:inline-flex}
-.chips:not(.all):not(:has(.show)){margin-top:0}
-.more{font:inherit;font-size:.95rem;background:none;border:0;color:var(--accent);text-decoration:underline;cursor:pointer;padding:.25rem .3rem}
-.filters.authors{margin:0 0 1.5rem}
-.filters.authors::before{content:"Автор:";align-self:center;color:var(--muted);font-size:.95rem;margin-right:.25rem}
-.filters button{font:400 .95rem var(--text);background:none;color:var(--ink);
-  border:1px solid var(--line);border-radius:999px;padding:.4rem 1rem;cursor:pointer}
-.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+/* hero */
+.hero{padding-block:3.5rem 4rem}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:3rem;align-items:center}
+.hero h1{font:900 clamp(2.5rem,6vw,4.6rem)/1 var(--display);letter-spacing:-.045em;margin:1rem 0 1.25rem}
+.hero .actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2rem}
+@media (max-width:860px){.hero .wrap{grid-template-columns:minmax(0,1fr)}}
+
+.phcard{background:var(--paper);border-radius:1.5rem;padding:1.75rem;display:grid;gap:1.25rem}
+.phtop{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.phtop p{margin:.4rem 0 0;font:400 .92rem/1.45 var(--ui);color:var(--muted);max-width:15rem}
+.phval{font:900 clamp(3rem,7vw,4.2rem)/1 var(--display);letter-spacing:-.05em;font-variant-numeric:tabular-nums;color:var(--c,var(--ink));transition:color .25s}
+.strip{position:relative;display:grid;grid-template-columns:repeat(15,minmax(0,1fr));border-radius:.6rem;overflow:visible;padding-top:.9rem}
+.strip button{all:unset;cursor:pointer;height:3rem;background:var(--c);display:flex;align-items:flex-end;justify-content:center;padding-bottom:.3rem;font:700 .62rem var(--display);color:rgba(255,255,255,.88);transition:transform .2s,filter .2s;position:relative}
+.strip button:first-child{border-radius:.6rem 0 0 .6rem}
+.strip button:last-child{border-radius:0 .6rem .6rem 0}
+.strip button:hover{filter:brightness(1.1)}
+.strip button[aria-pressed="true"]{transform:scaleY(1.22);transform-origin:bottom;z-index:1}
+.strip button[aria-pressed="true"]::before{content:"";position:absolute;top:-.85rem;left:50%;translate:-50% 0;border:.35rem solid transparent;border-top-color:var(--ink);transform:scaleY(.82)}
+.strip button:focus-visible{outline:3px solid var(--ink);outline-offset:2px;z-index:2}
+.capt{display:flex;justify-content:space-between;font:400 .82rem var(--ui);color:var(--muted)}
+.phnote{border-top:1px solid var(--line);padding-top:1rem;margin:0;min-height:4.6rem;font-size:1rem}
+.phnote b{font:600 .92rem var(--ui)}
+
+/* directions */
+.dirs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.dir{display:flex;flex-direction:column;gap:.8rem;padding:1.75rem;border-radius:1.25rem;background:var(--paper);text-decoration:none;color:var(--ink);transition:transform .2s}
+.dir:hover{transform:translateY(-3px)}
+.dir h3{font:700 1.3rem var(--display);letter-spacing:-.02em;margin:0}
+.dir p{margin:0;color:var(--muted);font-size:1rem}
+.dir .price{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:.5rem;padding-top:.8rem;border-top:1px solid var(--line);font:600 .92rem var(--ui)}
+.dir .price span:last-child{color:var(--accent)}
+.badge{align-self:flex-start;font:600 .75rem var(--ui);letter-spacing:.04em;padding:.25rem .7rem;border-radius:999px;background:var(--soft);color:var(--ink)}
+@media (max-width:860px){.dirs{grid-template-columns:minmax(0,1fr)}}
+
+/* evidence meter (shared with articles, products, print) */
+.ev{display:inline-flex;align-items:center;gap:.45rem;font:600 .82rem var(--ui);white-space:nowrap}
+.m{display:inline-flex;gap:2px}
+.m b{width:.32rem;height:.85rem;border-radius:1px;background:var(--l0)}
+.ev[data-l="4"] .m b{background:var(--l4)}
+.ev[data-l="3"] .m b:nth-child(-n+3){background:var(--l3)}
+.ev[data-l="2"] .m b:nth-child(-n+2){background:var(--l2)}
+.ev[data-l="1"] .m b:nth-child(1){background:var(--l1)}
+
+/* journal */
+#journal{background:var(--paper)}
+.tabs{display:flex;flex-wrap:wrap;gap:.5rem}
+.tabs button{min-height:44px;padding:0 1.1rem;border-radius:999px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font:500 .92rem var(--ui);cursor:pointer}
+.tabs button:hover{border-color:var(--ink)}
+.tabs button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.jgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:2.5rem;align-items:start}
+@media (max-width:900px){.jgrid{grid-template-columns:minmax(0,1fr)}}
+.feature{display:grid;gap:1rem;padding:1.75rem;border-radius:1.25rem;background:var(--bg);text-decoration:none;color:var(--ink)}
+.feature .cover{height:9rem;border-radius:.9rem;background:linear-gradient(90deg,#F3B61F,#C9C531);display:flex;align-items:flex-end;justify-content:space-between;padding:1rem 1.2rem;color:#1C2A33}
+.feature .cover b{font:900 3.2rem/1 var(--display);letter-spacing:-.05em}
+.feature .cover span{font:600 .8rem var(--ui);background:rgba(255,255,255,.8);padding:.2rem .6rem;border-radius:999px}
+.feature h3{font:700 1.5rem/1.2 var(--display);letter-spacing:-.02em;margin:0}
+.feature p{margin:0;color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:.4rem 1rem;font:400 .85rem var(--ui);color:var(--muted)}
+.tally{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem 1rem;padding-top:1rem;border-top:1px solid var(--line)}
+.tally .ev{font-weight:500}
+.tally .ev em{font-style:normal;color:var(--muted);margin-left:auto;font-variant-numeric:tabular-nums}
+.feature:hover h3{color:var(--accent)}
 
 .posts{list-style:none;margin:0;padding:0}
-.post{border-top:1px solid var(--line)}
-.post:last-child{border-bottom:1px solid var(--line)}
-.post button.head{all:unset;box-sizing:border-box;display:grid;grid-template-columns:7rem 1fr;gap:1rem;
-  width:100%;padding:1.4rem 0;cursor:pointer}
-.post button.head:focus-visible{outline:3px solid var(--accent)}
-.date{color:var(--muted);font-size:.95rem;padding-top:.3rem}
-.post h2{font:700 clamp(1.15rem,2.6vw,1.6rem)/1.3 var(--display);margin:0;max-width:44rem}
-.ph{display:inline-flex;align-items:center;gap:.4rem}
-.ph i{font:700 .72rem var(--display);font-style:normal;color:#fff;background:var(--c);border-radius:4px;padding:.15rem .4rem}
-.tag::before{content:"";display:inline-block;width:.6rem;height:.6rem;border-radius:50%;
-  background:var(--c,var(--sage));margin-right:.4rem;vertical-align:.05rem}
-.body{display:none;grid-template-columns:7rem 1fr;gap:1rem;padding-bottom:2rem}
-.post.open .body{display:grid}
-.body div{max-width:40rem}
-.body p{margin:0 0 1rem}
-.meta{display:flex;flex-wrap:wrap;gap:1rem;margin-top:.5rem;font-size:.9rem;color:var(--muted)}
-.by{display:inline-flex;align-items:center;gap:.35rem}
-.av{width:1.1rem;height:1.1rem;display:inline-flex;align-items:center;justify-content:center;font:700 .55rem var(--display);color:var(--bg);background:var(--ink);border-radius:50%}
-.av.archi{border-radius:3px;background:var(--accent);color:#fff}
-.note{margin-top:1.5rem;padding:.8rem 1rem;border-left:3px solid var(--accent);background:var(--paper);font-size:.95rem;color:var(--muted)}
-.sign{font-style:italic;color:var(--muted)}
-.read{display:inline-block;font:700 .85rem var(--display);color:#fff;background:var(--accent);text-decoration:none;border-radius:8px;padding:.6rem 1.1rem}
-.read:hover{filter:brightness(1.1)}
+.posts li{border-top:1px solid var(--line)}
+.posts li:last-child{border-bottom:1px solid var(--line)}
+.posts details>summary{list-style:none;cursor:pointer;display:grid;gap:.4rem;padding:1.1rem 2rem 1.1rem 0;position:relative}
+.posts details>summary::-webkit-details-marker{display:none}
+.posts details>summary::after{content:"+";position:absolute;right:.2rem;top:1.05rem;font:500 1.3rem var(--ui);color:var(--muted)}
+.posts details[open]>summary::after{content:"–"}
+.posts h4{font:700 1.05rem/1.35 var(--display);letter-spacing:-.01em;margin:0}
+.posts details p{margin:0 0 .9rem;max-width:38rem}
+.posts details>div{padding-bottom:1.2rem}
+.dot{display:inline-flex;align-items:center;gap:.4rem}
+.dot::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:var(--c)}
+.kind{color:var(--muted);font:italic 400 .9rem var(--text)}
 
-.editorial{margin:5rem 0 0}
-.editorial h3{font:700 1.4rem var(--display);margin:0}
-.editorial .lead{color:var(--muted);margin:.5rem 0 1.5rem;max-width:38rem}
-.tagline{display:inline-flex;align-items:center;gap:.4rem}
-.tagline i{font:700 .72rem var(--display);font-style:normal;color:var(--bg);background:var(--ink);border-radius:4px;padding:.15rem .4rem}
-.about{margin:5rem 0 3rem;display:grid;grid-template-columns:1fr 2fr;gap:2rem;align-items:start}
-.about h3{font:700 1.4rem var(--display);margin:0}
-.about p{margin:0 0 1rem;max-width:38rem}
-.subscribe{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
-.subscribe input{flex:1 1 14rem;font:inherit;font-size:1rem;padding:.7rem 1rem;border:1px solid var(--line);
-  border-radius:8px;background:var(--paper);color:var(--ink)}
-.subscribe button{font:700 .9rem var(--display);padding:.7rem 1.25rem;border:0;border-radius:8px;
-  background:var(--accent);color:#fff;cursor:pointer}
-.msg{font-size:.95rem;color:var(--muted);min-height:1.5rem;margin-top:.5rem}
-footer{border-top:1px solid var(--line);padding:1.5rem 0 2.5rem;color:var(--muted);font-size:.9rem}
+/* evidence legend */
+.legend{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
+.legend div{display:grid;gap:.5rem;align-content:start;padding:1.25rem;border-radius:1rem;border:1px solid var(--line)}
+.legend .ev{font-size:.95rem}
+.legend p{margin:0;font-size:.95rem;color:var(--muted)}
+@media (max-width:860px){.legend{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:460px){.legend{grid-template-columns:minmax(0,1fr)}}
 
-@media (max-width:640px){
-  nav a:not(:last-child){display:none}
-  .post button.head,.body{grid-template-columns:1fr;gap:.25rem}
-  .body>span{display:none}
-  .about{grid-template-columns:1fr}
-  .scale button{font-size:.68rem}
-  .scale-cap{font-size:.75rem}
-}
+/* checkups */
+.steps{list-style:none;margin:0 0 2rem;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;counter-reset:s}
+.steps li{counter-increment:s;display:grid;gap:.4rem;padding-top:1rem;border-top:2px solid var(--ink)}
+.steps li::before{content:"Шаг " counter(s);font:600 .78rem var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.steps b{font:600 1.1rem var(--ui)}
+.steps span{color:var(--muted);font-size:.98rem}
+.panels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.panel{display:flex;flex-direction:column;gap:.9rem;padding:1.6rem;border-radius:1.25rem;background:var(--paper)}
+.panel.hot{background:var(--inv-bg);color:var(--inv-ink)}
+.panel.hot .ph-list{color:var(--inv-muted)}
+.panel h3{font:700 1.2rem var(--display);letter-spacing:-.02em;margin:0;display:flex;justify-content:space-between;gap:.5rem;align-items:center}
+.panel h3 small{font:600 .72rem var(--ui);padding:.2rem .6rem;border-radius:999px;background:var(--accent);color:var(--on-accent);letter-spacing:.02em}
+.ph-list{font:400 .95rem/1.55 var(--ui);color:var(--muted);margin:0}
+.panel .row{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:.75rem;font:600 1.1rem var(--ui)}
+.panel .btn{min-height:44px;font-size:.9rem;padding:0 1.1rem}
+.panel.hot .btn{background:var(--inv-ink);border-color:var(--inv-ink);color:var(--inv-bg)}
+@media (max-width:860px){.steps,.panels{grid-template-columns:minmax(0,1fr)}}
+
+/* shop */
+#shop{padding-top:0}
+.prods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
+.prod{display:flex;flex-direction:column;border-radius:1.25rem;overflow:hidden;background:var(--paper)}
+.prod .ic{height:7.5rem;display:flex;align-items:flex-end;padding:1rem 1.2rem;background:var(--tint);color:#1C2A33;font:700 2.4rem/1 var(--display);letter-spacing:-.04em}
+.prod>div:not(.ic){display:flex;flex-direction:column;gap:.6rem;padding:1.2rem 1.25rem 1.3rem;flex:1}
+.prod h3{font:600 1.05rem/1.3 var(--ui);margin:0}
+.prod p{margin:0;font-size:.93rem;color:var(--muted)}
+.prod .row{margin-top:auto;padding-top:.6rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem;font:600 .95rem var(--ui)}
+@media (max-width:960px){.prods{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.prods{grid-template-columns:minmax(0,1fr)}}
+
+/* money */
+.money{background:var(--inv-bg);color:var(--inv-ink)}
+.money .eyebrow{color:var(--inv-muted)}
+.money .lead{color:var(--inv-muted)}
+.rules{list-style:none;margin:2rem 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem 2.5rem}
+.rules li{display:grid;gap:.3rem;padding-top:1rem;border-top:1px solid rgba(175,192,199,.3)}
+.rules b{font:600 1.05rem var(--ui)}
+.rules span{color:var(--inv-muted);font-size:1rem}
+@media (max-width:760px){.rules{grid-template-columns:minmax(0,1fr)}}
+
+/* about */
+.about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:3rem}
+.about p{margin:0 0 1rem;max-width:36rem}
+.about h3{font:700 1.2rem var(--display);margin:0 0 1rem;letter-spacing:-.02em}
+.sub{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.sub label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.sub input{flex:1 1 14rem;min-height:48px;font:400 1rem var(--ui);padding:0 1rem;border:1.5px solid var(--line);border-radius:999px;background:var(--paper);color:var(--ink)}
+.msg{font:400 .92rem var(--ui);color:var(--muted);min-height:1.4rem;margin-top:.6rem}
+@media (max-width:860px){.about{grid-template-columns:minmax(0,1fr)}}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding-block:3rem 2.5rem;font:400 .92rem var(--ui);color:var(--muted)}
+.fgrid{display:grid;grid-template-columns:1.4fr repeat(3,minmax(0,1fr));gap:2rem}
+.fgrid h4{font:600 .78rem var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin:0 0 .8rem}
+.fgrid ul{list-style:none;margin:0;padding:0;display:grid;gap:.45rem}
+.fgrid a{color:var(--muted);text-decoration:none}
+.fgrid a:hover{color:var(--accent)}
+.fstrip{height:6px;border-radius:3px;margin-top:2.5rem;background:linear-gradient(90deg,#D7263D,#E4572E,#F08A24,#F3B61F,#C9C531,#8CC63F,#46B85A,#2FA37A,#1F9A9E,#2287C4,#2F6CC4,#3E55B8,#4E3FA8,#5E2E96,#6B2182)}
+.legal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.75rem;margin-top:1rem}
+@media (max-width:760px){.fgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.fgrid>div:first-child{grid-column:1/-1}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="top">
-    <a class="logo" href="#">pHealth</a>
-    <nav><a href="#posts">Статьи</a><a href="#editorial">От редакции</a><a href="#about">О журнале</a></nav>
-  </header>
+<div class="launch"><div class="wrap">pHealth только запускается. Первый разбор уже вышел, новые статьи, чекапы и товары скоро.</div></div>
 
-  <section class="hero">
-    <h1>pHealth</h1>
-    <p>Разбираем добавки, лекарства и привычки по исследованиям, а не по рекламе. Коротко и без мифов.</p>
-    <div class="scale" id="scale" role="group" aria-label="Статьи по средам организма"></div>
-    <div class="scale-cap"><span>желудок</span><span>органы и клетки</span><span>вне тела</span></div>
-    <button type="button" class="more" id="envtoggle" aria-expanded="false" style="margin-top:1rem">Показать среды организма</button>
-    <div class="chips" id="chips" role="group" aria-label="Среды организма"></div>
-    <div class="zone" id="zone" aria-live="polite"></div>
-  </section>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="pHealth, на главную"><span class="mark" aria-hidden="true">pH</span><span class="word">pHealth</span></a>
+    <nav class="main" aria-label="Разделы">
+      <a href="#journal">Журнал</a><a href="#checkups">Чекапы</a><a href="#shop">Товары</a><a href="#money">Как мы зарабатываем</a><a href="#about">О нас</a>
+    </nav>
+    <a class="btn accent" href="#about">Подписаться</a>
+  </div>
+</header>
 
-  <div class="filters" id="topics" role="group" aria-label="Темы"></div>
-  <div class="filters authors" id="authors" role="group" aria-label="Авторы"></div>
-  <ul class="posts" id="posts"></ul>
-
-  <section class="editorial" id="editorial">
-    <h3>От редакции</h3>
-    <p class="lead">Как устроен журнал и как мы проверяем факты.</p>
-    <ul class="posts" id="edposts"></ul>
-  </section>
-
-  <section class="about" id="about">
-    <h3>О журнале</h3>
+<main id="top">
+<section class="hero">
+  <div class="wrap">
     <div>
-      <p>pHealth — независимый журнал о здоровье из Алматы. Разбираем добавки, лекарства и привычки: что в составе, какие дозы изучены, где правда, а где маркетинг.</p>
-      <p>В каждой статье опираемся на исследования и официальные инструкции, а спорные места так и называем спорными. Новые материалы выходят раз в неделю.</p>
-      <form class="subscribe" id="sub" novalidate>
-        <input type="email" id="email" placeholder="Ваш email" aria-label="Email">
-        <button type="submit">Подписаться</button>
+      <span class="eyebrow">Журнал о здоровье · Алматы</span>
+      <h1>Здоровье без мифов</h1>
+      <p class="lead">Разбираем добавки, анализы и привычки по исследованиям, а не по рекламе. У каждого вывода стоит метка: насколько надёжно он доказан.</p>
+      <div class="actions">
+        <a class="btn primary" href="#journal">Читать журнал</a>
+        <a class="btn" href="#checkups">Собрать чекап</a>
+      </div>
+    </div>
+
+    <div class="phcard">
+      <div class="phtop">
+        <div>
+          <span class="eyebrow">Шкала pH</span>
+          <p>Нажмите на деление: где в теле и вокруг нас кислая среда, а где щелочная.</p>
+        </div>
+        <span class="phval" id="phval" aria-live="polite">7</span>
+      </div>
+      <div class="strip" id="strip" role="group" aria-label="Шкала pH от 0 до 14"></div>
+      <div class="capt"><span>кислая</span><span>нейтральная</span><span>щелочная</span></div>
+      <p class="phnote" id="phnote"></p>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap dirs">
+    <a class="dir" href="#journal">
+      <span class="badge">Бесплатно</span>
+      <h3>Журнал</h3>
+      <p>Статьи об анализах, добавках, сне и спорте. Со ссылками на исследования и метками доказательности.</p>
+      <div class="price"><span>Раз в неделю</span><span>Читать →</span></div>
+    </a>
+    <a class="dir" href="#checkups">
+      <span class="badge">Анализы на дому</span>
+      <h3>Чекапы</h3>
+      <p>Панели анализов под конкретный вопрос. Лаборатория приезжает к вам, а мы объясняем результат простым языком.</p>
+      <div class="price"><span>от [ЦЕНА] ₸</span><span>Выбрать →</span></div>
+    </a>
+    <a class="dir" href="#shop">
+      <span class="badge">Из наличия в Казахстане</span>
+      <h3>Товары</h3>
+      <p>Добавки и приборы, которые мы сами разобрали в журнале. У каждого указано, что доказано, а что нет.</p>
+      <div class="price"><span>Доставка по Алматы</span><span>В каталог →</span></div>
+    </a>
+  </div>
+</section>
+
+<section id="journal">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Журнал</span><h2 class="h2">Свежее от редакции</h2></div>
+      <div class="tabs" id="tabs" role="group" aria-label="Темы"></div>
+    </div>
+
+    <div class="jgrid">
+      <a class="feature" href="vitamin-d/">
+        <div class="cover"><b>D</b><span>Полный разбор</span></div>
+        <div class="meta"><span>22 сентября 2026</span><span class="dot" style="--c:#F3B61F">Витамины</span><span>Archi</span></div>
+        <h3>Витамин D: что доказано, а что нет</h3>
+        <p>Сильные доказательства есть для одной ситуации: дефицита. Разбираем по пунктам простуду, переломы, рак и депрессию.</p>
+        <div class="tally" aria-label="Метки в статье">
+          <span class="ev" data-l="4"><span class="m"><b></b><b></b><b></b><b></b></span>Сильные<em>1</em></span>
+          <span class="ev" data-l="3"><span class="m"><b></b><b></b><b></b><b></b></span>Умеренные<em>1</em></span>
+          <span class="ev" data-l="2"><span class="m"><b></b><b></b><b></b><b></b></span>Слабые<em>1</em></span>
+          <span class="ev" data-l="1"><span class="m"><b></b><b></b><b></b><b></b></span>Не подтверждено<em>3</em></span>
+        </div>
+      </a>
+
+      <ul class="posts" id="posts"></ul>
+    </div>
+  </div>
+</section>
+
+<section id="evidence">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Как читать метки</span><h2 class="h2">Насколько надёжен вывод</h2></div>
+      <p class="lead" style="max-width:30rem">Одни и те же метки стоят в статьях, в карточках товаров и на вкладышах в коробки.</p>
+    </div>
+    <div class="legend">
+      <div><span class="ev" data-l="4"><span class="m"><b></b><b></b><b></b><b></b></span>Сильные</span><p>Согласованные метаанализы клинических испытаний.</p></div>
+      <div><span class="ev" data-l="3"><span class="m"><b></b><b></b><b></b><b></b></span>Умеренные</span><p>Несколько испытаний, но с оговорками.</p></div>
+      <div><span class="ev" data-l="2"><span class="m"><b></b><b></b><b></b><b></b></span>Слабые</span><p>Мало данных, результаты расходятся.</p></div>
+      <div><span class="ev" data-l="1"><span class="m"><b></b><b></b><b></b><b></b></span>Не подтверждено</span><p>Испытания эффекта не нашли.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="checkups" style="padding-top:1rem">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Чекапы</span><h2 class="h2">Анализы без очередей и непонятных бланков</h2></div>
+      <p class="lead" style="max-width:30rem">Собираем панель под ваш вопрос, а не «всё подряд». Лишние анализы дают ложные тревоги.</p>
+    </div>
+    <ol class="steps">
+      <li><b>Выбираете панель</b><span>Готовую или собранную под ваш вопрос вместе с редакцией.</span></li>
+      <li><b>Лаборатория приезжает</b><span>Забор крови дома или в офисе, по Алматы.</span></li>
+      <li><b>Получаете разбор</b><span>Что в норме, что стоит обсудить с врачом и с каким именно.</span></li>
+    </ol>
+    <div class="panels">
+      <div class="panel">
+        <h3>Базовый</h3>
+        <p class="ph-list">[Состав панели: список анализов]</p>
+        <div class="row"><span>[ЦЕНА] ₸</span><a class="btn primary" href="#checkups">Заказать</a></div>
+      </div>
+      <div class="panel hot">
+        <h3>Энергия и усталость <small>Чаще всего</small></h3>
+        <p class="ph-list">[Состав панели: например, ферритин, ТТГ, B12, общий анализ крови]</p>
+        <div class="row"><span>[ЦЕНА] ₸</span><a class="btn" href="#checkups">Заказать</a></div>
+      </div>
+      <div class="panel">
+        <h3>Для бегунов</h3>
+        <p class="ph-list">[Состав панели: список анализов]</p>
+        <div class="row"><span>[ЦЕНА] ₸</span><a class="btn primary" href="#checkups">Заказать</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="shop">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Товары</span><h2 class="h2">Только то, что мы разобрали</h2></div>
+      <a class="more" href="#shop">Весь каталог →</a>
+    </div>
+    <div class="prods">
+      <article class="prod">
+        <div class="ic" style="--tint:#F6E9C8">D3</div>
+        <div>
+          <h3>Витамин D3</h3>
+          <p>Нужен при дефиците. Здоровым без дефицита, скорее всего, ничего не даст.</p>
+          <span class="ev" data-l="4"><span class="m"><b></b><b></b><b></b><b></b></span>Сильные · при дефиците</span>
+          <div class="row"><span>[ЦЕНА] ₸</span><a class="more" href="vitamin-d/">Статья →</a></div>
+        </div>
+      </article>
+      <article class="prod">
+        <div class="ic" style="--tint:#D9E8F5">Mg</div>
+        <div>
+          <h3>Магний</h3>
+          <p>Смотрите на элементный магний, а не на вес соли: в 500 мг цитрата его около 80 мг.</p>
+          <span class="ev" data-l="2"><span class="m"><b></b><b></b><b></b><b></b></span>Слабые · для сна</span>
+          <div class="row"><span>[ЦЕНА] ₸</span><span class="kind">статья скоро</span></div>
+        </div>
+      </article>
+      <article class="prod">
+        <div class="ic" style="--tint:#E3EED0">Ω3</div>
+        <div>
+          <h3>Омега-3</h3>
+          <p>Важна сумма EPA и DHA, а не объём масла. Сильный рыбный запах говорит об окислении.</p>
+          <span class="ev" data-l="3"><span class="m"><b></b><b></b><b></b><b></b></span>Умеренные · триглицериды</span>
+          <div class="row"><span>[ЦЕНА] ₸</span><span class="kind">статья скоро</span></div>
+        </div>
+      </article>
+      <article class="prod">
+        <div class="ic" style="--tint:#E3DDF2">CO₂</div>
+        <div>
+          <h3>Монитор CO₂</h3>
+          <p>Показывает, когда пора проветрить. Внутри NDIR-сенсор, он измеряет сам CO₂.</p>
+          <span class="ev" data-l="2"><span class="m"><b></b><b></b><b></b><b></b></span>Слабые · сон и внимание</span>
+          <div class="row"><span>[ЦЕНА] ₸</span><span class="kind">статья скоро</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="money" id="money">
+  <div class="wrap">
+    <span class="eyebrow">Как мы зарабатываем</span>
+    <h2 class="h2" style="margin:.75rem 0 1rem">Журнал бесплатный. Платят за чекапы и товары</h2>
+    <p class="lead">Мы честно говорим, откуда деньги, потому что одновременно пишем о добавках и продаём их.</p>
+    <ul class="rules">
+      <li><b>Сначала статья, потом товар</b><span>Товар попадает в каталог только после разбора в журнале. Если разбор отрицательный, мы его не продаём.</span></li>
+      <li><b>Метки не зависят от продаж</b><span>У товара та же метка доказательности, что и в статье, даже если она «слабые».</span></li>
+      <li><b>Не продаём «на всякий случай»</b><span>Если добавку лучше подбирать по анализу, мы так и пишем и советуем начать с чекапа.</span></li>
+      <li><b>Без рекламы производителей</b><span>Бренды не платят за упоминание в статьях. [Подтвердить формулировку]</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about">
+    <div>
+      <span class="eyebrow">О нас</span>
+      <h2 class="h2" style="margin:.75rem 0 1.25rem">Почему pHealth</h2>
+      <p>pH показывает, насколько среда кислая или щелочная. У каждой части тела своя норма: в желудке почти кислота, в крови слабая щёлочь в узком коридоре. Нам понравилась мысль, что здоровье во многом про баланс.</p>
+      <p>Мы независимый журнал из Алматы. Опираемся на обзоры исследований, клинические рекомендации и официальные инструкции. Спорные места так и называем спорными.</p>
+    </div>
+    <div>
+      <h3>Новая статья раз в неделю</h3>
+      <p>Пришлём письмо, когда выйдет свежий разбор. Без рекламы и не чаще раза в неделю.</p>
+      <form class="sub" id="sub" novalidate>
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="name@mail.kz" autocomplete="email">
+        <button class="btn accent" type="submit">Подписаться</button>
       </form>
       <div class="msg" id="msg" aria-live="polite"></div>
     </div>
-  </section>
+  </div>
+</section>
+</main>
 
-  <footer>© 2026 pHealth. Статьи носят информационный характер и не заменяют консультацию врача.</footer>
-</div>
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="logo" href="#top"><span class="mark" aria-hidden="true">pH</span><span class="word">pHealth</span></a>
+        <p style="margin:1rem 0 0;max-width:20rem">Журнал о здоровье без мифов. Анализы и товары для здоровья в Алматы.</p>
+      </div>
+      <div><h4>Журнал</h4><ul><li><a href="#journal">Все статьи</a></li><li><a href="#journal">Добавки</a></li><li><a href="#journal">Анализы</a></li><li><a href="#evidence">Как читать метки</a></li></ul></div>
+      <div><h4>Сервис</h4><ul><li><a href="#checkups">Чекапы</a></li><li><a href="#shop">Товары</a></li><li><a href="#checkups">Доставка и оплата</a></li></ul></div>
+      <div><h4>О проекте</h4><ul><li><a href="#about">О нас</a></li><li><a href="#money">Как мы зарабатываем</a></li><li><a href="#about">Как мы проверяем факты</a></li><li><a href="#about">Контакты</a></li></ul></div>
+    </div>
+    <div class="fstrip" aria-hidden="true"></div>
+    <div class="legal"><span>© 2026 pHealth · phealth.space</span><span>Материалы носят информационный характер и не заменяют консультацию врача. БАД не является лекарственным средством.</span></div>
+  </div>
+</footer>
 
 <script>
 const colors=["#D7263D","#E4572E","#F08A24","#F3B61F","#C9C531","#8CC63F","#46B85A","#2FA37A","#1F9A9E","#2287C4","#2F6CC4","#3E55B8","#4E3FA8","#5E2E96","#6B2182"];
-const zones=[
- {ph:2,v:"1–3",name:"Желудок"},
- {ph:4,v:"3,8–4,5",name:"Влагалище"},{ph:4.5,v:"4–5",name:"Зубной налёт"},{ph:4.5,v:"~4,5",name:"Рассасывание кости"},{ph:4.7,v:"4,5–5",name:"Лизосомы"},
- {ph:5,v:"4,5–5,5",name:"Кожа"},
- {ph:6,v:"4,5–8",name:"Почки и моча"},{ph:6,v:"4,5–7",name:"Пот"},{ph:6,v:"6–6,5",name:"Двенадцатиперстная кишка"},{ph:6.5,v:"6–7",name:"Пищевод"},{ph:6.9,v:"6,5–7",name:"Мышцы"},{ph:6.8,v:"5,5–7",name:"Толстый кишечник"},
- {ph:7,v:"6,2–7,6",name:"Рот и слюна"},{ph:7.1,v:"7,1",name:"Грудное молоко"},{ph:7.2,v:"7,2",name:"Клетка"},{ph:7.3,v:"7,3",name:"Мозг"},{ph:7.4,v:"7,35–7,45",name:"Кровь"},{ph:7.4,v:"7,4",name:"Глаза и слёзы"},{ph:7.5,v:"7–7,5",name:"Тонкий кишечник"},
- {ph:8,v:"7–8",name:"Печень и желчь"},{ph:8,v:"7,8–8",name:"Митохондрии"},{ph:8.5,v:"7,5–8,8",name:"Поджелудочная"},
- {ph:12,v:"10–14",name:"Вне тела"}
+const notes=[
+ "Аккумуляторная кислота. Самый край шкалы.",
+ "Желудочный сок натощак: pH 1–2. Такая кислотность нужна, чтобы переваривать белок и убивать бактерии.",
+ "Лимонный сок. Кислый вкус, но на pH крови еда не влияет.",
+ "Уксус и газировка. Частые кислые напитки размягчают зубную эмаль.",
+ "Влагалище в норме: 3,8–4,5. Кислая среда защищает от инфекций.",
+ "Кожа: 4,5–5,5. Слабокислый слой помогает барьеру кожи. Обычное мыло на время его сдвигает.",
+ "Моча чаще всего около 6, но в норме бывает от 4,5 до 8 и зависит от еды.",
+ "Нейтральная точка, как у чистой воды. Кровь держится чуть выше: 7,35–7,45, и организм строго следит за этим коридором.",
+ "Желчь и морская вода: слабощелочная среда.",
+ "Раствор пищевой соды. Нейтрализует кислоту, поэтому соду пьют от изжоги, но часто так делать не стоит.",
+ "Хозяйственное мыло. Щёлочь растворяет жир.",
+ "Нашатырный спирт.",
+ "Известковое молоко. Сильная щёлочь, опасна для глаз.",
+ "Отбеливатель. Щелочной ожог глубже кислотного: промывать водой минимум 20 минут.",
+ "Средство для прочистки труб. Самый щелочной край шкалы."
 ];
-const posts=[
- {d:"22 сентября 2026",t:"Витамины",a:"Archi",z:"Кровь",h:"Витамин D: что доказано, а что нет",
-  u:"/vitamin-d/",
-  b:["Витамин D называют средством почти от всего. Сильные доказательства есть для одной ситуации - дефицита.",
-     "Разбираем по пунктам, что известно про простуду, переломы, рак и депрессию, и почему зимой в Алматы его не хватает."]},
- {d:"18 сентября 2026",t:"Добавки",a:"az",z:"Клетка",h:"Как читать состав БАДа: что значит «в пересчёте на элементный магний»",
-  b:["На банке написано «магния цитрат 500 мг», но магния в этой таблетке гораздо меньше. Цитрат — это соль, и сам магний составляет в ней лишь около 16%, то есть примерно 80 мг.",
-     "Хорошие производители указывают именно элементный магний. Если такой строки нет, стоит пересчитать самому, иначе легко переоценить дозу."]},
- {d:"15 сентября 2026",t:"Первая помощь",a:"az",z:"Вне тела",h:"Щелочной ожог: почему он опаснее кислотного",
-  b:["Кислота сворачивает белки, и образуется плотный струп, который тормозит её проникновение. Щёлочь омыляет жиры мембран и разжижает ткань, поэтому уходит вглубь и продолжает действовать после контакта.",
-     "Первая помощь: промывать проточной водой минимум 20 минут и сразу к врачу. Нейтрализовать уксусом или лимоном нельзя."]},
- {d:"8 сентября 2026",t:"Лекарства",a:"Archi",z:"Желудок",h:"Изжога и таблетки от неё: чем антациды отличаются от омепразола",
-  b:["Антациды нейтрализуют кислоту, которая уже есть в желудке, и помогают за минуты. Омепразол и похожие препараты снижают её выработку, но начинают работать не сразу.",
-     "Если изжога бывает чаще двух раз в неделю, это повод обратиться к врачу, а не подбирать таблетки самостоятельно."]},
- {d:"4 сентября 2026",t:"Спорт",a:"az",z:"Мышцы",h:"Кофеин перед стартом: работает ли чашка кофе на 10 км",
-  b:["Кофеин один из немногих спортивных стимуляторов с хорошей доказательной базой. Эффект на выносливость небольшой, но заметный.",
-     "Главное правило: не пробовать ничего нового в день забега. Проверьте на тренировке, как организм реагирует."]},
- {d:"28 августа 2026",t:"Добавки",a:"Archi",z:"Печень и желчь",h:"Почему омега-3 пахнет рыбой и что это говорит о качестве",
-  b:["Сильный запах при открытии банки часто означает окисление жира. Окисленная омега-3 хуже по качеству, а продавцы редко об этом говорят.",
-     "Ищите на упаковке данные об окислении (показатель TOTOX) или сертификаты независимых лабораторий."]},
- {d:"21 августа 2026",t:"Сон",a:"az",z:"Мозг",h:"Мелатонин: почему меньше дозы иногда работают лучше",
-  b:["В аптеках продают мелатонин по 3–10 мг, хотя в исследованиях эффект часто получали на дозах меньше миллиграмма.",
-     "Мелатонин скорее сдвигает время засыпания, чем «вырубает». Поэтому важнее время приёма, чем доза."]}
-];
-const edposts=[
- {d:"20 сентября 2026",a:"az",h:"Почему журнал называется pHealth и при чём тут шкала",
-  b:["pH показывает, насколько среда кислая или щелочная. У каждой части тела своя норма: в желудке почти кислота, в крови слабая щёлочь. Нам понравилась идея, что здоровье это во многом про баланс сред.",
-     "Шкала на главной работает как навигация: нажмите на деление или область тела, и увидите статьи, которые к ней относятся. Но основной путь к статьям всё же темы."]},
- {d:"19 сентября 2026",a:"az",h:"Как мы проверяем факты",
-  b:["Для каждой статьи мы опираемся на обзорные исследования, клинические рекомендации и официальные инструкции к препаратам. Отдельные исследования на мышах или маленьких группах людей не считаем доказательством.",
-     "Если данные противоречат друг другу, так и пишем. Заметили ошибку — напишите нам, исправим и отметим это в статье."]}
-];
-const Z=Object.fromEntries(zones.map(z=>[z.name,z]));
-const col=ph=>colors[Math.min(14,Math.round(ph))];
-const bucket=ph=>ph>=10?10:ph<4?0:Math.floor(ph);
-const label=b=>b===0?"0–3":b===10?"10–14":String(b);
-const state={f:null,author:"Все",topic:"Все"}; // f: {zone:name} | {b:bucket} | null
-const $=id=>document.getElementById(id);
-const topics=$("topics"), list=$("posts"), authors=$("authors"), zoneEl=$("zone"), scale=$("scale"), chips=$("chips");
-const count=name=>posts.filter(p=>p.z===name).length;
-
-const first=k=>k===0?0:k===10?10:k, last=k=>k===0?3:k===10?14:k;
+const strip=document.getElementById("strip"), val=document.getElementById("phval"), note=document.getElementById("phnote");
+function pick(i){
+  strip.querySelectorAll("button").forEach((b,k)=>b.setAttribute("aria-pressed",k===i));
+  val.textContent=i; val.style.setProperty("--c",colors[i]);
+  note.innerHTML=`<b>pH ${i}.</b> ${notes[i]}`;
+}
 colors.forEach((c,i)=>{
-  const k=bucket(i), b=document.createElement("button");b.type="button";b.style.background=c;b.style.animationDelay=(i*40)+"ms";
-  b.innerHTML=`<span>${i}</span>`;b.dataset.i=i;b.dataset.b=k;
-  if(i===4||i===10)b.classList.add("out");
-  if(i===first(k))b.classList.add("gs");
-  if(i===last(k))b.classList.add("ge");
-  if(i===first(k)&&posts.some(p=>bucket(Z[p.z].ph)===k))b.classList.add("has");
-  b.setAttribute("aria-label",`pH ${label(k)}`);
-  b.onclick=()=>{state.f=(state.f&&state.f.b===k)?null:{b:k};render()};
-  b.onmouseenter=()=>scale.querySelectorAll(`[data-b="${k}"]`).forEach(x=>x.classList.add("hov"));
-  b.onmouseleave=()=>scale.querySelectorAll(".hov").forEach(x=>x.classList.remove("hov"));
-  scale.appendChild(b);
+  const b=document.createElement("button");b.type="button";b.style.setProperty("--c",c);
+  b.textContent=i;b.setAttribute("aria-label","pH "+i);b.onclick=()=>pick(i);
+  strip.appendChild(b);
 });
-zones.forEach(z=>{
-  const b=document.createElement("button");b.type="button";b.className="chip"+(count(z.name)?"":" empty");
-  b.style.setProperty("--c",col(z.ph));b.dataset.z=z.name;
-  b.innerHTML=`<i>${z.v}</i>${z.name}`;
-  b.onclick=()=>{state.f=(state.f&&state.f.zone===z.name)?null:{zone:z.name};render()};
-  chips.appendChild(b);
-});
-$("envtoggle").onclick=e=>{const a=chips.classList.toggle("all");e.currentTarget.textContent=a?"Скрыть среды организма":"Показать среды организма";e.currentTarget.setAttribute("aria-expanded",a)};
-["Все",...new Set(posts.map(p=>p.t))].forEach((name,i)=>{
-  const b=document.createElement("button");b.type="button";b.textContent=name;b.setAttribute("aria-pressed",i===0);
-  b.onclick=()=>{topics.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));state.topic=name;render()};
-  topics.appendChild(b);
-});
-["Все","az","Archi"].forEach((name,i)=>{
-  const b=document.createElement("button");b.type="button";b.textContent=name;b.setAttribute("aria-pressed",i===0);
-  b.onclick=()=>{authors.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));state.author=name;render()};
-  authors.appendChild(b);
-});
+pick(7);
 
-function match(p){
-  const f=state.f, z=Z[p.z];
-  const okF=!f||(f.zone?p.z===f.zone:bucket(z.ph)===f.b);
-  return okF&&(state.topic==="Все"||p.t===state.topic)&&(state.author==="Все"||p.a===state.author);
-}
-function render(){
-  const f=state.f, activeB=f?(f.zone?bucket(Z[f.zone].ph):f.b):null;
-  scale.querySelectorAll("button").forEach(b=>{b.classList.toggle("dim",activeB!==null&&+b.dataset.b!==activeB);b.setAttribute("aria-pressed",activeB!==null&&+b.dataset.b===activeB)});
-  chips.querySelectorAll(".chip").forEach(c=>{
-    const zb=bucket(Z[c.dataset.z].ph);
-    c.classList.toggle("show",!!(f&&(f.zone===c.dataset.z||(f.b!==undefined&&zb===f.b))));
-    c.setAttribute("aria-pressed",!!(f&&f.zone===c.dataset.z));
-    c.classList.toggle("hl",!!(f&&f.b!==undefined&&zb===f.b));
-    c.classList.toggle("dim",!!(f&&f.b!==undefined&&zb!==f.b));
-  });
-  zoneEl.innerHTML=f?`Показаны статьи: <b>${f.zone||"pH "+label(f.b)}</b> <button type="button" id="reset">Показать все</button>`:"Нажмите на деление шкалы или откройте список сред.";
-  const r=$("reset");if(r)r.onclick=()=>{state.f=null;render()};
+const topics={"Добавки":"#3E55B8","Лекарства":"#2287C4","Первая помощь":"#E4572E","Спорт":"#46B85A","Сон":"#5E2E96"};
+const posts=[
+ {d:"18 сентября",t:"Добавки",h:"Как читать состав БАДа: что значит «в пересчёте на элементный магний»",
+  b:["На банке написано «магния цитрат 500 мг», но магния в таблетке около 80 мг: цитрат это соль, и сам магний составляет в ней примерно 16%.","Хорошие производители указывают именно элементный магний. Если такой строки нет, пересчитайте сами."]},
+ {d:"15 сентября",t:"Первая помощь",h:"Щелочной ожог: почему он опаснее кислотного",
+  b:["Кислота сворачивает белки, и плотный струп тормозит её. Щёлочь разжижает ткань и уходит вглубь.","Промывать проточной водой минимум 20 минут и сразу к врачу. Нейтрализовать уксусом нельзя."]},
+ {d:"8 сентября",t:"Лекарства",h:"Изжога: чем антациды отличаются от омепразола",
+  b:["Антациды нейтрализуют кислоту, которая уже есть, и помогают за минуты. Омепразол снижает её выработку, но работает не сразу.","Изжога чаще двух раз в неделю — повод пойти к врачу."]},
+ {d:"4 сентября",t:"Спорт",h:"Кофеин перед стартом: работает ли чашка кофе на 10 км",
+  b:["У кофеина хорошая доказательная база: эффект на выносливость небольшой, но заметный.","Не пробуйте ничего нового в день забега. Проверьте реакцию на тренировке."]},
+ {d:"28 августа",t:"Добавки",h:"Почему омега-3 пахнет рыбой и что это говорит о качестве",
+  b:["Сильный запах часто значит, что жир окислился. Такая омега-3 хуже по качеству.","Ищите показатель окисления TOTOX или сертификаты независимых лабораторий."]},
+ {d:"21 августа",t:"Сон",h:"Мелатонин: почему меньшие дозы иногда работают лучше",
+  b:["В аптеках мелатонин по 3–10 мг, хотя в исследованиях эффект получали и на дозах меньше миллиграмма.","Мелатонин сдвигает время засыпания, поэтому важнее время приёма, чем доза."]}
+];
+const list=document.getElementById("posts"), tabs=document.getElementById("tabs");
+["Все",...Object.keys(topics)].forEach((n,i)=>{
+  const b=document.createElement("button");b.type="button";b.textContent=n;b.setAttribute("aria-pressed",i===0);
+  b.onclick=()=>{tabs.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));render(n)};
+  tabs.appendChild(b);
+});
+function render(f){
   list.innerHTML="";
-  const shown=posts.filter(match);
-  if(!shown.length){list.innerHTML='<li class="post"><p style="padding:1.4rem 0;margin:0;color:var(--muted)">Здесь пока нет статей. Попробуйте другую тему или область тела.</p></li>';return}
-  shown.forEach(p=>list.appendChild(item(p)));
+  const shown=posts.filter(p=>f==="Все"||p.t===f);
+  shown.forEach(p=>{
+    const li=document.createElement("li");
+    li.innerHTML=`<details><summary><span class="meta"><span>${p.d}</span><span class="dot" style="--c:${topics[p.t]}">${p.t}</span><span class="kind">короткая заметка</span></span><h4>${p.h}</h4></summary><div>${p.b.map(x=>`<p>${x}</p>`).join("")}</div></details>`;
+    list.appendChild(li);
+  });
 }
-function item(p){
-  const archi=p.a==="Archi", z=p.z?Z[p.z]:null;
-  const li=document.createElement("li");li.className="post";
-  const tag=z?`<span class="ph" style="--c:${col(z.ph)}"><i>pH ${z.v}</i>${z.name}</span>`:`<span class="tagline"><i>pH</i>От редакции</span>`;
-  li.innerHTML=`<button class="head" aria-expanded="false"><span class="date">${p.d}</span>
-    <span><h2>${p.h}</h2><span class="meta">${tag}${p.t?`<span class="tag">${p.t}</span>`:""}
-    <span class="by"><span class="av${archi?" archi":""}">${archi?"A":"az"}</span>${p.a}</span></span></span></button>
-    <div class="body"><span></span><div>${p.b.map(x=>`<p>${x}</p>`).join("")}
-    ${p.u?`<p><a class="read" href="${p.u}">Читать статью</a></p>`:""}
-    ${archi?"":`<p class="sign">— az</p>`}</div></div>`;
-  const btn=li.querySelector(".head");
-  btn.onclick=()=>{const o=li.classList.toggle("open");btn.setAttribute("aria-expanded",o)};
-  return li;
-}
-edposts.forEach(p=>$("edposts").appendChild(item(p)));
-render();
+render("Все");
 
-$("sub").onsubmit=e=>{
+document.getElementById("sub").addEventListener("submit",e=>{
   e.preventDefault();
-  const v=$("email").value.trim(), m=$("msg");
-  m.textContent=/^\S+@\S+\.\S+$/.test(v)?"Готово, вы подписаны. Первое письмо придёт с новой статьёй.":"Проверьте email: в нём должны быть @ и домен, например name@mail.kz.";
-};
+  const v=document.getElementById("email").value.trim(), m=document.getElementById("msg");
+  m.textContent=/^\S+@\S+\.\S+$/.test(v)?"Готово. Первое письмо придёт с новой статьёй.":"Проверьте адрес: в нём должны быть @ и домен, например name@mail.kz.";
+});
 </script>
+
 </body>
 </html>
