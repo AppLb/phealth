@@ -92,7 +92,7 @@ nav.main a{color:var(--ink);text-decoration:none;padding:.4rem 0}
 nav.main a:hover,nav.main a[aria-current="page"]{color:var(--accent)}
 .burger{display:none}
 
-@media (max-width:860px){
+@media (max-width:1024px){
   .burger{display:inline-grid;place-items:center;width:44px;height:44px;margin-right:-10px;border:0;border-radius:12px;background:transparent;color:var(--ink);cursor:pointer}
   .burger svg{width:24px;height:24px}
   .burger .x{display:none}

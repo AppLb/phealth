@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Сколько на самом деле в таблетке — калькулятор pHealth</title>
+<meta name="description" content="Калькулятор элементной дозы: сколько магния, кальция, железа и цинка на самом деле в вашей добавке и не превышает ли доза безопасный предел.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Literata:opsz,wght@7..72,400;7..72,600&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+/* Стили только калькулятора. Общие — в assets/style.css */
+.page{padding-block:2.5rem 3rem}
+.back{font:400 .95rem var(--ui);color:var(--muted);text-decoration:none}
+.back:hover{color:var(--ink)}
+.intro{max-width:44rem;margin:1.5rem 0 2rem}
+.intro h1{font:900 clamp(2rem,5.5vw,3.4rem)/1.04 var(--display);letter-spacing:-.04em;margin:.75rem 0 1rem}
+.intro p{margin:0;font-size:1.15rem;color:var(--muted)}
+
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:1rem;align-items:start}
+.box{background:var(--paper);border-radius:1.5rem;padding:1.75rem;display:grid;gap:1.4rem}
+.field{display:grid;gap:.55rem}
+.field>label,.field>.lbl{font:600 .85rem var(--ui);color:var(--ink)}
+.hint{font:400 .85rem/1.45 var(--ui);color:var(--muted);margin:0}
+
+.seg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.4rem}
+.seg button{min-height:48px;border-radius:.9rem;border:1.5px solid var(--line);background:transparent;color:var(--ink);font:600 .92rem var(--ui);cursor:pointer;display:grid;place-items:center;gap:0;padding:.35rem .25rem;line-height:1.15}
+.seg button small{font:700 .7rem var(--display);color:var(--muted)}
+.seg button:hover{border-color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.seg button[aria-pressed="true"] small{color:var(--paper);opacity:.7}
+
+select,.num input{width:100%;min-height:52px;font:500 1.05rem var(--ui);color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:.9rem;padding:0 1rem}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 22px) 52%,calc(100% - 16px) 52%;background-size:6px 6px;background-repeat:no-repeat;padding-right:2.5rem}
+select:focus,.num input:focus{outline:3px solid var(--accent);outline-offset:1px}
+.num{position:relative}
+.num input{padding-right:3.2rem;font-variant-numeric:tabular-nums}
+.num span{position:absolute;right:1rem;top:50%;translate:0 -50%;font:500 .95rem var(--ui);color:var(--muted);pointer-events:none}
+.row2{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:.75rem}
+.step{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;align-items:center;border:1.5px solid var(--line);border-radius:.9rem;background:var(--bg);min-height:52px}
+.step button{height:48px;border:0;background:transparent;color:var(--ink);font:500 1.4rem var(--ui);cursor:pointer;border-radius:.8rem}
+.step button:hover{background:var(--soft)}
+.step output{text-align:center;font:600 1.05rem var(--ui);font-variant-numeric:tabular-nums}
+
+/* Результат */
+.res{background:var(--paper);border-radius:1.5rem;padding:1.75rem;display:grid;gap:1.25rem}
+.big{display:flex;align-items:baseline;flex-wrap:wrap;gap:.25rem .6rem}
+.big b{font:900 clamp(3rem,9vw,4.6rem)/1 var(--display);letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.big span{font:600 1.05rem var(--ui);color:var(--muted)}
+.sum{margin:0;font-size:1.05rem}
+.sum strong{font-weight:600}
+
+.gauge{display:grid;gap:.5rem;padding-top:1.4rem}
+.track{position:relative;height:14px;border-radius:7px;background:var(--soft)}
+.zone{position:absolute;top:0;bottom:0;background:color-mix(in srgb,var(--l4) 35%,transparent);border-radius:7px}
+.over{position:absolute;top:0;bottom:0;right:0;background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--l2) 40%,transparent) 0 6px,transparent 6px 11px);border-radius:0 7px 7px 0}
+.ul{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--ink)}
+.ul i{position:absolute;bottom:calc(100% + 4px);left:50%;translate:-50% 0;font:600 .72rem var(--ui);font-style:normal;white-space:nowrap;color:var(--ink)}
+.dotm{position:absolute;top:50%;width:22px;height:22px;border-radius:50%;translate:-50% -50%;background:var(--accent);border:3px solid var(--paper);box-shadow:0 0 0 1.5px var(--accent);transition:left .3s}
+.legendg{display:flex;flex-wrap:wrap;gap:.3rem 1.1rem;font:400 .8rem var(--ui);color:var(--muted)}
+.legendg span{display:inline-flex;align-items:center;gap:.4rem}
+.legendg span::before{content:"";width:.9rem;height:.5rem;border-radius:2px;background:var(--sw)}
+
+.status{display:flex;gap:.75rem;align-items:flex-start;padding:1rem 1.1rem;border-radius:1rem;background:var(--bg);font-size:.98rem;margin:0}
+.status::before{content:"";flex:none;width:.65rem;height:.65rem;margin-top:.45rem;border-radius:50%;background:var(--st,var(--l4))}
+.status[data-s="low"]{--st:var(--l1)}
+.status[data-s="over"]{--st:var(--l2)}
+.tip{font:400 .92rem/1.5 var(--ui);color:var(--muted);margin:0}
+.tip b{color:var(--ink);font-weight:600}
+
+/* Таблица форм */
+.forms{margin-top:2.5rem}
+.forms h2,.why h2,.src h2{font:700 1.3rem/1.25 var(--display);letter-spacing:-.02em;margin:0 0 .4rem}
+.forms>p{margin:0 0 1.25rem;color:var(--muted);max-width:42rem}
+.tbl{overflow-x:auto;background:var(--paper);border-radius:1.25rem}
+table{width:100%;border-collapse:collapse;font:400 .95rem var(--ui);font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:.8rem 1.25rem;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font:600 .75rem var(--ui);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+tbody tr:last-child td{border-bottom:0}
+td.pct{width:45%}
+.bar{display:flex;align-items:center;gap:.6rem}
+.bar i{display:block;height:6px;border-radius:3px;background:var(--accent);opacity:.75}
+tbody tr{cursor:pointer}
+tbody tr:hover td{background:var(--soft)}
+tbody tr[aria-selected="true"] td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+tbody tr[aria-selected="true"] td:first-child{font-weight:600}
+
+.why{margin-top:2.5rem;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.why>div{display:grid;gap:.5rem;align-content:start;padding:1.4rem;border-radius:1.25rem;border:1px solid var(--line)}
+.why p{margin:0;font-size:1rem}
+.ev{display:inline-flex;align-items:center;gap:.45rem;font:600 .82rem var(--ui);white-space:nowrap}
+
+.src{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line)}
+.src ol{margin:0;padding-left:1.3rem;font:400 .9rem/1.55 var(--ui);color:var(--muted)}
+.src li{margin-bottom:.4rem}
+.src p{font:400 .9rem/1.55 var(--ui);color:var(--muted);margin:1rem 0 0;max-width:46rem}
+
+@media (max-width:860px){
+  .calc,.why{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:640px){
+  .page{padding-block:1.75rem 2rem}
+  .intro{margin:1rem 0 1.5rem}
+  .intro p{font-size:1.02rem}
+  .box,.res{padding:1.25rem;border-radius:1.25rem;gap:1.15rem}
+  .seg button{font-size:.85rem}
+  .row2{grid-template-columns:minmax(0,1fr)}
+  th,td{padding:.7rem .9rem}
+  td.pct{width:auto}
+  .bar i{display:none}
+  th,td{white-space:normal}
+  td:first-child{min-width:7.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="launch"><div class="wrap">pHealth только запускается. Первый разбор уже вышел, новые статьи, чекапы и товары скоро.</div></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="../" aria-label="pHealth, на главную"><span class="mark" aria-hidden="true">pH</span><span class="word">pHealth</span></a>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Открыть меню">
+      <svg class="bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <div class="menu" id="menu">
+      <nav class="main" aria-label="Разделы">
+        <a href="../#journal">Журнал</a><a href="./" aria-current="page">Калькулятор</a><a href="../#checkups">Чекапы</a><a href="../#shop">Товары</a><a href="../#money">Как мы зарабатываем</a><a href="../#about">О нас</a>
+      </nav>
+      <a class="btn accent" href="../#about">Подписаться</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap page">
+  <a class="back" href="../">&larr; На главную</a>
+
+  <div class="intro">
+    <span class="eyebrow">Калькулятор</span>
+    <h1>Сколько на самом деле в таблетке</h1>
+    <p>На банке часто пишут вес соли, например «магния цитрат 500 мг». Самого магния в ней втрое меньше. Выберите минерал и форму с упаковки, и мы посчитаем, сколько вы получаете на самом деле.</p>
+  </div>
+
+  <div class="calc">
+    <form class="box" id="form" novalidate>
+      <div class="field">
+        <span class="lbl" id="mlbl">Минерал</span>
+        <div class="seg" id="seg" role="group" aria-labelledby="mlbl"></div>
+      </div>
+
+      <div class="field">
+        <label for="form-sel">Форма, как написано на упаковке</label>
+        <select id="form-sel"></select>
+        <p class="hint" id="form-hint"></p>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label for="dose">Вес соли в одной порции</label>
+          <div class="num"><input id="dose" type="number" inputmode="decimal" min="0" step="any" value="500"><span>мг</span></div>
+        </div>
+        <div class="field">
+          <span class="lbl" id="slbl">Порций в день</span>
+          <div class="step" role="group" aria-labelledby="slbl">
+            <button type="button" id="minus" aria-label="Меньше порций">−</button>
+            <output id="serv" aria-live="polite">1</output>
+            <button type="button" id="plus" aria-label="Больше порций">+</button>
+          </div>
+        </div>
+      </div>
+      <p class="hint">Если на упаковке уже указан элементный минерал («в пересчёте на магний», «elemental»), считать не нужно: это и есть настоящая доза.</p>
+    </form>
+
+    <section class="res" aria-live="polite" aria-labelledby="res-h">
+      <span class="eyebrow" id="res-h">Вы получаете в день</span>
+      <div class="big"><b id="out">0</b><span id="out-unit">мг магния</span></div>
+      <p class="sum" id="sum"></p>
+
+      <div class="gauge" aria-hidden="true">
+        <div class="track" id="track">
+          <div class="zone" id="zone"></div>
+          <div class="over" id="over"></div>
+          <div class="ul" id="ulm"><i id="ul-lbl"></i></div>
+          <div class="dotm" id="dot"></div>
+        </div>
+        <div class="legendg">
+          <span id="lg-zone" style="--sw:color-mix(in srgb,var(--l4) 45%,transparent)">суточная норма для взрослых</span>
+          <span style="--sw:color-mix(in srgb,var(--l2) 55%,transparent)">выше безопасного предела</span>
+        </div>
+      </div>
+
+      <p class="status" id="status"></p>
+      <p class="tip" id="ulnote"></p>
+      <p class="tip" id="reverse"></p>
+    </section>
+  </div>
+
+  <section class="forms" aria-labelledby="forms-h">
+    <h2 id="forms-h">Сколько минерала в разных формах</h2>
+    <p id="forms-p">Нажмите на строку, чтобы подставить форму в калькулятор.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th scope="col">Форма</th><th scope="col">Доля минерала</th><th scope="col" id="th-per">В 500 мг соли</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="why" id="why" aria-label="Что важно знать"></section>
+
+  <section class="src" aria-labelledby="src-h">
+    <h2 id="src-h">Источники и как мы считали</h2>
+    <ol>
+      <li>NIH Office of Dietary Supplements. Magnesium: Fact Sheet for Health Professionals.</li>
+      <li>NIH Office of Dietary Supplements. Calcium: Fact Sheet for Health Professionals.</li>
+      <li>NIH Office of Dietary Supplements. Iron: Fact Sheet for Health Professionals.</li>
+      <li>NIH Office of Dietary Supplements. Zinc: Fact Sheet for Health Professionals.</li>
+      <li>Institute of Medicine. Dietary Reference Intakes for Calcium, Phosphorus, Magnesium, Vitamin D, and Fluoride, 1997; for Vitamin A, Vitamin K, … Iron, … and Zinc, 2001; for Calcium and Vitamin D, 2011.</li>
+    </ol>
+    <p>Доля минерала посчитана по химической формуле соли и округлена. Она немного зависит от того, сколько воды в кристалле: производители используют разные варианты, поэтому реальная цифра может отличаться на несколько процентов. Нормы и пределы даны для взрослых, кроме беременных и кормящих. Калькулятор не заменяет консультацию врача.</p>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="logo" href="../"><span class="mark" aria-hidden="true">pH</span><span class="word">pHealth</span></a>
+        <p>Журнал о здоровье без мифов. Анализы и товары для здоровья в Алматы.</p>
+      </div>
+      <div><h4>Журнал</h4><ul><li><a href="../#journal">Все статьи</a></li><li><a href="../vitamin-d/">Витамин D</a></li><li><a href="./">Калькулятор дозы</a></li><li><a href="../#evidence">Как читать метки</a></li></ul></div>
+      <div><h4>Сервис</h4><ul><li><a href="../#checkups">Чекапы</a></li><li><a href="../#shop">Товары</a></li><li><a href="../#checkups">Доставка и оплата</a></li></ul></div>
+      <div><h4>О проекте</h4><ul><li><a href="../#about">О нас</a></li><li><a href="../#money">Как мы зарабатываем</a></li><li><a href="../#about">Как мы проверяем факты</a></li><li><a href="../#about">Контакты</a></li></ul></div>
+    </div>
+    <div class="fstrip" aria-hidden="true"></div>
+    <div class="legal"><span>© 2026 pHealth · phealth.space</span><span>Материалы носят информационный характер и не заменяют консультацию врача. БАД не является лекарственным средством.</span></div>
+  </div>
+</footer>
+
+<script src="../assets/site.js"></script>
+<script>
+// Доля элементного минерала в соли, %. Нормы и пределы: NIH ODS / IOM, взрослые.
+const M={
+  mg:{name:"Магний",sym:"Mg",gen:"магния",lo:310,hi:420,ul:350,supOnly:true,target:200,def:"Цитрат",
+    ulNote:"<b>Предел 350 мг считается только для добавок.</b> Магний из еды в него не входит. Выше предела чаще бывают диарея и тошнота.",
+    forms:[["Цитрат",16],["Оксид",60],["Бисглицинат (хелат)",14],["Малат",15],["Лактат",12],["Хлорид",12],["Карбонат",28],["Таурат",9],["Аспартат",7.5],["L-треонат",7],["Сульфат",10]],
+    hint:"Цитрат, бисглицинат и малат — самые частые формы в аптеках.",
+    why:[[2,"Оксид содержит больше всего магния, но в небольших исследованиях цитрат, лактат, хлорид и аспартат усваивались лучше оксида и сульфата."],
+         [0,"Норма 310–420 мг в сутки считается из всех источников. Орехи, крупы, бобовые и зелень дают заметную часть, поэтому добавке не нужно закрывать всю норму."]]},
+  ca:{name:"Кальций",sym:"Ca",gen:"кальция",lo:1000,hi:1200,ul:2000,target:500,def:"Карбонат",
+    ulNote:"<b>Предел 2000 мг считается вместе с едой.</b> Для людей до 50 лет он выше, 2500 мг, но молочные продукты дают много кальция, поэтому сложите добавку с едой.",
+    forms:[["Карбонат",40],["Цитрат",21],["Фосфат",39],["Лактат",13],["Глюконат",9]],
+    hint:"Карбонат и цитрат — самые частые формы.",
+    why:[[3,"За один раз кальций лучше всего усваивается в дозе до 500 мг. Большую дозу стоит разделить на два приёма."],
+         [3,"Карбонат лучше усваивается во время еды, цитрат можно принимать и натощак."]]},
+  fe:{name:"Железо",sym:"Fe",gen:"железа",lo:8,hi:18,ul:45,target:18,def:"Сульфат",
+    ulNote:"<b>Предел 45 мг в сутки для людей без дефицита.</b> При анемии врач может назначить больше, тогда ориентируйтесь на назначение.",
+    forms:[["Сульфат",20],["Сульфат сушёный",31],["Фумарат",33],["Глюконат",12],["Бисглицинат",20]],
+    hint:"Норма 8 мг для мужчин и 18 мг для женщин до менопаузы.",
+    why:[[3,"Чай, кофе и кальций снижают усвоение железа, а витамин C повышает. Железо лучше принимать отдельно от молочного и чая."],
+         [0,"Принимать железо без анализа на ферритин не стоит. Избыток железа вреден, а признаки его нехватки похожи на многое другое."]]},
+  zn:{name:"Цинк",sym:"Zn",gen:"цинка",lo:8,hi:11,ul:40,target:10,def:"Глюконат",
+    ulNote:"<b>Предел 40 мг в сутки считается вместе с едой.</b> При долгом превышении цинк мешает усвоению меди, и может развиться её дефицит.",
+    forms:[["Глюконат",14],["Сульфат",23],["Цитрат",31],["Пиколинат",20],["Бисглицинат",30],["Ацетат",30],["Оксид",80]],
+    hint:"Глюконат и пиколинат чаще всего встречаются в аптеках.",
+    why:[[2,"Разница в усвоении между формами цинка небольшая, хороших сравнительных исследований мало."],
+         [0,"Цинк часто есть и в мультивитаминах. Если пьёте несколько добавок, сложите цинк из всех."]]}
+};
+const LV={4:"Сильные",3:"Умеренные",2:"Слабые",1:"Не подтверждено"};
+const nf=new Intl.NumberFormat("ru-RU",{maximumFractionDigits:1});
+const $=id=>document.getElementById(id);
+const st={m:"mg",form:"Цитрат",serv:1};
+
+Object.entries(M).forEach(([k,m])=>{
+  const b=document.createElement("button");b.type="button";b.dataset.k=k;
+  b.innerHTML=`<small>${m.sym}</small>${m.name}`;
+  b.onclick=()=>{st.m=k;st.form=m.def;fillForms();calc()};
+  $("seg").appendChild(b);
+});
+$("form-sel").onchange=e=>{st.form=e.target.value;calc()};
+$("dose").oninput=calc;
+$("minus").onclick=()=>{st.serv=Math.max(1,st.serv-1);calc()};
+$("plus").onclick=()=>{st.serv=Math.min(10,st.serv+1);calc()};
+$("form").onsubmit=e=>e.preventDefault();
+
+function fillForms(){
+  const m=M[st.m];
+  $("seg").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===st.m));
+  $("form-sel").innerHTML=m.forms.map(([n,p])=>`<option value="${n}">${n} · ${nf.format(p)}%</option>`).join("");
+  $("form-sel").value=st.form;
+  $("form-hint").textContent=m.hint;
+  $("why").innerHTML=m.why.map(([l,t])=>`<div>${l?`<span class="ev" data-l="${l}"><span class="m"><b></b><b></b><b></b><b></b></span>${LV[l]}</span>`:`<span class="eyebrow">Важно</span>`}<p>${t}</p></div>`).join("");
+}
+function calc(){
+  const m=M[st.m], pct=m.forms.find(f=>f[0]===st.form)[1];
+  const dose=Math.max(0,parseFloat(String($("dose").value).replace(",","."))||0);
+  const total=dose*pct/100*st.serv;
+  $("serv").textContent=st.serv;
+  $("out").textContent=nf.format(Math.round(total*10)/10);
+  $("out-unit").textContent="мг "+m.gen;
+  $("sum").innerHTML=`${st.serv>1?st.serv+" × ":""}${nf.format(dose)} мг соли «${st.form.toLowerCase()}» содержат <strong>${nf.format(pct)}% ${m.gen}</strong>.`;
+
+  const max=Math.max(m.ul*1.5,total*1.1), at=v=>Math.min(100,v/max*100)+"%";
+  $("zone").hidden=$("lg-zone").hidden=!!m.supOnly;
+  $("zone").style.left=at(m.lo);$("zone").style.width=`calc(${at(m.hi)} - ${at(m.lo)})`;
+  $("over").style.left=at(m.ul);$("ulm").style.left=at(m.ul);
+  $("ul-lbl").textContent="предел "+nf.format(m.ul)+" мг";
+  $("dot").style.left=at(total);
+
+  const s=$("status");
+  if(total>m.ul){s.dataset.s="over";s.textContent=`Это выше верхнего безопасного предела ${nf.format(m.ul)} мг. Такую дозу стоит принимать только по назначению врача.`}
+  else if(m.supOnly){s.dataset.s="ok";s.textContent=`Это ниже безопасного предела для добавок ${nf.format(m.ul)} мг. Суточную норму ${nf.format(m.lo)}–${nf.format(m.hi)} мг считают вместе с едой.`}
+  else if(total<m.lo){s.dataset.s="low";s.textContent=`Это меньше суточной нормы ${nf.format(m.lo)}–${nf.format(m.hi)} мг. Это нормально: часть нормы приходит с едой.`}
+  else{s.dataset.s="ok";s.textContent=`Это в пределах суточной нормы и ниже безопасного предела ${nf.format(m.ul)} мг.`}
+  $("ulnote").innerHTML=m.ulNote;
+  const need=Math.round(m.target/(pct/100)/10)*10;
+  $("reverse").innerHTML=`Чтобы получить ${nf.format(m.target)} мг ${m.gen} из формы «${st.form.toLowerCase()}», нужно около <b>${nf.format(need)} мг</b> соли.`;
+
+  $("th-per").textContent=`В ${nf.format(dose||500)} мг соли`;
+  const top=Math.max(...m.forms.map(f=>f[1]));
+  $("tbody").innerHTML=m.forms.map(([n,p])=>`<tr tabindex="0" data-f="${n}" aria-selected="${n===st.form}"><td>${n}</td><td class="pct"><span class="bar"><i style="width:${p/top*100}%"></i>${nf.format(p)}%</span></td><td>${nf.format(Math.round((dose||500)*p/100))} мг</td></tr>`).join("");
+}
+$("tbody").addEventListener("click",e=>{const tr=e.target.closest("tr");if(!tr)return;st.form=tr.dataset.f;$("form-sel").value=st.form;calc();$("form").scrollIntoView({block:"start"})});
+$("tbody").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();e.target.closest("tr")?.click()}});
+fillForms();calc();
+</script>
+</body>
+</html>
