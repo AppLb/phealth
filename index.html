@@ -95,6 +95,15 @@ section{padding-block:4.5rem}
 .legend .ev{font-size:.95rem}
 .legend p{margin:0;font-size:.95rem;color:var(--muted)}
 
+/* Анонс калькулятора */
+.tease{padding-block:0 4.5rem}
+.tease a{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:1.5rem;padding:1.6rem 1.75rem;border-radius:1.25rem;background:var(--paper);text-decoration:none;color:var(--ink);border:1.5px solid var(--line);transition:border-color .2s}
+.tease a:hover{border-color:var(--ink)}
+.tease .sym{font:900 2.6rem/1 var(--display);letter-spacing:-.05em;color:var(--accent)}
+.tease h3{font:700 1.25rem/1.25 var(--display);letter-spacing:-.02em;margin:.4rem 0 .3rem}
+.tease p{margin:0;color:var(--muted);font-size:1rem}
+@media (max-width:640px){.tease{padding-bottom:3rem}.tease a{grid-template-columns:minmax(0,1fr);gap:.75rem;padding:1.25rem}.tease .sym{font-size:2rem}}
+
 /* Чекапы */
 #checkups{padding-top:1rem}
 .steps{list-style:none;margin:0 0 2rem;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;counter-reset:s}
@@ -221,7 +230,7 @@ section{padding-block:4.5rem}
     </button>
     <div class="menu" id="menu">
       <nav class="main" aria-label="Разделы">
-        <a href="#journal">Журнал</a><a href="#checkups">Чекапы</a><a href="#shop">Товары</a><a href="#money">Как мы зарабатываем</a><a href="#about">О нас</a>
+        <a href="#journal">Журнал</a><a href="kalkulyator/">Калькулятор</a><a href="#checkups">Чекапы</a><a href="#shop">Товары</a><a href="#money">Как мы зарабатываем</a><a href="#about">О нас</a>
       </nav>
       <a class="btn accent" href="#about">Подписаться</a>
     </div>
@@ -323,6 +332,16 @@ section{padding-block:4.5rem}
   </div>
 </section>
 
+<section class="tease" aria-label="Калькулятор">
+  <div class="wrap">
+    <a href="kalkulyator/">
+      <span class="sym" aria-hidden="true">Mg</span>
+      <div><span class="eyebrow">Калькулятор</span><h3>Сколько магния на самом деле в таблетке</h3><p>Выберите форму с банки и узнайте настоящую дозу магния, кальция, железа или цинка.</p></div>
+      <span class="btn primary">Посчитать</span>
+    </a>
+  </div>
+</section>
+
 <section id="checkups">
   <div class="wrap">
     <div class="sec-head">
@@ -376,7 +395,7 @@ section{padding-block:4.5rem}
           <h3>Магний</h3>
           <p>Смотрите на элементный магний, а не на вес соли: в 500 мг цитрата его около 80 мг.</p>
           <span class="ev" data-l="2"><span class="m"><b></b><b></b><b></b><b></b></span>Слабые · для сна</span>
-          <div class="row"><span>[ЦЕНА] ₸</span><span class="kind">статья скоро</span></div>
+          <div class="row"><span>[ЦЕНА] ₸</span><a class="more" href="kalkulyator/">Посчитать дозу →</a></div>
         </div>
       </article>
       <article class="prod">
@@ -444,7 +463,7 @@ section{padding-block:4.5rem}
         <a class="logo" href="./"><span class="mark" aria-hidden="true">pH</span><span class="word">pHealth</span></a>
         <p>Журнал о здоровье без мифов. Анализы и товары для здоровья в Алматы.</p>
       </div>
-      <div><h4>Журнал</h4><ul><li><a href="#journal">Все статьи</a></li><li><a href="vitamin-d/">Витамин D</a></li><li><a href="#evidence">Как читать метки</a></li></ul></div>
+      <div><h4>Журнал</h4><ul><li><a href="#journal">Все статьи</a></li><li><a href="vitamin-d/">Витамин D</a></li><li><a href="kalkulyator/">Калькулятор дозы</a></li><li><a href="#evidence">Как читать метки</a></li></ul></div>
       <div><h4>Сервис</h4><ul><li><a href="#checkups">Чекапы</a></li><li><a href="#shop">Товары</a></li><li><a href="#checkups">Доставка и оплата</a></li></ul></div>
       <div><h4>О проекте</h4><ul><li><a href="#about">О нас</a></li><li><a href="#money">Как мы зарабатываем</a></li><li><a href="#about">Как мы проверяем факты</a></li><li><a href="#about">Контакты</a></li></ul></div>
     </div>
