@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>О нас — pHealth</title>
+<meta name="description" content="Кто делает pHealth, как мы проверяем факты, как выбираем товары и как с нами связаться.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Literata:opsz,wght@7..72,400;7..72,600&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/theme.js"></script>
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<style>
+/* Стили только страницы «О нас». Общие — в assets/style.css */
+section{padding-block:4rem}
+.h2{font:700 clamp(1.5rem,3.4vw,2.3rem)/1.12 var(--display);letter-spacing:-.025em;margin:0}
+.lead{font-size:1.15rem;color:var(--muted);max-width:40rem;margin:0}
+.sec-head{display:grid;gap:.75rem;margin-bottom:2rem;max-width:44rem}
+.crumbs{display:flex;flex-wrap:wrap;gap:.5rem;padding-top:1.25rem;font:400 .88rem var(--ui);color:var(--muted)}
+.crumbs a{color:var(--muted);text-decoration:none}.crumbs a:hover{color:var(--accent)}
+
+.hero{padding-block:2.5rem 3.5rem}
+.hgrid{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2.5rem;align-items:center}
+.hgrid .mark{width:8.5rem;height:8.5rem;border-radius:1.95rem}
+.hgrid .mark svg{width:79%;height:79%}
+.hero h1{font:900 clamp(2.2rem,5.5vw,4rem)/1.02 var(--display);letter-spacing:-.045em;margin:.9rem 0 1.1rem}
+.jump{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.75rem}
+.jump a{min-height:44px;display:inline-flex;align-items:center;padding:0 1.1rem;border-radius:999px;border:1.5px solid var(--line);color:var(--ink);text-decoration:none;font:500 .92rem var(--ui)}
+.jump a:hover{border-color:var(--ink)}
+
+.dirs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.dir{display:flex;flex-direction:column;gap:.6rem;padding:1.6rem;border-radius:1.25rem;background:var(--paper)}
+.dir h3{font:700 1.2rem var(--display);letter-spacing:-.02em;margin:0}
+.dir p{margin:0;color:var(--muted);font-size:1rem}
+.dir a{margin-top:auto;padding-top:.6rem}
+
+#who{background:var(--paper)}
+.who{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:3rem}
+.who p{margin:0 0 1rem;max-width:36rem}
+.person{display:flex;gap:1.1rem;align-items:center;padding:1.25rem;border-radius:1.25rem;background:var(--bg);margin-bottom:1.25rem}
+.person .ava{width:4rem;height:4rem;border-radius:50%;background:var(--soft);display:grid;place-items:center;font:600 .78rem var(--ui);color:var(--muted);flex:none;text-align:center}
+.person b{display:block;font:600 1.05rem var(--ui)}.person span{color:var(--muted);font:400 .95rem var(--ui)}
+.ph-note{font:400 .95rem var(--ui);color:var(--muted);padding:1rem 1.1rem;border:1px dashed var(--line);border-radius:1rem}
+
+.sources{list-style:none;margin:0 0 2.5rem;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;counter-reset:s}
+.sources li{counter-increment:s;display:grid;gap:.4rem;align-content:start;padding-top:1rem;border-top:2px solid var(--ink)}
+.sources li::before{content:counter(s);font:700 1.4rem var(--display);color:var(--accent)}
+.sources b{font:600 1.1rem var(--ui)}.sources span{color:var(--muted);font-size:.98rem}
+.rules2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem}
+.box{padding:1.5rem;border-radius:1.25rem;background:var(--paper)}
+.box h3{font:700 1.15rem var(--display);letter-spacing:-.02em;margin:0 0 .9rem}
+.box ul{margin:0;padding-left:1.1rem;display:grid;gap:.5rem}
+.box li{font-size:1rem}
+.legend{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;margin-top:2.5rem}
+.legend div{display:grid;gap:.5rem;align-content:start;padding:1.25rem;border-radius:1rem;border:1px solid var(--line)}
+.legend p{margin:0;font-size:.95rem;color:var(--muted)}
+.ev{display:inline-flex;align-items:center;gap:.45rem;font:600 .9rem var(--ui)}
+
+.money{background:var(--band-bg);color:var(--band-ink)}
+.money .eyebrow,.money .lead{color:var(--band-muted)}
+.money .h2{color:var(--band-ink)}
+.rules{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem 2.5rem}
+.rules li{display:grid;gap:.3rem;padding-top:1rem;border-top:1px solid var(--band-line)}
+.rules b{font:600 1.05rem var(--ui)}.rules span{color:var(--band-muted);font-size:1rem}
+
+.cgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem}
+.card{padding:1.6rem;border-radius:1.25rem;background:var(--paper)}
+.card h3{font:700 1.15rem var(--display);letter-spacing:-.02em;margin:0 0 1rem}
+.card dl{margin:0}
+.card dl div{display:grid;grid-template-columns:9rem minmax(0,1fr);gap:1rem;padding:.7rem 0;border-top:1px solid var(--line);font:400 .98rem var(--ui)}
+.card dt{color:var(--muted)}.card dd{margin:0;font-weight:500;overflow-wrap:anywhere}
+.card .buttons{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.25rem}
+.card .buttons .btn{flex:1 1 10rem}
+
+@media (max-width:960px){.dirs,.sources{grid-template-columns:minmax(0,1fr)}.who,.cgrid,.rules2{grid-template-columns:minmax(0,1fr)}.legend{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){
+  section{padding-block:2.75rem}.hero{padding-block:1.5rem 2.5rem}
+  .hgrid{grid-template-columns:minmax(0,1fr);gap:1.25rem}.hgrid .mark{width:5rem;height:5rem;border-radius:1.15rem}
+  .legend{grid-template-columns:minmax(0,1fr)}.rules{grid-template-columns:minmax(0,1fr)}
+  .card dl div{grid-template-columns:7rem minmax(0,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="launch"><div class="wrap">pHealth только запускается. Первый разбор уже вышел, новые статьи, чекапы и товары скоро.</div></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="../" aria-label="pHealth, на главную"><span class="mark" aria-hidden="true"><svg viewBox="0 0 200 200" aria-hidden="true"><polygon fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linejoin="miter" stroke-miterlimit="10" points="100.0,10.0 119.6,27.0 145.0,22.1 153.5,46.5 177.9,55.0 173.0,80.4 190.0,100.0 173.0,119.6 177.9,145.0 153.5,153.5 145.0,177.9 119.6,173.0 100.0,190.0 80.4,173.0 55.0,177.9 46.5,153.5 22.1,145.0 27.0,119.6 10.0,100.0 27.0,80.4 22.1,55.0 46.5,46.5 55.0,22.1 80.4,27.0"/><path fill="#FFFFFF" d="M100,72 L157,100 L100,128 L43,100 Z"/></svg></span><span class="word">pHealth</span></a>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Открыть меню">
+      <svg class="bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <div class="menu" id="menu">
+      <nav class="main" aria-label="Разделы">
+        <a href="../#journal">Журнал</a><a href="../kalkulyator/">Калькулятор</a><a href="../#checkups">Чекапы</a><a href="../#shop">Товары</a><a href="../#money">Как мы выбираем товары</a><a href="./" aria-current="page">О нас</a>
+      </nav>
+      <a class="btn accent" href="../#about">Подписаться</a>
+    </div>
+    <button class="theme" type="button" id="theme" aria-label="Включить тёмную тему">
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+<div class="wrap crumbs"><a href="../">Главная</a><span>/</span><span aria-current="page">О нас</span></div>
+
+<section class="hero">
+  <div class="wrap hgrid">
+    <span class="mark" aria-hidden="true"><svg viewBox="0 0 200 200" aria-hidden="true"><polygon fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linejoin="miter" stroke-miterlimit="10" points="100.0,8.0 120.0,25.4 146.0,20.3 154.6,45.4 179.7,54.0 174.6,80.0 192.0,100.0 174.6,120.0 179.7,146.0 154.6,154.6 146.0,179.7 120.0,174.6 100.0,192.0 80.0,174.6 54.0,179.7 45.4,154.6 20.3,146.0 25.4,120.0 8.0,100.0 25.4,80.0 20.3,54.0 45.4,45.4 54.0,20.3 80.0,25.4"/><path fill="#FFFFFF" d="M100,75 L153,100 L100,125 L47,100 Z"/></svg></span>
+    <div>
+      <span class="eyebrow">О нас</span>
+      <h1>Помогаем разобраться в здоровье</h1>
+      <p class="lead">pHealth — проект из Алматы. Пишем разборы, подбираем анализы и товары по одним и тем же правилам: что обещает реклама и что показывают исследования.</p>
+      <nav class="jump" aria-label="На этой странице">
+        <a href="#who">Кто мы</a><a href="#fact-check">Как проверяем факты</a><a href="#money">Как выбираем товары</a><a href="#contacts">Контакты</a>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<section class="dirs-sec" style="padding-top:0">
+  <div class="wrap dirs">
+    <div class="dir"><h3>Журнал</h3><p>Разборы добавок, анализов и привычек. У каждого вывода — метка надёжности и ссылки на исследования.</p><a class="more" href="../#journal">Читать →</a></div>
+    <div class="dir"><h3>Чекапы</h3><p>Панели анализов под конкретный вопрос. Лаборатория приезжает к вам, а мы объясняем результат простым языком.</p><a class="more" href="../#checkups">Выбрать →</a></div>
+    <div class="dir"><h3>Товары</h3><p>Только то, что мы сами разобрали в журнале. С той же меткой, что в статье, даже если она «ограниченные».</p><a class="more" href="../#shop">В каталог →</a></div>
+  </div>
+</section>
+
+<section id="who">
+  <div class="wrap who">
+    <div>
+      <span class="eyebrow">Кто мы</span>
+      <h2 class="h2" style="margin:.75rem 0 1.25rem">Почему pHealth?</h2>
+      <p>pH показывает, насколько среда кислая или щелочная. У каждой части тела своя норма: в желудке почти кислота, в крови слабая щёлочь в узком коридоре. Нам понравилась мысль, что здоровье во многом про баланс.</p>
+      <p>Про добавки и анализы чаще всего узнают из рекламы и от блогеров. Мы хотим, чтобы рядом было место, где спокойно и со ссылками объясняют, что из этого доказано.</p>
+    </div>
+    <div>
+      <div class="person">
+        <div class="ava">[фото]</div>
+        <div><b>[Имя Фамилия]</b><span>[Роль: основатель, отвечает за…]</span></div>
+      </div>
+      <p>[2–3 предложения о себе: опыт в фармацевтике и продаже товаров для здоровья, почему начали проект.]</p>
+      <p class="ph-note">[Если с проектом работает врач или фармацевт-консультант: имя, специальность и что он проверяет. Если нет — так и написать: «Медицинского редактора пока нет, поэтому мы не даём индивидуальных рекомендаций».]</p>
+    </div>
+  </div>
+</section>
+
+<section id="fact-check">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Как мы проверяем факты</span>
+      <h2 class="h2">На что опираемся</h2>
+      <p class="lead">Источники берём по старшинству: сначала самые надёжные. Если надёжных нет, так и пишем.</p>
+    </div>
+    <ol class="sources">
+      <li><b>Обзоры исследований</b><span>Систематические обзоры и метаанализы: они собирают результаты многих испытаний, а не одного.</span></li>
+      <li><b>Клинические рекомендации</b><span>Документы ВОЗ и профессиональных медицинских сообществ.</span></li>
+      <li><b>Официальные инструкции</b><span>Инструкции к лекарствам и данные производителя о составе — для доз и противопоказаний.</span></li>
+    </ol>
+    <div class="rules2">
+      <div class="box">
+        <h3>Что делаем</h3>
+        <ul>
+          <li>Ставим метку надёжности у каждого вывода, а не у статьи целиком.</li>
+          <li>Даём ссылки на источники прямо в тексте.</li>
+          <li>Пишем дату обновления и пересматриваем статьи, когда выходят новые данные.</li>
+          <li>Если нашли ошибку, исправляем и отмечаем в статье, что изменилось.</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>Чего не делаем</h3>
+        <ul>
+          <li>Не выдаём одно исследование или опыт на животных за доказанный эффект.</li>
+          <li>Не пересказываем пресс-релизы производителей.</li>
+          <li>Не ставим диагнозов и не подбираем лечение: это работа врача.</li>
+          <li>Не меняем метку, если товар продаётся хуже.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="legend" aria-label="Метки доказательности">
+      <div><span class="ev" data-l="4"><span class="m"><b></b><b></b><b></b><b></b></span>Сильные</span><p>Согласованные метаанализы клинических испытаний.</p></div>
+      <div><span class="ev" data-l="3"><span class="m"><b></b><b></b><b></b><b></b></span>Умеренные</span><p>Несколько испытаний, но с оговорками.</p></div>
+      <div><span class="ev" data-l="2"><span class="m"><b></b><b></b><b></b><b></b></span>Ограниченные</span><p>Мало данных, результаты расходятся.</p></div>
+      <div><span class="ev" data-l="1"><span class="m"><b></b><b></b><b></b><b></b></span>Не подтверждено</span><p>Испытания эффекта не нашли.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="money" id="money">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Как мы выбираем товары</span>
+      <h2 class="h2">Продаём только то, что сами разобрали</h2>
+      <p class="lead">Мы одновременно пишем о товарах и продаём их. Чтобы одно не влияло на другое, держимся четырёх правил.</p>
+    </div>
+    <ul class="rules">
+      <li><b>Сначала статья, потом товар</b><span>Товар попадает в каталог только после разбора в журнале. Если разбор отрицательный, мы его не продаём.</span></li>
+      <li><b>Метки не зависят от продаж</b><span>У товара та же метка, что и в статье, даже если она «ограниченные».</span></li>
+      <li><b>Не продаём «на всякий случай»</b><span>Если добавку лучше подбирать по анализу, мы так и пишем и советуем начать с чекапа.</span></li>
+      <li><b>Без рекламы производителей</b><span>Бренды не платят за упоминание в статьях. [Подтвердить формулировку]</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="contacts">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Контакты</span>
+      <h2 class="h2">Как с нами связаться</h2>
+      <p class="lead">Пишите про заказы, чекапы и статьи. Если нашли ошибку в тексте — тоже пишите, исправим.</p>
+    </div>
+    <div class="cgrid">
+      <div class="card">
+        <h3>Связь</h3>
+        <dl>
+          <div><dt>WhatsApp</dt><dd>[+7 ··· ··· ·· ··]</dd></div>
+          <div><dt>Telegram</dt><dd>[@username]</dd></div>
+          <div><dt>Почта</dt><dd>[почта]</dd></div>
+          <div><dt>Часы ответа</dt><dd>[например, пн–сб, 10:00–19:00]</dd></div>
+          <div><dt>Город</dt><dd>Алматы</dd></div>
+        </dl>
+        <div class="buttons"><a class="btn accent" href="#contacts">Написать в WhatsApp</a><a class="btn" href="#contacts">Telegram</a></div>
+      </div>
+      <div class="card">
+        <h3>Реквизиты продавца</h3>
+        <dl>
+          <div><dt>Продавец</dt><dd>[ИП или ТОО «…»]</dd></div>
+          <div><dt>ИИН / БИН</dt><dd>[номер]</dd></div>
+          <div><dt>Адрес</dt><dd>[юридический адрес]</dd></div>
+          <div><dt>Самовывоз</dt><dd>[адрес или «нет»]</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="logo" href="../"><span class="mark" aria-hidden="true"><svg viewBox="0 0 200 200" aria-hidden="true"><polygon fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linejoin="miter" stroke-miterlimit="10" points="100.0,10.0 119.6,27.0 145.0,22.1 153.5,46.5 177.9,55.0 173.0,80.4 190.0,100.0 173.0,119.6 177.9,145.0 153.5,153.5 145.0,177.9 119.6,173.0 100.0,190.0 80.4,173.0 55.0,177.9 46.5,153.5 22.1,145.0 27.0,119.6 10.0,100.0 27.0,80.4 22.1,55.0 46.5,46.5 55.0,22.1 80.4,27.0"/><path fill="#FFFFFF" d="M100,72 L157,100 L100,128 L43,100 Z"/></svg></span><span class="word">pHealth</span></a>
+        <p>Здоровье без мифов: журнал, анализы и товары в Алматы.</p>
+      </div>
+      <div><h4>Журнал</h4><ul><li><a href="../#journal">Все статьи</a></li><li><a href="../vitamin-d/">Витамин D</a></li><li><a href="../kalkulyator/">Калькулятор дозы</a></li><li><a href="../#evidence">Как читать метки</a></li></ul></div>
+      <div><h4>Сервис</h4><ul><li><a href="../#checkups">Чекапы</a></li><li><a href="../#shop">Товары</a></li><li><a href="../#checkups">Доставка и оплата</a></li></ul></div>
+      <div><h4>О проекте</h4><ul><li><a href="./">О нас</a></li><li><a href="../#money">Как мы выбираем товары</a></li><li><a href="#fact-check">Как мы проверяем факты</a></li><li><a href="#contacts">Контакты</a></li></ul></div>
+    </div>
+    <div class="fstrip" aria-hidden="true"></div>
+    <div class="legal"><span>© 2026 pHealth · phealth.space</span><span>Материалы носят информационный характер и не заменяют консультацию врача. БАД не является лекарственным средством.</span></div>
+  </div>
+</footer>
+
+<script src="../assets/site.js"></script>
+</body>
+</html>
