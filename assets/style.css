@@ -96,6 +96,7 @@ header.top>.wrap>.logo{margin-right:auto}
 .mark{display:inline-grid;place-items:center;width:2.75rem;height:2.75rem;border-radius:.63rem;background:#0E2A47;flex:none}
 .mark svg{width:81%;height:81%;display:block}
 .word{font:700 1.2rem var(--display);letter-spacing:-.02em}
+header.top .logo{color:var(--foot)} /* надпись pHealth: синий знака, в тёмной теме белая */
 .menu{display:flex;align-items:center;gap:2rem}
 nav.main{display:flex;gap:1.5rem;font:500 .95rem var(--ui)}
 nav.main a{color:var(--ink);text-decoration:none;padding:.4rem 0}
