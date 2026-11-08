@@ -8,7 +8,8 @@
 :root{
   --bg:#EEF3F1; --paper:#FFFFFF; --soft:#E2EBE7; --line:#D3DDD9;
   --ink:#1C2A33; --muted:#53636B; --sage:#8FB9A8;
-  --accent:#2446C7; --on-accent:#FFFFFF;
+  --accent:#1D5A9E; --on-accent:#FFFFFF;
+  --foot:#0E2A47; /* текст подвала: синий знака */
 
   /* тёмная полоса (блок «Как мы зарабатываем», выделенная панель) */
   --band-bg:#1C2A33; --band-ink:#EEF3F1; --band-muted:#AFC0C7; --band-line:rgba(175,192,199,.28);
@@ -34,24 +35,26 @@
   :root:not([data-theme="light"]){
     --bg:#10171B; --paper:#172126; --soft:#1E2A30; --line:#26343B;
     --ink:#E3EAE7; --muted:#97A6AD; --sage:#5E8C7A;
-    --accent:#8EA6FF; --on-accent:#0E1630;
+    --accent:#8DB6E6; --on-accent:#0B1E33;
     --band-bg:#162036; --band-ink:#E3EAE7; --band-muted:#A3B0CC; --band-line:rgba(163,176,204,.22);
     --t-yellow:#2E2A1B; --t-blue:#1A2833; --t-green:#202D1D; --t-lilac:#272338; --t-ink:#E3EAE7;
     --cover-a:#5A4A16; --cover-b:#4A4A1A; --cover-ink:#F1EBD4; --chip-bg:rgba(0,0,0,.35);
     --l1:#6E7C83; --l0:#26343B;
     --scale-filter:saturate(.82) brightness(.86);
+    --foot:#F4F7F6;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#10171B; --paper:#172126; --soft:#1E2A30; --line:#26343B;
   --ink:#E3EAE7; --muted:#97A6AD; --sage:#5E8C7A;
-  --accent:#8EA6FF; --on-accent:#0E1630;
+  --accent:#8DB6E6; --on-accent:#0B1E33;
   --band-bg:#162036; --band-ink:#E3EAE7; --band-muted:#A3B0CC; --band-line:rgba(163,176,204,.22);
   --t-yellow:#2E2A1B; --t-blue:#1A2833; --t-green:#202D1D; --t-lilac:#272338; --t-ink:#E3EAE7;
   --cover-a:#5A4A16; --cover-b:#4A4A1A; --cover-ink:#F1EBD4; --chip-bg:rgba(0,0,0,.35);
   --l1:#6E7C83; --l0:#26343B;
   --scale-filter:saturate(.82) brightness(.86);
+  --foot:#F4F7F6;
   color-scheme:dark;
 }
 
@@ -131,13 +134,14 @@ nav.main a:hover,nav.main a[aria-current="page"]{color:var(--accent)}
 [data-l="1"] .m b:nth-child(1){background:var(--l1)}
 
 /* ---------- Подвал ---------- */
-footer.site{border-top:1px solid var(--line);margin-top:2rem;padding-block:3rem 2.5rem;font:400 .92rem var(--ui);color:var(--muted)}
+footer.site{border-top:1px solid var(--line);margin-top:2rem;padding-block:3rem 2.5rem;font:400 .92rem var(--ui);color:var(--foot)}
 .fgrid{display:grid;grid-template-columns:1.4fr repeat(3,minmax(0,1fr));gap:2rem}
 .fgrid p{margin:1rem 0 0;max-width:20rem}
-.fgrid h4{font:600 .78rem var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin:0 0 .8rem}
+.fgrid h4{font:600 .78rem var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--foot);margin:0 0 .8rem}
 .fgrid ul{list-style:none;margin:0;padding:0;display:grid;gap:.45rem}
-.fgrid a{color:var(--muted);text-decoration:none}
-.fgrid a:hover{color:var(--accent)}
+.fgrid a{color:var(--foot);text-decoration:none}
+.fgrid a:hover{color:var(--accent);text-decoration:underline}
+footer.site .logo{color:var(--foot)}
 .fstrip{height:6px;border-radius:3px;margin-top:2.5rem;filter:var(--scale-filter);
   background:linear-gradient(90deg,#D7263D,#E4572E,#F08A24,#F3B61F,#C9C531,#8CC63F,#46B85A,#2FA37A,#1F9A9E,#2287C4,#2F6CC4,#3E55B8,#4E3FA8,#5E2E96,#6B2182)}
 .legal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.75rem;margin-top:1rem}
