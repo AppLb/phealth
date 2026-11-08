@@ -132,7 +132,7 @@ p{margin:0 0 1rem}
       <div class="lv" role="group" aria-label="Уровни доказательств">
         <button type="button" data-l="4" aria-pressed="false"><span class="bar"><b></b><b></b><b></b><b></b></span><strong>Сильные</strong><span>Согласованные метаанализы клинических испытаний</span></button>
         <button type="button" data-l="3" aria-pressed="false"><span class="bar"><b></b><b></b><b></b><b></b></span><strong>Умеренные</strong><span>Несколько испытаний, но с оговорками</span></button>
-        <button type="button" data-l="2" aria-pressed="false"><span class="bar"><b></b><b></b><b></b><b></b></span><strong>Предварительные</strong><span>Мало данных, результаты расходятся</span></button>
+        <button type="button" data-l="2" aria-pressed="false"><span class="bar"><b></b><b></b><b></b><b></b></span><strong>Ограниченные</strong><span>Мало данных, результаты расходятся</span></button>
         <button type="button" data-l="1" aria-pressed="false"><span class="bar"><b></b><b></b><b></b><b></b></span><strong>Не подтверждено</strong><span>Испытания эффекта не нашли</span></button>
       </div>
       <div class="hint" id="hint" aria-live="polite"></div>
@@ -152,7 +152,7 @@ p{margin:0 0 1rem}
 
     <h2 class="s">Профилактика у здоровых</h2>
     <p class="ctx">Когда дефицита нет, а добавку пьют «на всякий случай».</p>
-    <p class="claim" data-l="2"><span class="ev" data-l="2" role="button" tabindex="0"><span class="m"><b></b><b></b><b></b><b></b></span>Предварительные</span>Простуда и ОРВИ. В метаанализе ежедневные небольшие дозы дали скромный защитный эффект, но исследования сильно расходятся между собой, а большие разовые дозы не помогали.<sup><a href="#s3">3</a></sup></p>
+    <p class="claim" data-l="2"><span class="ev" data-l="2" role="button" tabindex="0"><span class="m"><b></b><b></b><b></b><b></b></span>Ограниченные</span>Простуда и ОРВИ. В метаанализе ежедневные небольшие дозы дали скромный защитный эффект, но исследования сильно расходятся между собой, а большие разовые дозы не помогали.<sup><a href="#s3">3</a></sup></p>
     <p class="claim" data-l="1"><span class="ev" data-l="1" role="button" tabindex="0"><span class="m"><b></b><b></b><b></b><b></b></span>Не подтверждено</span>Переломы у здоровых взрослых. В испытании VITAL, где участвовали около 25 тысяч человек, витамин D без кальция риск переломов не снизил.<sup><a href="#s2">2</a></sup></p>
     <p class="claim" data-l="1"><span class="ev" data-l="1" role="button" tabindex="0"><span class="m"><b></b><b></b><b></b><b></b></span>Не подтверждено</span>Рак и болезни сердца. В том же VITAL заболеваемость не снизилась. Есть намёк на меньшую смертность от рака, но это вторичный анализ, и выводы по нему делать рано.<sup><a href="#s1">1</a></sup></p>
 
@@ -203,7 +203,7 @@ p{margin:0 0 1rem}
 <script src="../assets/site.js"></script>
 <script>
 const art=document.getElementById("art"), hint=document.getElementById("hint");
-const names={4:"Сильные",3:"Умеренные",2:"Предварительные",1:"Не подтверждено"};
+const names={4:"Сильные",3:"Умеренные",2:"Ограниченные",1:"Не подтверждено"};
 let cur=null;
 function set(l){
   cur=(cur===l)?null:l;
