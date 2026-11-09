@@ -126,6 +126,32 @@ section{padding-block:4.5rem}
 .panel .btn{min-height:44px;font-size:.9rem;padding:0 1.1rem}
 .panel.hot .btn{background:var(--band-ink);border-color:var(--band-ink);color:var(--band-bg)}
 
+.soon{font:600 1rem var(--ui);color:var(--muted)}
+.panel.hot .soon{color:var(--band-muted)}
+
+/* Лист ожидания чекапов */
+.waitlist{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:2.5rem;margin-top:2.5rem;padding:2rem;border-radius:1.25rem;background:var(--paper);scroll-margin-top:1.5rem}
+.wl-text{display:grid;gap:.75rem;align-content:start}
+.wl-text h3{font:700 1.5rem/1.2 var(--display);letter-spacing:-.02em;margin:0}
+.wl-text p{margin:0;color:var(--muted)}
+.wl-list{margin:.25rem 0 0;padding:0;list-style:none;display:grid;gap:.6rem}
+.wl-list li{position:relative;padding-left:1.6rem;font-size:1rem}
+.wl-list li::before{content:"";position:absolute;left:.15rem;top:.5em;width:.6rem;height:.6rem;border-radius:2px;background:var(--accent);transform:rotate(45deg)}
+.wl-form{display:grid;gap:1.1rem;align-content:start}
+.wl-field{display:grid;gap:.4rem;margin:0;padding:0;border:0;min-width:0}
+.wl-field>label,.wl-field legend{font:600 .9rem var(--ui);color:var(--ink);padding:0}
+.wl-field legend{margin-bottom:.4rem}
+.wl-field input[type=text]{min-height:48px;font:400 1rem var(--ui);padding:0 1.1rem;border:1.5px solid var(--line);border-radius:999px;background:var(--bg);color:var(--ink)}
+.wl-opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}
+.wl-opts label{display:flex;align-items:center;gap:.6rem;min-height:48px;padding:0 1rem;border:1.5px solid var(--line);border-radius:999px;font:500 .95rem var(--ui);cursor:pointer}
+.wl-opts label:has(input:checked){border-color:var(--accent)}
+.wl-opts input{flex:none;width:1.1rem;height:1.1rem;accent-color:var(--accent);margin:0}
+.wl-sub{font:400 .88rem var(--ui) !important;color:var(--muted) !important;margin-top:.4rem}
+.wl-chosen{margin:0;font:500 .95rem var(--ui);color:var(--accent)}
+.wl-form .btn{justify-self:start}
+@media (max-width:960px){.waitlist{grid-template-columns:minmax(0,1fr);gap:1.75rem;padding:1.5rem}}
+@media (max-width:640px){.waitlist{padding:1.25rem;margin-top:2rem}.wl-form .btn{justify-self:stretch}}
+
 /* Товары */
 #shop{padding-top:0}
 .rail.prods{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -259,7 +285,7 @@ section{padding-block:4.5rem}
       <p class="lead">Разбираем добавки, анализы и привычки: что обещает реклама и что показывают исследования. У каждого вывода стоит метка: насколько надёжно он доказан.</p>
       <div class="actions">
         <a class="btn primary" href="#journal">Читать журнал</a>
-        <a class="btn" href="#checkups">Собрать чекап</a>
+        <a class="btn" href="#waitlist">Чекапы: лист ожидания</a>
       </div>
     </div>
 
@@ -287,10 +313,10 @@ section{padding-block:4.5rem}
       <div class="price"><span>Бесплатно</span><span>Читать →</span></div>
     </a>
     <a class="dir" href="#checkups">
-      <span class="badge">Анализы на дому</span>
+      <span class="badge">Скоро · анализы на дому</span>
       <h3>Чекапы</h3>
       <p>Панели анализов под конкретный вопрос. Лаборатория приезжает к вам, а мы объясняем результат простым языком.</p>
-      <div class="price"><span>от [ЦЕНА] ₸</span><span>Выбрать →</span></div>
+      <div class="price"><span>Скоро</span><span>В лист ожидания →</span></div>
     </a>
     <a class="dir" href="#shop">
       <span class="badge">Из наличия в Казахстане</span>
@@ -358,30 +384,68 @@ section{padding-block:4.5rem}
 <section id="checkups">
   <div class="wrap">
     <div class="sec-head">
-      <div><span class="eyebrow">Чекапы</span><h2 class="h2">Анализы без очередей и непонятных бланков</h2></div>
-      <p class="lead">Собираем панель под ваш вопрос, а не «всё подряд». Лишние анализы дают ложные тревоги.</p>
+      <div><span class="eyebrow">Чекапы · скоро</span><h2 class="h2">Анализы без очередей и непонятных бланков</h2></div>
+      <p class="lead">Собираем панель под ваш вопрос, а не «всё подряд». Лишние анализы дают ложные тревоги. Мы ещё запускаем это направление: оставьте контакт, и мы напишем первыми.</p>
     </div>
     <ol class="steps">
       <li><b>Выбираете панель</b><span>Готовую или собранную под ваш вопрос вместе с нами.</span></li>
       <li><b>Лаборатория приезжает</b><span>Забор крови дома или в офисе, по Алматы.</span></li>
-      <li><b>Получаете разбор</b><span>Что в норме, что стоит обсудить с врачом и с каким именно.</span></li>
+      <li><b>Получаете разбор</b><span>Что значит каждая цифра, что в норме и что стоит обсудить с врачом.</span></li>
     </ol>
     <div class="rail">
       <div class="panel">
         <h3>Базовый</h3>
-        <p class="ph-list">[Состав панели: список анализов]</p>
-        <div class="row"><span>[ЦЕНА] ₸</span><a class="btn primary" href="#checkups">Заказать</a></div>
+        <p class="ph-list">Общая картина по основным показателям крови. Точный состав опубликуем к запуску.</p>
+        <div class="row"><span class="soon">Скоро</span><a class="btn primary" href="#waitlist" data-panel="Базовый">В лист ожидания</a></div>
       </div>
       <div class="panel hot">
-        <h3>Энергия и усталость <small>Чаще всего</small></h3>
-        <p class="ph-list">[Состав панели: например, ферритин, ТТГ, B12, общий анализ крови]</p>
-        <div class="row"><span>[ЦЕНА] ₸</span><a class="btn" href="#checkups">Заказать</a></div>
+        <h3>Почему нет энергии <small>Чаще всего</small></h3>
+        <p class="ph-list">Устаёте к обеду, плохо спите или не можете сосредоточиться? Например: ферритин, ТТГ, B12, общий анализ крови. Точный состав — к запуску.</p>
+        <div class="row"><span class="soon">Скоро</span><a class="btn" href="#waitlist" data-panel="Почему нет энергии">В лист ожидания</a></div>
       </div>
       <div class="panel">
         <h3>Для бегунов</h3>
-        <p class="ph-list">[Состав панели: список анализов]</p>
-        <div class="row"><span>[ЦЕНА] ₸</span><a class="btn primary" href="#checkups">Заказать</a></div>
+        <p class="ph-list">Для тех, кто много тренируется. Точный состав опубликуем к запуску.</p>
+        <div class="row"><span class="soon">Скоро</span><a class="btn primary" href="#waitlist" data-panel="Для бегунов">В лист ожидания</a></div>
       </div>
+    </div>
+
+    <div class="waitlist" id="waitlist">
+      <div class="wl-text">
+        <span class="eyebrow">Лист ожидания</span>
+        <h3>Хотите в числе первых?</h3>
+        <p>Оставьте контакт: напишем, как только откроем запись, и дадим скидку первым участникам.</p>
+        <ul class="wl-list">
+          <li>Набор анализов под ваш запрос, без лишних тестов «на всякий случай»</li>
+          <li>Сдача анализов дома, по Алматы</li>
+          <li>Объяснение результатов простым языком: что значит каждая цифра и что с этим делать</li>
+        </ul>
+      </div>
+      <form class="wl-form" id="wl-form" novalidate>
+        <input type="hidden" name="panel" id="wl-panel" value="">
+        <p class="wl-chosen" id="wl-chosen" hidden></p>
+        <div class="wl-field">
+          <label for="wl-name">Имя</label>
+          <input type="text" id="wl-name" name="name" autocomplete="given-name" placeholder="Как к вам обращаться">
+        </div>
+        <div class="wl-field">
+          <label for="wl-contact">Telegram или WhatsApp</label>
+          <input type="text" id="wl-contact" name="contact" autocomplete="tel" placeholder="@username или +7…" required>
+        </div>
+        <fieldset class="wl-field">
+          <legend>Что беспокоит больше всего?</legend>
+          <div class="wl-opts">
+            <label><input type="radio" name="concern" value="Усталость"> Усталость</label>
+            <label><input type="radio" name="concern" value="Сон"> Сон</label>
+            <label><input type="radio" name="concern" value="Концентрация"> Концентрация</label>
+            <label><input type="radio" name="concern" value="Другое"> Другое</label>
+          </div>
+          <label for="wl-other" class="wl-sub">Если другое — что именно?</label>
+          <input type="text" id="wl-other" name="other" placeholder="Коротко, своими словами">
+        </fieldset>
+        <button class="btn accent" type="submit">Хочу в числе первых</button>
+        <div class="msg" id="wl-msg" aria-live="polite"></div>
+      </form>
     </div>
   </div>
 </section>
@@ -556,6 +620,31 @@ function render(){
   showall.hidden=!cut;
 }
 render();
+
+// Лист ожидания чекапов.
+// Куда отправлять заявки: адрес формы (например, Formspree). Пока пусто — заявка не уходит, и форма честно об этом пишет.
+const WAITLIST_ENDPOINT="";
+(()=>{
+  const f=document.getElementById("wl-form"), msg=document.getElementById("wl-msg"),
+        panel=document.getElementById("wl-panel"), chosen=document.getElementById("wl-chosen");
+  document.querySelectorAll("[data-panel]").forEach(a=>a.addEventListener("click",()=>{
+    panel.value=a.dataset.panel; chosen.textContent="Чекап: «"+a.dataset.panel+"»"; chosen.hidden=false;
+  }));
+  f.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const contact=document.getElementById("wl-contact").value.trim();
+    if(contact.length<4){msg.textContent="Оставьте Telegram или номер WhatsApp, чтобы мы могли написать.";document.getElementById("wl-contact").focus();return;}
+    if(!WAITLIST_ENDPOINT){msg.textContent="Форма ещё настраивается, заявка не отправлена. Загляните чуть позже.";return;}
+    const btn=f.querySelector("button[type=submit]"); btn.disabled=true; msg.textContent="Отправляем…";
+    try{
+      const r=await fetch(WAITLIST_ENDPOINT,{method:"POST",body:new FormData(f),headers:{Accept:"application/json"}});
+      if(!r.ok) throw 0;
+      f.reset(); chosen.hidden=true; panel.value="";
+      msg.textContent="Спасибо! Напишем, как только откроем запись. Без спама: только одно сообщение о старте.";
+    }catch(_){msg.textContent="Не получилось отправить. Попробуйте ещё раз чуть позже.";}
+    btn.disabled=false;
+  });
+})();
 
 document.getElementById("sub").addEventListener("submit",e=>{
   e.preventDefault();
