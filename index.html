@@ -126,10 +126,6 @@ section{padding-block:4.5rem}
 .panel .btn{min-height:44px;font-size:.9rem;padding:0 1.1rem}
 .panel.hot .btn{background:var(--band-ink);border-color:var(--band-ink);color:var(--band-bg)}
 
-.soon{font:600 1rem var(--ui);color:var(--muted)}
-.panel.hot .soon{color:var(--band-muted)}
-.ck-more{margin-top:1.5rem}
-
 /* Товары */
 #shop{padding-top:0}
 .rail.prods{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -243,7 +239,7 @@ section{padding-block:4.5rem}
     </button>
     <div class="menu" id="menu">
       <nav class="main" aria-label="Разделы">
-        <a href="#journal">Журнал</a><a href="calculator/">Калькулятор</a><a href="checkups/">Чекапы</a><a href="#shop">Товары</a><a href="#money">Как мы выбираем товары</a><a href="about/">О нас</a>
+        <a href="#journal">Журнал</a><a href="calculator/">Калькулятор</a><a href="#checkups">Чекапы</a><a href="#shop">Товары</a><a href="#money">Как мы выбираем товары</a><a href="about/">О нас</a>
       </nav>
       <a class="btn accent" href="#about">Подписаться</a>
     </div>
@@ -263,7 +259,7 @@ section{padding-block:4.5rem}
       <p class="lead">Разбираем добавки, анализы и привычки: что обещает реклама и что показывают исследования. У каждого вывода стоит метка: насколько надёжно он доказан.</p>
       <div class="actions">
         <a class="btn primary" href="#journal">Читать журнал</a>
-        <a class="btn" href="checkups/">Чекапы: лист ожидания</a>
+        <a class="btn" href="#checkups">Собрать чекап</a>
       </div>
     </div>
 
@@ -290,11 +286,11 @@ section{padding-block:4.5rem}
       <p>Статьи об анализах, добавках, сне и спорте. Со ссылками на исследования и метками доказательности.</p>
       <div class="price"><span>Бесплатно</span><span>Читать →</span></div>
     </a>
-    <a class="dir" href="checkups/">
-      <span class="badge">Скоро · анализы на дому</span>
+    <a class="dir" href="#checkups">
+      <span class="badge">Анализы на дому</span>
       <h3>Чекапы</h3>
       <p>Панели анализов под конкретный вопрос. Лаборатория приезжает к вам, а мы объясняем результат простым языком.</p>
-      <div class="price"><span>Скоро</span><span>В лист ожидания →</span></div>
+      <div class="price"><span>от [ЦЕНА] ₸</span><span>Выбрать →</span></div>
     </a>
     <a class="dir" href="#shop">
       <span class="badge">Из наличия в Казахстане</span>
@@ -362,33 +358,31 @@ section{padding-block:4.5rem}
 <section id="checkups">
   <div class="wrap">
     <div class="sec-head">
-      <div><span class="eyebrow">Чекапы · скоро</span><h2 class="h2">Анализы без очередей и непонятных бланков</h2></div>
-      <p class="lead">Собираем панель под ваш вопрос, а не «всё подряд». Лишние анализы дают ложные тревоги. Запустим, как только наберётся достаточно заявок, а записавшиеся первыми получат скидку.</p>
+      <div><span class="eyebrow">Чекапы</span><h2 class="h2">Анализы без очередей и непонятных бланков</h2></div>
+      <p class="lead">Собираем панель под ваш вопрос, а не «всё подряд». Лишние анализы дают ложные тревоги.</p>
     </div>
     <ol class="steps">
       <li><b>Выбираете панель</b><span>Готовую или собранную под ваш вопрос вместе с нами.</span></li>
       <li><b>Лаборатория приезжает</b><span>Забор крови дома или в офисе, по Алматы.</span></li>
-      <li><b>Получаете разбор</b><span>Что значит каждая цифра, что в норме и что стоит обсудить с врачом.</span></li>
+      <li><b>Получаете разбор</b><span>Что в норме, что стоит обсудить с врачом и с каким именно.</span></li>
     </ol>
     <div class="rail">
       <div class="panel">
         <h3>Базовый</h3>
-        <p class="ph-list">Общая картина по основным показателям крови. Точный состав опубликуем к запуску.</p>
-        <div class="row"><span class="soon">Скоро</span><a class="btn primary" href="checkups/?panel=%D0%91%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B9#waitlist">В лист ожидания</a></div>
+        <p class="ph-list">[Состав панели: список анализов]</p>
+        <div class="row"><span>[ЦЕНА] ₸</span><a class="btn primary" href="#checkups">Заказать</a></div>
       </div>
       <div class="panel hot">
-        <h3>Почему нет энергии <small>Чаще всего</small></h3>
-        <p class="ph-list">Устаёте к обеду, плохо спите или не можете сосредоточиться? Например: ферритин, ТТГ, B12, общий анализ крови. Точный состав — к запуску.</p>
-        <div class="row"><span class="soon">Скоро</span><a class="btn" href="checkups/?panel=%D0%9F%D0%BE%D1%87%D0%B5%D0%BC%D1%83%20%D0%BD%D0%B5%D1%82%20%D1%8D%D0%BD%D0%B5%D1%80%D0%B3%D0%B8%D0%B8#waitlist">В лист ожидания</a></div>
+        <h3>Энергия и усталость <small>Чаще всего</small></h3>
+        <p class="ph-list">[Состав панели: например, ферритин, ТТГ, B12, общий анализ крови]</p>
+        <div class="row"><span>[ЦЕНА] ₸</span><a class="btn" href="#checkups">Заказать</a></div>
       </div>
       <div class="panel">
         <h3>Для бегунов</h3>
-        <p class="ph-list">Для тех, кто много тренируется. Точный состав опубликуем к запуску.</p>
-        <div class="row"><span class="soon">Скоро</span><a class="btn primary" href="checkups/?panel=%D0%94%D0%BB%D1%8F%20%D0%B1%D0%B5%D0%B3%D1%83%D0%BD%D0%BE%D0%B2#waitlist">В лист ожидания</a></div>
+        <p class="ph-list">[Состав панели: список анализов]</p>
+        <div class="row"><span>[ЦЕНА] ₸</span><a class="btn primary" href="#checkups">Заказать</a></div>
       </div>
     </div>
-
-    <div class="ck-more"><a class="more" href="checkups/#early">Подробнее о чекапах и скидке для первых →</a></div>
   </div>
 </section>
 
@@ -485,7 +479,7 @@ section{padding-block:4.5rem}
         <p>Здоровье без мифов: журнал, анализы и товары в Алматы.</p>
       </div>
       <div><h4>Журнал</h4><ul><li><a href="#journal">Все статьи</a></li><li><a href="vitamin-d/">Витамин D</a></li><li><a href="calculator/">Калькулятор дозы</a></li><li><a href="#evidence">Как читать метки</a></li></ul></div>
-      <div><h4>Сервис</h4><ul><li><a href="checkups/">Чекапы</a></li><li><a href="#shop">Товары</a></li><li><a href="#checkups">Доставка и оплата</a></li></ul></div>
+      <div><h4>Сервис</h4><ul><li><a href="#checkups">Чекапы</a></li><li><a href="#shop">Товары</a></li><li><a href="#checkups">Доставка и оплата</a></li></ul></div>
       <div><h4>О проекте</h4><ul><li><a href="about/">О нас</a></li><li><a href="#money">Как мы выбираем товары</a></li><li><a href="about/#fact-check">Как мы проверяем факты</a></li><li><a href="about/#contacts">Контакты</a></li></ul></div>
     </div>
     <div class="fstrip" aria-hidden="true"></div>
