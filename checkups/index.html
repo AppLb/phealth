@@ -79,6 +79,12 @@ section{padding-block:4rem}
 .panel .what dd{margin:0 0 .5rem;font:400 .95rem/1.55 var(--ui)}
 
 /* Почему не «всё подряд» */
+.perks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+.perk{display:grid;gap:.5rem;align-content:start;padding:1.6rem;border-radius:1.25rem;background:var(--paper)}
+.perk .big{font:900 2.4rem/1 var(--display);letter-spacing:-.04em;color:var(--accent);margin-bottom:.5rem}
+.perk b{font:600 1.1rem var(--ui)}
+.perk span:last-child{color:var(--muted);font:400 .98rem/1.55 var(--ui)}
+@media (max-width:960px){.perks{grid-template-columns:minmax(0,1fr)}}
 .why{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:2.5rem;align-items:start}
 .why p{margin:0 0 1rem}
 .why .note{padding:1.5rem;border-radius:1.25rem;background:var(--paper);font:400 1rem/1.6 var(--ui)}
@@ -133,9 +139,9 @@ section{padding-block:4rem}
   <div class="wrap">
     <span class="eyebrow">Чекапы · скоро · Алматы</span>
     <h1>Анализы без очередей и непонятных бланков</h1>
-    <p class="lead">Собираем панель анализов под ваш вопрос, а не «всё подряд». Лаборатория приезжает к вам, а мы объясняем результат простым языком. Мы ещё запускаем это направление: оставьте контакт, и мы напишем первыми.</p>
+    <p class="lead">Собираем панель анализов под ваш вопрос, а не «всё подряд». Лаборатория приезжает к вам, а мы объясняем результат простым языком. Запустим, как только наберётся достаточно заявок, а записавшиеся первыми получат скидку.</p>
     <div class="actions">
-      <a class="btn accent" href="#waitlist">В лист ожидания</a>
+      <a class="btn accent" href="#waitlist">Записаться со скидкой</a>
       <a class="btn" href="#panels">Посмотреть панели</a>
     </div>
   </div>
@@ -156,7 +162,7 @@ section{padding-block:4rem}
   <div class="wrap">
     <div class="sec-head">
       <div><span class="eyebrow">Панели</span><h2 class="h2">Под конкретный вопрос</h2></div>
-      <p class="lead">Точный состав и цены опубликуем к запуску. Первые из листа ожидания получат скидку.</p>
+      <p class="lead">Точный состав и цены опубликуем к запуску. Для всех из листа ожидания — скидка [X]% на первый чекап.</p>
     </div>
     <div class="rail">
       <div class="panel">
@@ -187,6 +193,33 @@ section{padding-block:4rem}
   </div>
 </section>
 
+<section id="early">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Лист ожидания</span><h2 class="h2">Первым — лучшие условия</h2></div>
+      <p class="lead">Чекапы запустятся, когда наберётся достаточно заявок. Те, кто записался заранее, получат больше остальных.</p>
+    </div>
+    <div class="perks">
+      <div class="perk">
+        <span class="big">−[X]%</span>
+        <b>Скидка на первый чекап</b>
+        <span>Для всех из листа ожидания, на любую панель. Цены для остальных будут без скидки.</span>
+      </div>
+      <div class="perk">
+        <span class="big">1-е</span>
+        <b>Запись раньше всех</b>
+        <span>Сообщение о старте придёт вам первым, и вы раньше других выберете удобную дату выезда лаборатории.</span>
+      </div>
+      <div class="perk">
+        <span class="big">Вы</span>
+        <b>Решаете, что запускать</b>
+        <span>По заявкам видно, какие панели нужнее. Ваш ответ «что беспокоит» влияет на то, что войдёт в состав.</span>
+      </div>
+    </div>
+    <div class="actions"><a class="btn accent" href="#waitlist">Записаться со скидкой</a></div>
+  </div>
+</section>
+
 <section id="why">
   <div class="wrap why">
     <div>
@@ -208,8 +241,9 @@ section{padding-block:4rem}
       <div class="wl-text">
         <span class="eyebrow">Лист ожидания</span>
         <h3>Хотите в числе первых?</h3>
-        <p>Оставьте контакт: напишем, как только откроем запись, и дадим скидку первым участникам.</p>
+        <p>Оставьте контакт: напишем, как только откроем запись. Всем из листа ожидания — скидка [X]% на первый чекап.</p>
         <ul class="wl-list">
+          <li>Скидка [X]% на первый чекап и запись раньше всех</li>
           <li>Набор анализов под ваш запрос, без лишних тестов «на всякий случай»</li>
           <li>Сдача анализов дома, по Алматы</li>
           <li>Объяснение результатов простым языком: что значит каждая цифра и что с этим делать</li>
@@ -248,8 +282,9 @@ section{padding-block:4rem}
   <div class="wrap">
     <div class="sec-head"><div><span class="eyebrow">Вопросы</span><h2 class="h2">Коротко о главном</h2></div></div>
     <div class="faq">
-      <details><summary>Когда запуск?</summary><p>Как только договоримся с лабораторией обо всех деталях. Все, кто в листе ожидания, узнают первыми — одним сообщением.</p></details>
-      <details><summary>Сколько будет стоить?</summary><p>Цены опубликуем к запуску. Первым участникам из листа ожидания дадим скидку.</p></details>
+      <details><summary>Когда запуск?</summary><p>Как только наберётся достаточно заявок. Лист ожидания показывает, нужен ли такой сервис и какие панели запускать первыми, так что каждая запись приближает старт. Все записавшиеся узнают о нём первыми — одним сообщением.</p></details>
+      <details><summary>Сколько будет стоить?</summary><p>Цены опубликуем к запуску. Всем из листа ожидания — скидка [X]% на первый чекап, на любую панель.</p></details>
+      <details><summary>Записаться — это обязательство?</summary><p>Нет. Лист ожидания ни к чему не обязывает и ничего не стоит: мы просто напишем о старте, а решать будете тогда.</p></details>
       <details><summary>Где сдавать анализы?</summary><p>Дома или в офисе, по Алматы: лаборатория приезжает к вам.</p></details>
       <details><summary>Это заменяет врача?</summary><p>Нет. Мы объясняем результаты и подсказываем, что стоит обсудить с врачом и с каким. Диагноз и лечение — только у врача.</p></details>
       <details><summary>Что будет с моими данными?</summary><p>Контакт из формы нужен только для того, чтобы написать вам о запуске. Мы не передаём его третьим лицам и не шлём рекламу.</p></details>
