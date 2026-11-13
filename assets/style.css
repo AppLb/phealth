@@ -1,0 +1,154 @@
+/* pHealth — общие стили сайта.
+   Здесь всё, что одинаково на всех страницах: цвета (светлая и тёмная тема),
+   шрифты, знак, контейнер, кнопки, строка о запуске, шапка с мобильным меню
+   и переключателем темы, подвал
+   и шкала меток доказательности. Стили конкретной страницы лежат в ней самой. */
+
+/* ---------- Цвета и шрифты ---------- */
+:root{
+  --bg:#EEF3F1; --paper:#FFFFFF; --soft:#E2EBE7; --line:#D3DDD9;
+  --ink:#1C2A33; --muted:#53636B; --sage:#8FB9A8;
+  --accent:#1D5A9E; --on-accent:#FFFFFF;
+  --foot:#0E2A47; /* текст подвала: синий знака */
+
+  /* тёмная полоса (блок «Как мы зарабатываем», выделенная панель) */
+  --band-bg:#1C2A33; --band-ink:#EEF3F1; --band-muted:#AFC0C7; --band-line:rgba(175,192,199,.28);
+
+  /* пастельные плашки товаров и обложек */
+  --t-yellow:#F6E9C8; --t-blue:#D9E8F5; --t-green:#E3EED0; --t-lilac:#E3DDF2; --t-ink:#1C2A33;
+  --cover-a:#F3B61F; --cover-b:#C9C531; --cover-ink:#1C2A33; --chip-bg:rgba(255,255,255,.82);
+
+  /* метки доказательности */
+  --l4:#2FA37A; --l3:#2287C4; --l2:#E0A81A; --l1:#9AA7AD; --l0:#D3DDD9;
+
+  /* яркость радужной шкалы pH: в тёмной теме приглушаем */
+  --scale-filter:none;
+
+  --display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --text:"Literata",Georgia,"Times New Roman",serif;
+  --ui:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#10171B; --paper:#172126; --soft:#1E2A30; --line:#26343B;
+    --ink:#E3EAE7; --muted:#97A6AD; --sage:#5E8C7A;
+    --accent:#8DB6E6; --on-accent:#0B1E33;
+    --band-bg:#162036; --band-ink:#E3EAE7; --band-muted:#A3B0CC; --band-line:rgba(163,176,204,.22);
+    --t-yellow:#2E2A1B; --t-blue:#1A2833; --t-green:#202D1D; --t-lilac:#272338; --t-ink:#E3EAE7;
+    --cover-a:#5A4A16; --cover-b:#4A4A1A; --cover-ink:#F1EBD4; --chip-bg:rgba(0,0,0,.35);
+    --l1:#6E7C83; --l0:#26343B;
+    --scale-filter:saturate(.82) brightness(.86);
+    --foot:#F4F7F6;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10171B; --paper:#172126; --soft:#1E2A30; --line:#26343B;
+  --ink:#E3EAE7; --muted:#97A6AD; --sage:#5E8C7A;
+  --accent:#8DB6E6; --on-accent:#0B1E33;
+  --band-bg:#162036; --band-ink:#E3EAE7; --band-muted:#A3B0CC; --band-line:rgba(163,176,204,.22);
+  --t-yellow:#2E2A1B; --t-blue:#1A2833; --t-green:#202D1D; --t-lilac:#272338; --t-ink:#E3EAE7;
+  --cover-a:#5A4A16; --cover-b:#4A4A1A; --cover-ink:#F1EBD4; --chip-bg:rgba(0,0,0,.35);
+  --l1:#6E7C83; --l0:#26343B;
+  --scale-filter:saturate(.82) brightness(.86);
+  --foot:#F4F7F6;
+  color-scheme:dark;
+}
+
+/* знак на тёмном фоне: тонкая светлая обводка */
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .mark{box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}}
+:root[data-theme="dark"] .mark{box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
+
+/* ---------- Основа ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 1rem)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.65 var(--text);-webkit-text-size-adjust:100%}
+a{color:var(--accent)}
+img{max-width:100%}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+h1,h2,h3,h4{text-wrap:balance}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+
+.wrap{max-width:72rem;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.eyebrow{font:600 .78rem/1 var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- Кнопки и ссылки-стрелки ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:48px;padding:0 1.4rem;border-radius:999px;font:600 .95rem var(--ui);text-decoration:none;border:1.5px solid var(--ink);color:var(--ink);background:transparent;cursor:pointer}
+.btn.primary{background:var(--ink);color:var(--bg)}
+.btn.accent{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn:hover{filter:brightness(1.08)}
+.more{font:600 .95rem var(--ui);color:var(--accent);text-decoration:none;white-space:nowrap}
+.more:hover{text-decoration:underline}
+
+/* ---------- Строка о запуске ---------- */
+.launch{background:var(--soft);font:400 .85rem/1.4 var(--ui);color:var(--muted);text-align:center}
+.launch .wrap{padding-block:.5rem}
+
+/* ---------- Шапка ---------- */
+header.top{position:relative;border-bottom:1px solid var(--line);background:var(--bg);z-index:20}
+header.top>.wrap{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding-block:.9rem}
+header.top>.wrap>.logo{margin-right:auto}
+.logo{display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--ink)}
+.mark{display:inline-grid;place-items:center;width:2.75rem;height:2.75rem;border-radius:.63rem;background:#0E2A47;flex:none}
+.mark svg{width:81%;height:81%;display:block}
+.word{font:700 1.2rem var(--display);letter-spacing:-.02em}
+header.top .logo{color:var(--foot)} /* надпись pHealth: синий знака, в тёмной теме белая */
+.menu{display:flex;align-items:center;gap:2rem}
+nav.main{display:flex;gap:1.5rem;font:500 .95rem var(--ui)}
+nav.main a{color:var(--ink);text-decoration:none;padding:.4rem 0}
+nav.main a:hover,nav.main a[aria-current="page"]{color:var(--accent)}
+.burger{display:none}
+
+/* ---------- Переключатель темы ---------- */
+.theme{display:inline-grid;place-items:center;width:44px;height:44px;border:1.5px solid var(--line);border-radius:999px;background:transparent;color:var(--ink);cursor:pointer;flex:none}
+.theme:hover{border-color:var(--ink)}
+.theme svg{width:20px;height:20px}
+.theme .sun{display:none}
+:root[data-mode="dark"] .theme .moon{display:none}
+:root[data-mode="dark"] .theme .sun{display:block}
+
+@media (max-width:1024px){
+  .burger{order:3;display:inline-grid;place-items:center;width:44px;height:44px;margin-right:-10px;border:0;border-radius:12px;background:transparent;color:var(--ink);cursor:pointer}
+  .burger svg{width:24px;height:24px}
+  .burger .x{display:none}
+  .burger[aria-expanded="true"] .x{display:block}
+  .burger[aria-expanded="true"] .bars{display:none}
+  .menu{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;gap:1rem;
+    padding:.5rem max(20px,env(safe-area-inset-right,0px)) 1.5rem max(20px,env(safe-area-inset-left,0px));
+    background:var(--bg);border-bottom:1px solid var(--line);box-shadow:0 18px 30px -18px rgba(0,0,0,.25)}
+  .menu.open{display:flex}
+  nav.main{flex-direction:column;gap:0;font-size:1.1rem}
+  nav.main a{padding:.85rem 0;border-bottom:1px solid var(--line)}
+  .menu .btn{width:100%}
+}
+
+/* ---------- Метки доказательности: шкала из четырёх делений ---------- */
+.m{display:inline-flex;gap:2px;flex:none}
+.m b{width:.32rem;height:.85rem;border-radius:1px;background:var(--l0)}
+[data-l="4"] .m b{background:var(--l4)}
+[data-l="3"] .m b:nth-child(-n+3){background:var(--l3)}
+[data-l="2"] .m b:nth-child(-n+2){background:var(--l2)}
+[data-l="1"] .m b:nth-child(1){background:var(--l1)}
+
+/* ---------- Подвал ---------- */
+footer.site{border-top:1px solid var(--line);margin-top:2rem;padding-block:3rem 2.5rem;font:400 .92rem var(--ui);color:var(--foot)}
+.fgrid{display:grid;grid-template-columns:1.4fr repeat(3,minmax(0,1fr));gap:2rem}
+.fgrid p{margin:1rem 0 0;max-width:20rem}
+.fgrid h4{font:600 .78rem var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--foot);margin:0 0 .8rem}
+.fgrid ul{list-style:none;margin:0;padding:0;display:grid;gap:.45rem}
+.fgrid a{color:var(--foot);text-decoration:none}
+.fgrid a:hover{color:var(--accent);text-decoration:underline}
+footer.site .logo{color:var(--foot)}
+.fstrip{height:6px;border-radius:3px;margin-top:2.5rem;filter:var(--scale-filter);
+  background:linear-gradient(90deg,#D7263D,#E4572E,#F08A24,#F3B61F,#C9C531,#8CC63F,#46B85A,#2FA37A,#1F9A9E,#2287C4,#2F6CC4,#3E55B8,#4E3FA8,#5E2E96,#6B2182)}
+.legal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.75rem;margin-top:1rem}
+@media (max-width:760px){
+  footer.site{padding-block:2.5rem 2rem}
+  .fgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:1.75rem 1rem}
+  .fgrid>div:first-child{grid-column:1/-1}
+  .legal{flex-direction:column;gap:.4rem;font-size:.85rem}
+}
