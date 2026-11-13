@@ -1,0 +1,46 @@
+# Сборка сайта.
+# Pull request: проверяем, что сайт собирается без ошибок.
+# Изменения в main: собираем сайт и кладём готовые файлы в ветку site.
+# Plesk забирает ветку site и выкладывает её на hoster.kz.
+name: Сборка сайта
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-site
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Установить Eleventy
+        run: npm ci
+
+      - name: Собрать сайт
+        run: npm run build
+
+      - name: Выложить в ветку site
+        if: github.event_name != 'pull_request'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: site
+          publish_dir: ./_site
+          user_name: github-actions[bot]
+          user_email: github-actions[bot]@users.noreply.github.com
+          full_commit_message: "Сборка из ${{ github.sha }}"
