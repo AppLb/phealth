@@ -1,18 +1,10 @@
-<!doctype html>
-<html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>pHealth — здоровье без мифов</title>
-<meta name="description" content="Разбираем добавки, анализы и привычки: что обещает реклама и что показывают исследования. Журнал, анализы и товары в Алматы.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Literata:opsz,wght@7..72,400;7..72,600&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
-<script src="assets/theme.js"></script>
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+---
+title: "pHealth — здоровье без мифов"
+description: "Разбираем добавки, анализы и привычки: что обещает реклама и что показывают исследования. Журнал, анализы и товары в Алматы."
+---
+{% extends "layouts/base.njk" %}
+
+{% block style %}
 <style>
 /* Стили только главной страницы. Общие — в assets/style.css */
 section{padding-block:4.5rem}
@@ -78,9 +70,8 @@ section{padding-block:4.5rem}
 .tally .ev{font-weight:500}
 .tally .ev em{font-style:normal;color:var(--muted);margin-left:auto;font-variant-numeric:tabular-nums}
 
-.posts{list-style:none;margin:0;padding:0}
+.posts{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--line)}
 .posts li{border-top:1px solid var(--line)}
-.posts li:last-child{border-bottom:1px solid var(--line)}
 .posts details>summary{list-style:none;cursor:pointer;display:grid;gap:.4rem;padding:1.1rem 2rem 1.1rem 0;position:relative}
 .posts details>summary::-webkit-details-marker{display:none}
 .posts details>summary::after{content:"+";position:absolute;right:.2rem;top:1.05rem;font:500 1.3rem var(--ui);color:var(--muted)}
@@ -225,31 +216,9 @@ section{padding-block:4.5rem}
   .posts .kind{display:none}
 }
 </style>
-</head>
-<body>
+{% endblock %}
 
-<div class="launch"><div class="wrap">pHealth только запускается. Первый разбор уже вышел, новые статьи, чекапы и товары скоро.</div></div>
-
-<header class="top">
-  <div class="wrap">
-    <a class="logo" href="./" aria-label="pHealth, на главную"><span class="mark" aria-hidden="true"><svg viewBox="0 0 200 200" aria-hidden="true"><polygon fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linejoin="miter" stroke-miterlimit="10" points="100.0,10.0 119.6,27.0 145.0,22.1 153.5,46.5 177.9,55.0 173.0,80.4 190.0,100.0 173.0,119.6 177.9,145.0 153.5,153.5 145.0,177.9 119.6,173.0 100.0,190.0 80.4,173.0 55.0,177.9 46.5,153.5 22.1,145.0 27.0,119.6 10.0,100.0 27.0,80.4 22.1,55.0 46.5,46.5 55.0,22.1 80.4,27.0"/><path fill="#FFFFFF" d="M100,72 L157,100 L100,128 L43,100 Z"/></svg></span><span class="word">pHealth</span></a>
-    <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Открыть меню">
-      <svg class="bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      <svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
-    </button>
-    <div class="menu" id="menu">
-      <nav class="main" aria-label="Разделы">
-        <a href="#journal">Журнал</a><a href="calculator/">Калькулятор</a><a href="#checkups">Чекапы</a><a href="#shop">Товары</a><a href="#money">Как мы выбираем товары</a><a href="about/">О нас</a>
-      </nav>
-      <a class="btn accent" href="#about">Подписаться</a>
-    </div>
-    <button class="theme" type="button" id="theme" aria-label="Включить тёмную тему">
-      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-    </button>
-  </div>
-</header>
-
+{% block content %}
 <main id="top">
 <section class="hero">
   <div class="wrap">
@@ -305,7 +274,7 @@ section{padding-block:4.5rem}
   <div class="wrap">
     <div class="sec-head">
       <div><span class="eyebrow">Журнал</span><h2 class="h2">Свежие материалы</h2></div>
-      <div class="tabs" id="tabs" role="group" aria-label="Темы"></div>
+      <div class="tabs" id="tabs" role="group" aria-label="Темы"><button type="button" aria-pressed="true">Все</button>{% for t, c in topics %}<button type="button" aria-pressed="false">{{ t }}</button>{% endfor %}</div>
     </div>
 
     <div class="jgrid">
@@ -323,7 +292,11 @@ section{padding-block:4.5rem}
       </a>
 
       <div>
-        <ul class="posts" id="posts"></ul>
+        <ul class="posts" id="posts">
+          {%- for n in collections.notes %}
+          <li data-t="{{ n.data.topic }}"><details><summary><span class="meta"><span>{{ n.date | ruDay }}</span><span class="dot" style="--c:{{ topics[n.data.topic] }}">{{ n.data.topic }}</span><span class="kind">короткая заметка</span></span><h4>{{ n.data.title }}</h4></summary><div>{{ n.content | safe }}</div></details></li>
+          {%- endfor %}
+        </ul>
         <button class="more showall" type="button" id="showall" hidden>Показать все заметки</button>
       </div>
     </div>
@@ -470,24 +443,9 @@ section{padding-block:4.5rem}
   </div>
 </section>
 </main>
+{% endblock %}
 
-<footer class="site">
-  <div class="wrap">
-    <div class="fgrid">
-      <div>
-        <a class="logo" href="./"><span class="mark" aria-hidden="true"><svg viewBox="0 0 200 200" aria-hidden="true"><polygon fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linejoin="miter" stroke-miterlimit="10" points="100.0,10.0 119.6,27.0 145.0,22.1 153.5,46.5 177.9,55.0 173.0,80.4 190.0,100.0 173.0,119.6 177.9,145.0 153.5,153.5 145.0,177.9 119.6,173.0 100.0,190.0 80.4,173.0 55.0,177.9 46.5,153.5 22.1,145.0 27.0,119.6 10.0,100.0 27.0,80.4 22.1,55.0 46.5,46.5 55.0,22.1 80.4,27.0"/><path fill="#FFFFFF" d="M100,72 L157,100 L100,128 L43,100 Z"/></svg></span><span class="word">pHealth</span></a>
-        <p>Здоровье без мифов: журнал, анализы и товары в Алматы.</p>
-      </div>
-      <div><h4>Журнал</h4><ul><li><a href="#journal">Все статьи</a></li><li><a href="vitamin-d/">Витамин D</a></li><li><a href="calculator/">Калькулятор дозы</a></li><li><a href="#evidence">Как читать метки</a></li></ul></div>
-      <div><h4>Сервис</h4><ul><li><a href="#checkups">Чекапы</a></li><li><a href="#shop">Товары</a></li><li><a href="#checkups">Доставка и оплата</a></li></ul></div>
-      <div><h4>О проекте</h4><ul><li><a href="about/">О нас</a></li><li><a href="#money">Как мы выбираем товары</a></li><li><a href="about/#fact-check">Как мы проверяем факты</a></li><li><a href="about/#contacts">Контакты</a></li></ul></div>
-    </div>
-    <div class="fstrip" aria-hidden="true"></div>
-    <div class="legal"><span>© 2026 pHealth · phealth.space</span><span>Материалы носят информационный характер и не заменяют консультацию врача. БАД не является лекарственным средством.</span></div>
-  </div>
-</footer>
-
-<script src="assets/site.js"></script>
+{% block script %}
 <script>
 const colors=["#D7263D","#E4572E","#F08A24","#F3B61F","#C9C531","#8CC63F","#46B85A","#2FA37A","#1F9A9E","#2287C4","#2F6CC4","#3E55B8","#4E3FA8","#5E2E96","#6B2182"];
 const notes=[
@@ -520,40 +478,23 @@ colors.forEach((c,i)=>{
 });
 pick(7);
 
-const topics={"Добавки":"#3E55B8","Лекарства":"#2287C4","Первая помощь":"#E4572E","Спорт":"#46B85A","Сон":"#5E2E96"};
-const posts=[
- {d:"18 сентября",t:"Добавки",h:"Как читать состав БАДа: что значит «в пересчёте на элементный магний»",
-  b:["На банке написано «магния цитрат 500 мг», но магния в таблетке около 80 мг: цитрат это соль, и сам магний составляет в ней примерно 16%.","Хорошие производители указывают именно элементный магний. Если такой строки нет, пересчитайте сами."]},
- {d:"15 сентября",t:"Первая помощь",h:"Щелочной ожог: почему он опаснее кислотного",
-  b:["Кислота сворачивает белки, и плотный струп тормозит её. Щёлочь разжижает ткань и уходит вглубь.","Промывать проточной водой минимум 20 минут и сразу к врачу. Нейтрализовать уксусом нельзя."]},
- {d:"8 сентября",t:"Лекарства",h:"Изжога: чем антациды отличаются от омепразола",
-  b:["Антациды нейтрализуют кислоту, которая уже есть, и помогают за минуты. Омепразол снижает её выработку, но работает не сразу.","Изжога чаще двух раз в неделю — повод пойти к врачу."]},
- {d:"4 сентября",t:"Спорт",h:"Кофеин перед стартом: работает ли чашка кофе на 10 км",
-  b:["У кофеина хорошая доказательная база: эффект на выносливость небольшой, но заметный.","Не пробуйте ничего нового в день забега. Проверьте реакцию на тренировке."]},
- {d:"28 августа",t:"Добавки",h:"Почему омега-3 пахнет рыбой и что это говорит о качестве",
-  b:["Сильный запах часто значит, что жир окислился. Такая омега-3 хуже по качеству.","Ищите показатель окисления TOTOX или сертификаты независимых лабораторий."]},
- {d:"21 августа",t:"Сон",h:"Мелатонин: почему меньшие дозы иногда работают лучше",
-  b:["В аптеках мелатонин по 3–10 мг, хотя в исследованиях эффект получали и на дозах меньше миллиграмма.","Мелатонин сдвигает время засыпания, поэтому важнее время приёма, чем доза."]}
-];
+// Заметки журнала собираются из файлов src/notes/*.md. Здесь только фильтр по темам и «Показать все».
 const SHORT=4;
 const list=document.getElementById("posts"), tabs=document.getElementById("tabs"), showall=document.getElementById("showall");
+const items=[...list.children];
 let topic="Все", expanded=false;
-["Все",...Object.keys(topics)].forEach((n,i)=>{
-  const b=document.createElement("button");b.type="button";b.textContent=n;b.setAttribute("aria-pressed",i===0);
-  b.onclick=()=>{tabs.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));topic=n;render()};
-  tabs.appendChild(b);
+tabs.querySelectorAll("button").forEach(b=>{
+  b.onclick=()=>{tabs.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));topic=b.textContent;render()};
 });
 showall.onclick=()=>{expanded=true;render()};
 function render(){
-  const shown=posts.filter(p=>topic==="Все"||p.t===topic);
-  const cut=!expanded&&shown.length>SHORT;
-  list.innerHTML="";
-  (cut?shown.slice(0,SHORT):shown).forEach(p=>{
-    const li=document.createElement("li");
-    li.innerHTML=`<details><summary><span class="meta"><span>${p.d}</span><span class="dot" style="--c:${topics[p.t]}">${p.t}</span><span class="kind">короткая заметка</span></span><h4>${p.h}</h4></summary><div>${p.b.map(x=>`<p>${x}</p>`).join("")}</div></details>`;
-    list.appendChild(li);
+  let n=0;
+  items.forEach(li=>{
+    const ok=topic==="Все"||li.dataset.t===topic;
+    li.hidden=!ok||(!expanded&&n>=SHORT);
+    if(ok)n++;
   });
-  showall.hidden=!cut;
+  showall.hidden=expanded||n<=SHORT;
 }
 render();
 
@@ -563,5 +504,4 @@ document.getElementById("sub").addEventListener("submit",e=>{
   m.textContent=/^\S+@\S+\.\S+$/.test(v)?"Готово. Первое письмо придёт с новой статьёй.":"Проверьте адрес: в нём должны быть @ и домен, например name@mail.kz.";
 });
 </script>
-</body>
-</html>
+{% endblock %}

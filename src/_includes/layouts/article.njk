@@ -1,0 +1,150 @@
+{% extends "layouts/base.njk" %}
+{#- Шаблон статьи журнала. Текст статьи пишется в Markdown, см. src/vitamin-d/index.md -#}
+
+{% block title %}{{ title }} — pHealth{% endblock %}
+
+{% block style %}
+<style>
+/* Стили только статьи. Общие — в assets/style.css */
+body{font-size:1.125rem;line-height:1.75}
+.narrow{max-width:68rem}
+
+/* article grid: left rail (7rem) like the list on the main page */
+.art{display:grid;grid-template-columns:7rem minmax(0,40rem) 1fr;gap:1rem;padding:2.5rem 0 1rem}
+.art>*{grid-column:2}
+.back{font-size:.95rem;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--ink)}
+.meta{display:flex;flex-wrap:wrap;gap:1rem;margin:1.5rem 0 .75rem;font-size:.9rem;color:var(--muted)}
+.ph{display:inline-flex;align-items:center;gap:.4rem}
+.ph i{font:700 .72rem var(--display);font-style:normal;color:#fff;background:var(--c);border-radius:4px;padding:.15rem .4rem}
+.tag::before{content:"";display:inline-block;width:.6rem;height:.6rem;border-radius:50%;background:var(--sage);margin-right:.4rem;vertical-align:.05rem}
+.by{display:inline-flex;align-items:center;gap:.35rem}
+.av{width:1.1rem;height:1.1rem;display:inline-flex;align-items:center;justify-content:center;font:700 .55rem var(--display);border-radius:3px;background:var(--accent);color:#fff}
+h1{font:900 clamp(2rem,6vw,3.6rem)/1.05 var(--display);letter-spacing:-.03em;margin:0}
+.lead{font-size:1.25rem;color:var(--muted);margin:1.25rem 0 0}
+
+/* evidence badge: 4-segment meter + word, echoes the pH scale */
+.ev{display:inline-flex;align-items:center;gap:.45rem;font:700 .7rem var(--display);color:var(--ink);
+  background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:.2rem .65rem .2rem .45rem;
+  white-space:nowrap;vertical-align:.15rem;text-decoration:none;cursor:pointer}
+.ev .m{display:inline-grid;grid-template-columns:repeat(4,5px);gap:2px}
+.ev .m b{height:10px;border-radius:1.5px;background:var(--line)}
+.ev[data-l="4"] .m b{background:var(--l4)}
+.ev[data-l="3"] .m b:nth-child(-n+3){background:var(--l3)}
+.ev[data-l="2"] .m b:nth-child(-n+2){background:var(--l2)}
+.ev[data-l="1"] .m b:nth-child(1){background:var(--l1)}
+.ev[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+
+/* legend = the one bold element */
+.legend{margin:2.5rem 0 0;padding:1.25rem;background:var(--paper);border:1px solid var(--line);border-radius:10px}
+.legend h2{font:700 1rem var(--display);margin:0 0 .35rem}
+.legend p{margin:0 0 1rem;font-size:.95rem;color:var(--muted)}
+.lv{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem}
+.lv button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:.45rem;padding:.7rem;border-radius:8px;border:1px solid var(--line)}
+.lv button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.lv button[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.lv .bar{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+.lv .bar b{height:8px;border-radius:2px;background:var(--line)}
+.lv [data-l="4"] .bar b{background:var(--l4)}
+.lv [data-l="3"] .bar b:nth-child(-n+3){background:var(--l3)}
+.lv [data-l="2"] .bar b:nth-child(-n+2){background:var(--l2)}
+.lv [data-l="1"] .bar b:nth-child(1){background:var(--l1)}
+.lv strong{font:700 .8rem var(--display)}
+.lv span{font-size:.85rem;line-height:1.4;color:var(--muted)}
+.hint{min-height:1.5rem;margin-top:.75rem;font-size:.9rem;color:var(--muted)}
+.hint button{font:inherit;background:none;border:0;color:var(--accent);text-decoration:underline;cursor:pointer;padding:0;margin-left:.4rem}
+
+.art h2.s{font:700 1.3rem/1.3 var(--display);margin:3rem 0 .25rem}
+.ctx{font-size:.95rem;color:var(--muted);margin:0 0 1rem}
+.claim{margin:0 0 1.25rem;transition:opacity .2s}
+.claim .ev{margin-right:.4rem}
+.dim .claim.off{opacity:.25}
+sup a{text-decoration:none;font-size:.75em;padding:0 .1em}
+p{margin:0 0 1rem}
+.note{margin:1.5rem 0;padding:.8rem 1rem;border-left:3px solid var(--accent);background:var(--paper);font-size:.95rem;color:var(--muted)}
+.note b{color:var(--ink)}
+.dispute{border-left-color:var(--l2)}
+
+.src{margin:3rem 0 0;padding-top:1.5rem;border-top:1px solid var(--line)}
+.src h2{font:700 1rem var(--display);margin:0 0 .75rem}
+.src ol{margin:0;padding-left:1.4rem;font-size:.9rem;line-height:1.55;color:var(--muted)}
+.src li{margin-bottom:.5rem}
+.ai{font-size:.9rem;color:var(--muted);margin-top:1.5rem}
+
+@media (prefers-reduced-motion:reduce){.claim{transition:none}}
+@media (max-width:640px){
+  .art{grid-template-columns:minmax(0,1fr)}
+  .art>*{grid-column:1}
+  .lv{grid-template-columns:repeat(2,1fr)}
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="wrap narrow">
+
+  <article class="art" id="art">
+    <a class="back" href="{{ '/#journal' | rel(page.url) }}">&larr; Все статьи</a>
+
+    <div class="meta">
+      <span>{{ page.date | ruDate }}</span>
+      {% if ph %}<span class="ph" style="--c:{{ ph.color }}"><i>pH {{ ph.value }}</i>{{ ph.label }}</span>{% endif %}
+      <span class="tag">{{ topic }}</span>
+      <span class="by"><span class="av">{{ author | first }}</span>{{ author }}</span>
+    </div>
+
+    <h1>{{ title }}</h1>
+    <p class="lead">{{ lead }}</p>
+
+    <section class="legend" aria-labelledby="lg">
+      <h2 id="lg">Как читать метки</h2>
+      <p>Метка стоит у каждого утверждения об эффекте и показывает, насколько надёжно он доказан. Нажмите на уровень, чтобы подсветить утверждения. Подробнее в статье <a href="{{ '/#evidence' | rel(page.url) }}">«Как читать метки»</a>.</p>
+      <div class="lv" role="group" aria-label="Уровни доказательств">
+        <button type="button" data-l="4" aria-pressed="false"><span class="bar"><b></b><b></b><b></b><b></b></span><strong>Сильные</strong><span>Согласованные метаанализы клинических испытаний</span></button>
+        <button type="button" data-l="3" aria-pressed="false"><span class="bar"><b></b><b></b><b></b><b></b></span><strong>Умеренные</strong><span>Несколько испытаний, но с оговорками</span></button>
+        <button type="button" data-l="2" aria-pressed="false"><span class="bar"><b></b><b></b><b></b><b></b></span><strong>Ограниченные</strong><span>Мало данных, результаты расходятся</span></button>
+        <button type="button" data-l="1" aria-pressed="false"><span class="bar"><b></b><b></b><b></b><b></b></span><strong>Не подтверждено</strong><span>Испытания эффекта не нашли</span></button>
+      </div>
+      <div class="hint" id="hint" aria-live="polite"></div>
+    </section>
+
+{{ content | safe }}
+    <section class="src" aria-labelledby="sr">
+      <h2 id="sr">Источники</h2>
+      <ol>
+        {%- for s in sources %}
+        <li id="s{{ loop.index }}">{{ s }}</li>
+        {%- endfor %}
+      </ol>
+      {% if aiNote %}<p class="ai">{{ aiNote }}</p>{% endif %}
+    </section>
+  </article>
+
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+const art=document.getElementById("art"), hint=document.getElementById("hint");
+const names={4:"Сильные",3:"Умеренные",2:"Ограниченные",1:"Не подтверждено"};
+let cur=null;
+function set(l){
+  cur=(cur===l)?null:l;
+  art.classList.toggle("dim",cur!==null);
+  art.querySelectorAll(".claim").forEach(c=>c.classList.toggle("off",c.dataset.l!==cur));
+  document.querySelectorAll(".lv button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===cur));
+  art.querySelectorAll(".claim .ev").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===cur));
+  if(cur){
+    const n=art.querySelectorAll(`.claim[data-l="${cur}"]`).length;
+    hint.innerHTML=`Подсвечено: <b>${names[cur]}</b>, утверждений: ${n}. <button type="button" id="rs">Показать все</button>`;
+    document.getElementById("rs").onclick=()=>set(cur);
+  } else hint.textContent="";
+}
+document.querySelectorAll(".lv button").forEach(b=>b.onclick=()=>set(b.dataset.l));
+art.querySelectorAll(".claim .ev").forEach(b=>{
+  b.onclick=()=>{set(b.dataset.l);document.querySelector(".legend").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth",block:"nearest"})};
+  b.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();b.click()}};
+});
+</script>
+{% endblock %}

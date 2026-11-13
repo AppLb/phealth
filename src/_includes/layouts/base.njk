@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{% block title %}{{ title }}{% endblock %}</title>
+{% if description %}<meta name="description" content="{{ description }}">
+{% endif %}<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700;900&family=Literata:opsz,wght@7..72,400;7..72,600&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ '/assets/style.css' | rel(page.url) }}">
+<script src="{{ '/assets/theme.js' | rel(page.url) }}"></script>
+<link rel="icon" href="{{ '/favicon.ico' | rel(page.url) }}" sizes="any">
+<link rel="icon" href="{{ '/assets/favicon.svg' | rel(page.url) }}" type="image/svg+xml">
+<link rel="apple-touch-icon" href="{{ '/assets/apple-touch-icon.png' | rel(page.url) }}">
+{% block style %}{% endblock %}
+</head>
+<body>
+{% include "partials/header.njk" %}
+{% block content %}{% endblock %}
+
+{% include "partials/footer.njk" %}
+
+<script src="{{ '/assets/site.js' | rel(page.url) }}"></script>
+{% block script %}{% endblock %}
+</body>
+</html>
