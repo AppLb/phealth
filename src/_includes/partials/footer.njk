@@ -1,0 +1,14 @@
+<footer class="site">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="logo" href="{{ '/' | rel(page.url) }}">{% include "partials/mark.njk" %}<span class="word">pHealth</span></a>
+        <p>Здоровье без мифов: журнал, анализы и товары в Алматы.</p>
+      </div>
+      {% for col in site.footer %}<div><h4>{{ col.title }}</h4><ul>{% for l in col.links %}<li><a href="{{ l.href | rel(page.url) }}">{{ l.label }}</a></li>{% endfor %}</ul></div>
+      {% endfor %}
+    </div>
+    <div class="fstrip" aria-hidden="true"></div>
+    <div class="legal"><span>© 2026 pHealth · phealth.space</span><span>Материалы носят информационный характер и не заменяют консультацию врача. БАД не является лекарственным средством.</span></div>
+  </div>
+</footer>
