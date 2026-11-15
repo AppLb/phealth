@@ -1,6 +1,8 @@
 // Настройки сборки сайта pHealth.
 // Исходники лежат в src/, готовый сайт собирается в _site/.
 
+import fs from "node:fs";
+
 export default function (eleventyConfig) {
   // Файлы, которые копируются как есть
   eleventyConfig.addPassthroughCopy("src/assets");
@@ -32,6 +34,28 @@ export default function (eleventyConfig) {
   eleventyConfig.addCollection("notes", (api) =>
     api.getFilteredByGlob("src/notes/*.md").sort((a, b) => b.date - a.date)
   );
+
+  // Статьи (страницы с шаблоном статьи) — новые сверху. Самая новая становится
+  // большой карточкой в журнале на главной.
+  const isArticle = (i) => i.data.layout === "layouts/article.njk";
+  const byDateDesc = (a, b) => b.date - a.date;
+  eleventyConfig.addCollection("articles", (api) => api.getAll().filter(isArticle).sort(byDateDesc));
+
+  // Список журнала на главной: заметки и все статьи, кроме самой новой, по дате
+  eleventyConfig.addCollection("journalList", (api) => {
+    const older = api.getAll().filter(isArticle).sort(byDateDesc).slice(1);
+    return [...api.getFilteredByGlob("src/notes/*.md"), ...older].sort(byDateDesc);
+  });
+
+  // Есть ли в списке материалы с такой темой — чтобы не показывать пустые вкладки
+  eleventyConfig.addFilter("hasTopic", (list, topic) => list.some((i) => i.data.topic === topic));
+
+  // Сколько в статье утверждений каждого уровня: считает {% claim N %} в исходнике
+  eleventyConfig.addFilter("tally", (inputPath) => {
+    const counts = { 4: 0, 3: 0, 2: 0, 1: 0 };
+    for (const m of fs.readFileSync(inputPath, "utf8").matchAll(/\{%\s*claim\s+(\d)/g)) counts[m[1]]++;
+    return counts;
+  });
 
   // ---------- Шорткоды для статей ----------
   const levels = { 4: "Сильные", 3: "Умеренные", 2: "Ограниченные", 1: "Не подтверждено" };
