@@ -19,6 +19,7 @@ body{font-size:1.125rem;line-height:1.75}
 .ph i{font:700 .72rem var(--display);font-style:normal;color:#fff;background:var(--c);border-radius:4px;padding:.15rem .4rem}
 .tag::before{content:"";display:inline-block;width:.6rem;height:.6rem;border-radius:50%;background:var(--sage);margin-right:.4rem;vertical-align:.05rem}
 .by{display:inline-flex;align-items:center;gap:.35rem}
+.by .mark{width:1.3rem;height:1.3rem;border-radius:4px}
 .av{width:1.1rem;height:1.1rem;display:inline-flex;align-items:center;justify-content:center;font:700 .55rem var(--display);border-radius:3px;background:var(--accent);color:#fff}
 h1{font:900 clamp(2rem,6vw,3.6rem)/1.05 var(--display);letter-spacing:-.03em;margin:0}
 .lead{font-size:1.25rem;color:var(--muted);margin:1.25rem 0 0}
@@ -91,7 +92,7 @@ p{margin:0 0 1rem}
       <span>{{ page.date | ruDate }}</span>
       {% if ph %}<span class="ph" style="--c:{{ ph.color }}"><i>pH {{ ph.value }}</i>{{ ph.label }}</span>{% endif %}
       <span class="tag">{{ topic }}</span>
-      <span class="by"><span class="av">{{ author | first }}</span>{{ author }}</span>
+      <span class="by">{% if "pHealth" in author %}{% include "partials/mark.njk" %}{% else %}<span class="av">{{ author | first }}</span>{% endif %}{{ author }}</span>
     </div>
 
     <h1>{{ title }}</h1>
