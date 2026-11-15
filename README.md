@@ -1,4 +1,4 @@
-# pHealth — phealth.space
+# pHealth — phealth.kz
 
 Сайт собирается генератором [Eleventy](https://www.11ty.dev/) из файлов в `src/`.
 
