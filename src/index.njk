@@ -79,6 +79,9 @@ section{padding-block:4.5rem}
 .posts h4{font:700 1.05rem/1.35 var(--display);letter-spacing:-.01em;margin:0}
 .posts details p{margin:0 0 .9rem;max-width:38rem}
 .posts details>div{padding-bottom:1.2rem}
+.posts li>a{display:grid;gap:.4rem;padding:1.1rem 2rem 1.1rem 0;position:relative;text-decoration:none;color:var(--ink)}
+.posts li>a::after{content:"→";position:absolute;right:.2rem;top:1.05rem;font:500 1.3rem var(--ui);color:var(--muted)}
+.posts li>a:hover h4{color:var(--accent)}
 .showall{margin-top:1rem;background:none;border:0;padding:.5rem 0;cursor:pointer}
 .dot{display:inline-flex;align-items:center;gap:.4rem}
 .dot::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:var(--c)}
@@ -274,27 +277,32 @@ section{padding-block:4.5rem}
   <div class="wrap">
     <div class="sec-head">
       <div><span class="eyebrow">Журнал</span><h2 class="h2">Свежие материалы</h2></div>
-      <div class="tabs" id="tabs" role="group" aria-label="Темы"><button type="button" aria-pressed="true">Все</button>{% for t, c in topics %}<button type="button" aria-pressed="false">{{ t }}</button>{% endfor %}</div>
+      <div class="tabs" id="tabs" role="group" aria-label="Темы"><button type="button" aria-pressed="true">Все</button>{% for t, c in topics %}{% if collections.journalList | hasTopic(t) %}<button type="button" aria-pressed="false">{{ t }}</button>{% endif %}{% endfor %}</div>
     </div>
 
     <div class="jgrid">
-      <a class="feature" href="vitamin-d/">
-        <div class="cover"><b>D</b><span>Полный разбор</span></div>
-        <div class="meta"><span>22 сентября 2026</span><span class="dot" style="--c:#F3B61F">Витамины</span><span>Archi</span></div>
-        <h3>Витамин D: что доказано, а что нет</h3>
-        <p>Сильные доказательства есть для одной ситуации: дефицита. Разбираем по пунктам простуду, переломы, рак и депрессию.</p>
+      {%- set a = collections.articles[0] %}
+      {%- set counts = a.inputPath | tally %}
+      <a class="feature" href="{{ a.url | rel(page.url) }}">
+        <div class="cover"><b>{{ a.data.cover }}</b><span>Полный разбор</span></div>
+        <div class="meta"><span>{{ a.date | ruDate }}</span><span class="dot" style="--c:{{ topics[a.data.topic] }}">{{ a.data.topic }}</span><span>{{ a.data.author }}</span></div>
+        <h3>{{ a.data.title }}</h3>
+        <p>{{ a.data.teaser }}</p>
         <div class="tally" aria-label="Метки в статье">
-          <span class="ev" data-l="4"><span class="m"><b></b><b></b><b></b><b></b></span>Сильные<em>1</em></span>
-          <span class="ev" data-l="3"><span class="m"><b></b><b></b><b></b><b></b></span>Умеренные<em>1</em></span>
-          <span class="ev" data-l="2"><span class="m"><b></b><b></b><b></b><b></b></span>Ограниченные<em>1</em></span>
-          <span class="ev" data-l="1"><span class="m"><b></b><b></b><b></b><b></b></span>Не подтверждено<em>3</em></span>
+          {%- for l, name in { "4": "Сильные", "3": "Умеренные", "2": "Ограниченные", "1": "Не подтверждено" } | dictsort | reverse %}
+          <span class="ev" data-l="{{ l }}"><span class="m"><b></b><b></b><b></b><b></b></span>{{ name }}<em>{{ counts[l] }}</em></span>
+          {%- endfor %}
         </div>
       </a>
 
       <div>
         <ul class="posts" id="posts">
-          {%- for n in collections.notes %}
+          {%- for n in collections.journalList %}
+          {%- if n.data.layout == "layouts/article.njk" %}
+          <li data-t="{{ n.data.topic }}"><a href="{{ n.url | rel(page.url) }}"><span class="meta"><span>{{ n.date | ruDay }}</span><span class="dot" style="--c:{{ topics[n.data.topic] }}">{{ n.data.topic }}</span><span class="kind">полный разбор</span></span><h4>{{ n.data.title }}</h4></a></li>
+          {%- else %}
           <li data-t="{{ n.data.topic }}"><details><summary><span class="meta"><span>{{ n.date | ruDay }}</span><span class="dot" style="--c:{{ topics[n.data.topic] }}">{{ n.data.topic }}</span><span class="kind">короткая заметка</span></span><h4>{{ n.data.title }}</h4></summary><div>{{ n.content | safe }}</div></details></li>
+          {%- endif %}
           {%- endfor %}
         </ul>
         <button class="more showall" type="button" id="showall" hidden>Показать все заметки</button>
@@ -478,7 +486,7 @@ colors.forEach((c,i)=>{
 });
 pick(7);
 
-// Заметки журнала собираются из файлов src/notes/*.md. Здесь только фильтр по темам и «Показать все».
+// Журнал собирается сам: самая новая статья — большая карточка, остальные статьи и заметки из src/notes/*.md — список. Здесь только фильтр по темам и «Показать все».
 const SHORT=4;
 const list=document.getElementById("posts"), tabs=document.getElementById("tabs"), showall=document.getElementById("showall");
 const items=[...list.children];
