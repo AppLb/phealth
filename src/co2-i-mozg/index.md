@@ -5,6 +5,8 @@ description: "Углекислый газ в комнате, внимание и
 date: 2026-11-15
 topic: Воздух
 author: Archi
+cover: "CO₂"
+teaser: "Сам CO₂ в комнатных количествах, скорее всего, думать не мешает. Мешает душный воздух: работа идёт медленнее, а сон немного хуже."
 lead: "Пишут, что уже при 1000 ppm углекислого газа мозг работает на 15% хуже. На деле сам CO₂ в комнатных количествах, скорее всего, думать не мешает. Мешает душный воздух в целом, днём и ночью."
 sources:
   - text: "Satish U et al. Is CO2 an indoor pollutant? Direct effects of low-to-moderate CO2 concentrations on human decision-making performance. Environmental Health Perspectives, 2012."

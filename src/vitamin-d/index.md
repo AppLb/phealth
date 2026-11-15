@@ -5,6 +5,8 @@ description: "Витамин D при дефиците, для костей, о�
 date: 2026-09-22
 topic: Витамины
 author: Archi
+cover: "D"
+teaser: "Сильные доказательства есть для одной ситуации: дефицита. Разбираем по пунктам простуду, переломы, рак и депрессию."
 lead: "Витамин D называют средством почти от всего: от простуды, депрессии, рака. На деле сильные доказательства есть для одной ситуации — дефицита. Разбираем по пунктам."
 sources:
   - "Manson JE et al. Vitamin D supplements and prevention of cancer and cardiovascular disease (VITAL). New England Journal of Medicine, 2019."
