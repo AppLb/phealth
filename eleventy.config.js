@@ -2,6 +2,7 @@
 // Исходники лежат в src/, готовый сайт собирается в _site/.
 
 import fs from "node:fs";
+import path from "node:path";
 
 export default function (eleventyConfig) {
   // Файлы, которые копируются как есть
@@ -49,6 +50,12 @@ export default function (eleventyConfig) {
 
   // Есть ли в списке материалы с такой темой — чтобы не показывать пустые вкладки
   eleventyConfig.addFilter("hasTopic", (list, topic) => list.some((i) => i.data.topic === topic));
+
+  // Обложка статьи: файл cover.svg рядом с текстом статьи. Нет файла — запасной узор.
+  eleventyConfig.addFilter("coverSvg", (inputPath) => {
+    const own = path.join(path.dirname(inputPath), "cover.svg");
+    return fs.readFileSync(fs.existsSync(own) ? own : "src/_includes/covers/default.svg", "utf8");
+  });
 
   // Сколько в статье утверждений каждого уровня: считает {% claim N %} в исходнике
   eleventyConfig.addFilter("tally", (inputPath) => {
