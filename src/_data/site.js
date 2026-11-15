@@ -18,6 +18,7 @@ export default {
     { title: "Журнал", links: [
       { href: "/#journal", label: "Все статьи" },
       { href: "/vitamin-d/", label: "Витамин D" },
+      { href: "/co2-i-mozg/", label: "CO₂ и мозг" },
       { href: "/calculator/", label: "Калькулятор дозы" },
       { href: "/#evidence", label: "Как читать метки" },
     ]},
