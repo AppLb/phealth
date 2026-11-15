@@ -152,3 +152,9 @@ footer.site .logo{color:var(--foot)}
   .fgrid>div:first-child{grid-column:1/-1}
   .legal{flex-direction:column;gap:.4rem;font-size:.85rem}
 }
+
+/* Обложка статьи: синий фон логотипа, поверх узор из cover.svg и крупные буквы */
+.cover{position:relative;overflow:hidden;height:9rem;border-radius:.9rem;background:#0E2A47;color:#fff;display:flex;align-items:flex-end;justify-content:space-between;padding:1rem 1.2rem}
+.cover .pat{position:absolute;inset:0;width:100%;height:100%;display:block}
+.cover b{position:relative;font:900 3.2rem/1 var(--display);letter-spacing:-.05em}
+.cover span{position:relative;font:600 .8rem var(--ui);background:rgba(255,255,255,.94);color:#0E2A47;padding:.2rem .6rem;border-radius:999px}
