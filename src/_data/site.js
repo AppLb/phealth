@@ -6,7 +6,7 @@ export default {
   // Пункты меню в шапке. key — то, что страница пишет в nav: в своём заголовке,
   // чтобы подсветить свой раздел.
   nav: [
-    { key: "journal", href: "/#journal", label: "Журнал" },
+    { key: "journal", href: "/journal/", label: "Журнал" },
     { key: "calculator", href: "/calculator/", label: "Калькулятор" },
     { key: "checkups", href: "/#checkups", label: "Чекапы" },
     { key: "shop", href: "/#shop", label: "Товары" },
@@ -16,7 +16,7 @@ export default {
 
   footer: [
     { title: "Журнал", links: [
-      { href: "/#journal", label: "Все статьи" },
+      { href: "/journal/", label: "Все статьи" },
       { href: "/vitamin-d/", label: "Витамин D" },
       { href: "/co2-i-mozg/", label: "CO₂ и мозг" },
       { href: "/calculator/", label: "Калькулятор дозы" },

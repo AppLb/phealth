@@ -59,9 +59,6 @@ section{padding-block:4.5rem}
 .tabs button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .jgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:2.5rem;align-items:start}
 .feature{display:grid;gap:1rem;padding:1.75rem;border-radius:1.25rem;background:var(--bg);text-decoration:none;color:var(--ink)}
-.feature .cover{height:9rem;border-radius:.9rem;background:linear-gradient(90deg,var(--cover-a),var(--cover-b));display:flex;align-items:flex-end;justify-content:space-between;padding:1rem 1.2rem;color:var(--cover-ink)}
-.feature .cover b{font:900 3.2rem/1 var(--display);letter-spacing:-.05em}
-.feature .cover span{font:600 .8rem var(--ui);background:var(--chip-bg);padding:.2rem .6rem;border-radius:999px}
 .feature h3{font:700 1.5rem/1.2 var(--display);letter-spacing:-.02em;margin:0}
 .feature p{margin:0;color:var(--muted)}
 .feature:hover h3{color:var(--accent)}
@@ -284,7 +281,7 @@ section{padding-block:4.5rem}
       {%- set a = collections.articles[0] %}
       {%- set counts = a.inputPath | tally %}
       <a class="feature" href="{{ a.url | rel(page.url) }}">
-        <div class="cover"><b>{{ a.data.cover }}</b><span>Полный разбор</span></div>
+        <div class="cover">{{ a.inputPath | coverSvg | safe }}<b>{{ a.data.cover }}</b><span>Полный разбор</span></div>
         <div class="meta"><span>{{ a.date | ruDate }}</span><span class="dot" style="--c:{{ topics[a.data.topic] }}">{{ a.data.topic }}</span><span>{{ a.data.author }}</span></div>
         <h3>{{ a.data.title }}</h3>
         <p>{{ a.data.teaser }}</p>
@@ -306,6 +303,7 @@ section{padding-block:4.5rem}
           {%- endfor %}
         </ul>
         <button class="more showall" type="button" id="showall" hidden>Показать все заметки</button>
+        <p style="margin:1rem 0 0"><a class="more" href="journal/">Все материалы журнала →</a></p>
       </div>
     </div>
   </div>
