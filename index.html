@@ -88,6 +88,9 @@ section{padding-block:4.5rem}
 .posts h4{font:700 1.05rem/1.35 var(--display);letter-spacing:-.01em;margin:0}
 .posts details p{margin:0 0 .9rem;max-width:38rem}
 .posts details>div{padding-bottom:1.2rem}
+.posts li>a{display:grid;gap:.4rem;padding:1.1rem 2rem 1.1rem 0;position:relative;text-decoration:none;color:var(--ink)}
+.posts li>a::after{content:"→";position:absolute;right:.2rem;top:1.05rem;font:500 1.3rem var(--ui);color:var(--muted)}
+.posts li>a:hover h4{color:var(--accent)}
 .showall{margin-top:1rem;background:none;border:0;padding:.5rem 0;cursor:pointer}
 .dot{display:inline-flex;align-items:center;gap:.4rem}
 .dot::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:var(--c)}
@@ -306,28 +309,26 @@ section{padding-block:4.5rem}
   <div class="wrap">
     <div class="sec-head">
       <div><span class="eyebrow">Журнал</span><h2 class="h2">Свежие материалы</h2></div>
-      <div class="tabs" id="tabs" role="group" aria-label="Темы"><button type="button" aria-pressed="true">Все</button><button type="button" aria-pressed="false">Добавки</button><button type="button" aria-pressed="false">Лекарства</button><button type="button" aria-pressed="false">Первая помощь</button><button type="button" aria-pressed="false">Спорт</button><button type="button" aria-pressed="false">Сон</button><button type="button" aria-pressed="false">Воздух</button></div>
+      <div class="tabs" id="tabs" role="group" aria-label="Темы"><button type="button" aria-pressed="true">Все</button><button type="button" aria-pressed="false">Витамины</button><button type="button" aria-pressed="false">Добавки</button><button type="button" aria-pressed="false">Лекарства</button><button type="button" aria-pressed="false">Первая помощь</button><button type="button" aria-pressed="false">Спорт</button><button type="button" aria-pressed="false">Сон</button></div>
     </div>
 
     <div class="jgrid">
-      <a class="feature" href="vitamin-d/">
-        <div class="cover"><b>D</b><span>Полный разбор</span></div>
-        <div class="meta"><span>22 сентября 2026</span><span class="dot" style="--c:#F3B61F">Витамины</span><span>Archi</span></div>
-        <h3>Витамин D: что доказано, а что нет</h3>
-        <p>Сильные доказательства есть для одной ситуации: дефицита. Разбираем по пунктам простуду, переломы, рак и депрессию.</p>
+      <a class="feature" href="co2-i-mozg/">
+        <div class="cover"><b>CO₂</b><span>Полный разбор</span></div>
+        <div class="meta"><span>15 ноября 2026</span><span class="dot" style="--c:#1F9A9E">Воздух</span><span>Archi</span></div>
+        <h3>CO₂ и мозг: правда ли в душной комнате думается хуже</h3>
+        <p>Сам CO₂ в комнатных количествах, скорее всего, думать не мешает. Мешает душный воздух: работа идёт медленнее, а сон немного хуже.</p>
         <div class="tally" aria-label="Метки в статье">
-          <span class="ev" data-l="4"><span class="m"><b></b><b></b><b></b><b></b></span>Сильные<em>1</em></span>
+          <span class="ev" data-l="4"><span class="m"><b></b><b></b><b></b><b></b></span>Сильные<em>0</em></span>
           <span class="ev" data-l="3"><span class="m"><b></b><b></b><b></b><b></b></span>Умеренные<em>1</em></span>
-          <span class="ev" data-l="2"><span class="m"><b></b><b></b><b></b><b></b></span>Ограниченные<em>1</em></span>
-          <span class="ev" data-l="1"><span class="m"><b></b><b></b><b></b><b></b></span>Не подтверждено<em>3</em></span>
+          <span class="ev" data-l="2"><span class="m"><b></b><b></b><b></b><b></b></span>Ограниченные<em>2</em></span>
+          <span class="ev" data-l="1"><span class="m"><b></b><b></b><b></b><b></b></span>Не подтверждено<em>1</em></span>
         </div>
       </a>
 
       <div>
         <ul class="posts" id="posts">
-          <li data-t="Воздух"><details><summary><span class="meta"><span>15 ноября</span><span class="dot" style="--c:#1F9A9E">Воздух</span><span class="kind">короткая заметка</span></span><h4>CO₂ и мозг: правда ли в душной комнате думается хуже</h4></summary><div><p>Сам углекислый газ в комнатных количествах, скорее всего, думать не мешает. Мешает душный воздух в целом: работа идёт медленнее, а сон немного хуже.</p>
-<p><a href="co2-i-mozg/">Полный разбор с метками и источниками →</a></p>
-</div></details></li>
+          <li data-t="Витамины"><a href="vitamin-d/"><span class="meta"><span>22 сентября</span><span class="dot" style="--c:#F3B61F">Витамины</span><span class="kind">полный разбор</span></span><h4>Витамин D: что доказано, а что нет</h4></a></li>
           <li data-t="Добавки"><details><summary><span class="meta"><span>18 сентября</span><span class="dot" style="--c:#3E55B8">Добавки</span><span class="kind">короткая заметка</span></span><h4>Как читать состав БАДа: что значит «в пересчёте на элементный магний»</h4></summary><div><p>На банке написано «магния цитрат 500 мг», но магния в таблетке около 80 мг: цитрат это соль, и сам магний составляет в ней примерно 16%.</p>
 <p>Хорошие производители указывают именно элементный магний. Если такой строки нет, пересчитайте сами.</p>
 </div></details></li>
@@ -547,7 +548,7 @@ colors.forEach((c,i)=>{
 });
 pick(7);
 
-// Заметки журнала собираются из файлов src/notes/*.md. Здесь только фильтр по темам и «Показать все».
+// Журнал собирается сам: самая новая статья — большая карточка, остальные статьи и заметки из src/notes/*.md — список. Здесь только фильтр по темам и «Показать все».
 const SHORT=4;
 const list=document.getElementById("posts"), tabs=document.getElementById("tabs"), showall=document.getElementById("showall");
 const items=[...list.children];
