@@ -114,7 +114,7 @@ p{margin:0 0 1rem}
       <h2 id="sr">Источники</h2>
       <ol>
         {%- for s in sources %}
-        <li id="s{{ loop.index }}">{{ s }}</li>
+        <li id="s{{ loop.index }}">{% if s.url %}<a href="{{ s.url }}" target="_blank" rel="noopener">{{ s.text }}</a>{% else %}{{ s }}{% endif %}</li>
         {%- endfor %}
       </ol>
       {% if aiNote %}<p class="ai">{{ aiNote }}</p>{% endif %}
