@@ -106,6 +106,39 @@ export default function (eleventyConfig) {
     `<div class="note${kind ? " " + kind : ""}"><b>${title}</b> ${body.trim()}</div>`
   );
 
+  // ---------- Словарь (src/slovar/) ----------
+  // Понятие в тексте: {% term "ppm" %}ppm{% endterm %} — ссылка на страницу понятия,
+  // по нажатию показывается карточка с коротким объяснением (assets/site.js).
+  // Если файла src/slovar/<slug>.md нет, сборка падает: так опечатки сразу видны.
+  const readTerm = (slug) => {
+    const file = `src/slovar/${slug}.md`;
+    if (!fs.existsSync(file)) throw new Error(`Словарь: нет понятия «${slug}» (${file})`);
+    const front = fs.readFileSync(file, "utf8").split(/^---\s*$/m)[1] || "";
+    const get = (k) => ((front.match(new RegExp(`^${k}:\\s*"(.*)"\\s*$`, "m")) || [])[1] || "");
+    return { title: get("title"), short: get("short") };
+  };
+  const attr = (v) => String(v).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+  eleventyConfig.addPairedShortcode("term", function (body, slug) {
+    const t = readTerm(slug);
+    const from = (this.page && this.page.url) || "/";
+    const depth = from.split("/").filter(Boolean).length;
+    const href = "../".repeat(depth) + `slovar/${slug}/`;
+    return `<a class="term" href="${href}" data-t="${attr(t.title)}" data-s="${attr(t.short)}">${body.trim()}</a>`;
+  });
+
+  eleventyConfig.addCollection("terms", (api) =>
+    api.getFilteredByGlob("src/slovar/*.md").sort((a, b) => a.data.order - b.data.order)
+  );
+
+  // Где встречается понятие: страницы, в исходнике которых есть {% term "slug" %}
+  eleventyConfig.addFilter("termUses", (all, slug) => {
+    const re = new RegExp(`\\{%-?\\s*term\\s+["']${slug}["']`);
+    return all.filter((p) => !p.inputPath.includes("/slovar/") && re.test(fs.readFileSync(p.inputPath, "utf8")));
+  });
+
+  // Понятие по адресу-слагу (для «Рядом» на странице понятия)
+  eleventyConfig.addFilter("termBySlug", (terms, slug) => terms.find((t) => t.fileSlug === slug));
+
   // Заголовки ## в статьях получают класс s — так они оформлены в стилях статьи
   eleventyConfig.amendLibrary("md", (md) => {
     md.renderer.rules.heading_open = (tokens, i, opts, env, self) => {

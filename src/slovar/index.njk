@@ -1,0 +1,51 @@
+---
+layout: false
+title: "Словарь — pHealth"
+description: "Короткие объяснения понятий из разборов pHealth: как читать исследования, воздух, витамины."
+---
+{% extends "layouts/base.njk" %}
+
+{% block style %}
+<style>
+/* Стили только страницы словаря. Общие — в assets/style.css */
+.shead{display:grid;gap:.9rem;padding-block:3.5rem 0}
+.shead h1{font:900 clamp(2rem,5vw,3.2rem)/1.05 var(--display);letter-spacing:-.03em;margin:0}
+.shead p{margin:0;color:var(--muted);font-size:1.1rem;max-width:38rem}
+.groups{padding-block:2.5rem 3.5rem}
+.groups>.in{display:grid;gap:2.25rem;max-width:56rem}
+.grp h2{font:700 .78rem var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 .5rem}
+.grp dl{margin:0;border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:14rem minmax(0,1fr);gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--line)}
+.row dt a{font:700 1rem var(--display);color:var(--ink);text-decoration:none}
+.row dt a:hover{color:var(--accent)}
+.row dd{margin:0;color:var(--muted)}
+.ai{font:400 .85rem/1.5 var(--ui);color:var(--muted);margin:0}
+@media (max-width:720px){
+  .shead{padding-top:2.5rem}
+  .row{grid-template-columns:minmax(0,1fr);gap:.2rem}
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<main>
+<div class="wrap shead">
+  <span class="eyebrow">Словарь</span>
+  <h1>Понятия коротко</h1>
+  <p>Что значат слова из наших разборов. В статьях такие слова подчёркнуты пунктиром: нажмите, чтобы увидеть объяснение.</p>
+</div>
+<div class="wrap groups"><div class="in">
+  {%- for g in ["Как читать исследования", "Воздух", "Витамины"] %}
+  <section class="grp">
+    <h2>{{ g }}</h2>
+    <dl>
+      {%- for t in collections.terms %}{% if t.data.group == g %}
+      <div class="row"><dt><a href="{{ t.url | rel(page.url) }}">{{ t.data.title }}</a></dt><dd>{{ t.data.short }}</dd></div>
+      {%- endif %}{% endfor %}
+    </dl>
+  </section>
+  {%- endfor %}
+  <p class="ai">Определения подготовлены с помощью нейросети. Мы их проверяем.</p>
+</div></div>
+</main>
+{% endblock %}
