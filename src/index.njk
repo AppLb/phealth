@@ -282,7 +282,7 @@ section{padding-block:4.5rem}
       {%- set counts = a.inputPath | tally %}
       <a class="feature" href="{{ a.url | rel(page.url) }}">
         <div class="cover">{{ a.inputPath | coverSvg | safe }}<b>{{ a.data.cover }}</b><span>Полный разбор</span></div>
-        <div class="meta"><span>{{ a.date | ruDate }}</span><span class="dot" style="--c:{{ topics[a.data.topic] }}">{{ a.data.topic }}</span><span>{{ a.data.author }}</span></div>
+        <div class="meta"><span>{{ a.date | ruDate }}</span><span class="dot" style="--c:{{ topics[a.data.topic] }}">{{ a.data.topic }}</span><span>{{ a.data.author }}</span><span>{{ a.inputPath | readMin }} мин чтения</span></div>
         <h3>{{ a.data.title }}</h3>
         <p>{{ a.data.teaser }}</p>
         <div class="tally" aria-label="Метки в статье">
