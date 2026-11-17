@@ -281,7 +281,7 @@ section{padding-block:4.5rem}
       {%- set a = collections.articles[0] %}
       {%- set counts = a.inputPath | tally %}
       <a class="feature" href="{{ a.url | rel(page.url) }}">
-        <div class="cover">{{ a.inputPath | coverSvg | safe }}<b>{{ a.data.cover }}</b><span>Полный разбор</span></div>
+        <div class="cover">{{ a.inputPath | coverSvg | safe }}<b>{{ a.data.cover }}</b><span>Разбор</span></div>
         <div class="meta"><span>{{ a.date | ruDate }}</span><span class="dot" style="--c:{{ topics[a.data.topic] }}">{{ a.data.topic }}</span><span>{{ a.data.author }}</span><span>{{ a.inputPath | readMin }} мин чтения</span></div>
         <h3>{{ a.data.title }}</h3>
         <p>{{ a.data.teaser }}</p>
@@ -296,14 +296,14 @@ section{padding-block:4.5rem}
         <ul class="posts" id="posts">
           {%- for n in collections.journalList %}
           {%- if n.data.layout == "layouts/article.njk" %}
-          <li data-t="{{ n.data.topic }}"><a href="{{ n.url | rel(page.url) }}"><span class="meta"><span>{{ n.date | ruDay }}</span><span class="dot" style="--c:{{ topics[n.data.topic] }}">{{ n.data.topic }}</span><span class="kind">полный разбор</span></span><h4>{{ n.data.title }}</h4></a></li>
+          <li data-t="{{ n.data.topic }}"><a href="{{ n.url | rel(page.url) }}"><span class="meta"><span>{{ n.date | ruDay }}</span><span class="dot" style="--c:{{ topics[n.data.topic] }}">{{ n.data.topic }}</span><span class="kind">разбор</span></span><h4>{{ n.data.title }}</h4></a></li>
           {%- else %}
           <li data-t="{{ n.data.topic }}"><details><summary><span class="meta"><span>{{ n.date | ruDay }}</span><span class="dot" style="--c:{{ topics[n.data.topic] }}">{{ n.data.topic }}</span><span class="kind">короткая заметка</span></span><h4>{{ n.data.title }}</h4></summary><div>{{ n.content | safe }}</div></details></li>
           {%- endif %}
           {%- endfor %}
         </ul>
         <button class="more showall" type="button" id="showall" hidden>Показать все заметки</button>
-        <p style="margin:1rem 0 0"><a class="more" href="journal/">Все материалы журнала →</a></p>
+        <p style="margin:1.5rem 0 0"><a class="btn" href="journal/">Все материалы журнала →</a></p>
       </div>
     </div>
   </div>
