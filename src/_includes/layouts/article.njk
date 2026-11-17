@@ -18,12 +18,15 @@ body{font-size:1.125rem;line-height:1.75}
 .banner{position:relative;overflow:hidden;height:11.5rem;margin-top:1.25rem;border-radius:1rem;background:#0E2A47}
 .banner .pat{position:absolute;inset:0;width:100%;height:100%;display:block}
 @media (max-width:720px){.banner{height:7rem;border-radius:.8rem;margin-top:1rem}}
-.meta{display:flex;flex-wrap:wrap;gap:1rem;margin:1.5rem 0 .75rem;font-size:.9rem;color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:.35rem 1rem;margin:1.5rem 0 .75rem;font-size:.9rem;color:var(--muted)}
 .ph{display:inline-flex;align-items:center;gap:.4rem}
 .ph i{font:700 .72rem var(--display);font-style:normal;color:#fff;background:var(--c);border-radius:4px;padding:.15rem .4rem}
 .tag::before{content:"";display:inline-block;width:.6rem;height:.6rem;border-radius:50%;background:var(--c,var(--sage));margin-right:.4rem;vertical-align:.05rem}
 .by{display:inline-flex;align-items:center;gap:.35rem}
-.by .mark{width:1.3rem;height:1.3rem;border-radius:4px}
+.ed{display:inline-grid;place-items:center;width:1.3rem;height:1.3rem;border-radius:4px;background:#0E2A47;flex:none}
+.ed svg{width:80%;height:80%;display:block}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ed{box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}}
+:root[data-theme="dark"] .ed{box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
 .av{width:1.1rem;height:1.1rem;display:inline-flex;align-items:center;justify-content:center;font:700 .55rem var(--display);border-radius:3px;background:var(--accent);color:#fff}
 h1{font:900 clamp(2rem,6vw,3.6rem)/1.05 var(--display);letter-spacing:-.03em;margin:0}
 .lead{font-size:1.25rem;color:var(--muted);margin:1.25rem 0 0}
@@ -97,7 +100,8 @@ p{margin:0 0 1rem}
       <span>{{ page.date | ruDate }}</span>
       {% if ph %}<span class="ph" style="--c:{{ ph.color }}"><i>pH {{ ph.value }}</i>{{ ph.label }}</span>{% endif %}
       <span class="tag" style="--c:{{ topics[topic] }}">{{ topic }}</span>
-      <span class="by">{% if "pHealth" in author %}{% include "partials/mark.njk" %}{% else %}<span class="av">{{ author | first }}</span>{% endif %}{{ author }}</span>
+      <span class="by">{% if "pHealth" in author %}{% include "partials/editor-badge.njk" %}{% else %}<span class="av">{{ author | first }}</span>{% endif %}{{ author }}</span>
+      <span>{{ page.inputPath | readMin }} мин чтения</span>
     </div>
 
     <h1>{{ title }}</h1>

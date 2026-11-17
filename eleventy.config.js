@@ -57,6 +57,21 @@ export default function (eleventyConfig) {
     return fs.readFileSync(fs.existsSync(own) ? own : "src/_includes/covers/default.svg", "utf8");
   });
 
+  // Время чтения статьи: слова лида и текста (без шорткодов, разметки и адресов ссылок) / 180 слов в минуту
+  eleventyConfig.addFilter("readMin", (inputPath) => {
+    const src = fs.readFileSync(inputPath, "utf8");
+    const parts = src.split(/^---\s*$/m);
+    const front = parts[1] || "", body = parts.slice(2).join("---");
+    const lead = (front.match(/^lead:\s*"(.*)"\s*$/m) || [])[1] || "";
+    const text = (lead + " " + body)
+      .replace(/\{%[\s\S]*?%\}/g, " ")
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/[#*_>|`-]+/g, " ");
+    const words = text.split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w)).length;
+    return Math.max(1, Math.round(words / 180));
+  });
+
   // Сколько в статье утверждений каждого уровня: считает {% claim N %} в исходнике
   eleventyConfig.addFilter("tally", (inputPath) => {
     const counts = { 4: 0, 3: 0, 2: 0, 1: 0 };
