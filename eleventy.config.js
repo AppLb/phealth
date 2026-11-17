@@ -107,7 +107,7 @@ export default function (eleventyConfig) {
   );
 
   // ---------- Словарь (src/slovar/) ----------
-  // Понятие в тексте: {% term "ppm" %}ppm{% endterm %} — ссылка на страницу понятия,
+  // Понятие в тексте: {% term "ppm" %}ppm{% endterm %} — ссылка на понятие на странице словаря,
   // по нажатию показывается карточка с коротким объяснением (assets/site.js).
   // Если файла src/slovar/<slug>.md нет, сборка падает: так опечатки сразу видны.
   const readTerm = (slug) => {
@@ -122,7 +122,7 @@ export default function (eleventyConfig) {
     const t = readTerm(slug);
     const from = (this.page && this.page.url) || "/";
     const depth = from.split("/").filter(Boolean).length;
-    const href = "../".repeat(depth) + `slovar/${slug}/`;
+    const href = "../".repeat(depth) + `slovar/#${slug}`;
     return `<a class="term" href="${href}" data-t="${attr(t.title)}" data-s="${attr(t.short)}">${body.trim()}</a>`;
   });
 
@@ -136,7 +136,7 @@ export default function (eleventyConfig) {
     return all.filter((p) => !p.inputPath.includes("/slovar/") && re.test(fs.readFileSync(p.inputPath, "utf8")));
   });
 
-  // Понятие по адресу-слагу (для «Рядом» на странице понятия)
+  // Понятие по слагу (для «Рядом» в словаре)
   eleventyConfig.addFilter("termBySlug", (terms, slug) => terms.find((t) => t.fileSlug === slug));
 
   // Заголовки ## в статьях получают класс s — так они оформлены в стилях статьи
