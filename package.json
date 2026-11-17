@@ -2,7 +2,7 @@
   "name": "phealth",
   "private": true,
   "type": "module",
-  "description": "Сайт pHealth (phealth.space), собирается Eleventy",
+  "description": "Сайт pHealth (phealth.kz), собирается Eleventy",
   "scripts": {
     "build": "eleventy",
     "start": "eleventy --serve"
