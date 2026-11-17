@@ -79,7 +79,6 @@ section{padding-block:4.5rem}
 .posts li>a{display:grid;gap:.4rem;padding:1.1rem 2rem 1.1rem 0;position:relative;text-decoration:none;color:var(--ink)}
 .posts li>a::after{content:"→";position:absolute;right:.2rem;top:1.05rem;font:500 1.3rem var(--ui);color:var(--muted)}
 .posts li>a:hover h4{color:var(--accent)}
-.showall{margin-top:1rem;background:none;border:0;padding:.5rem 0;cursor:pointer}
 .dot{display:inline-flex;align-items:center;gap:.4rem}
 .dot::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:var(--c)}
 .kind{color:var(--muted);font:italic 400 .9rem var(--text)}
@@ -274,14 +273,14 @@ section{padding-block:4.5rem}
   <div class="wrap">
     <div class="sec-head">
       <div><span class="eyebrow">Журнал</span><h2 class="h2">Свежие материалы</h2></div>
-      <div class="tabs" id="tabs" role="group" aria-label="Темы"><button type="button" aria-pressed="true">Все</button>{% for t, c in topics %}{% if collections.journalList | hasTopic(t) %}<button type="button" aria-pressed="false">{{ t }}</button>{% endif %}{% endfor %}</div>
+      <div class="tabs" id="tabs" role="group" aria-label="Темы"><button type="button" aria-pressed="true">Все</button>{% for t, c in topics %}{% if collections.journalList.slice(0, 4) | hasTopic(t) %}<button type="button" aria-pressed="false">{{ t }}</button>{% endif %}{% endfor %}</div>
     </div>
 
     <div class="jgrid">
       {%- set a = collections.articles[0] %}
       {%- set counts = a.inputPath | tally %}
       <a class="feature" href="{{ a.url | rel(page.url) }}">
-        <div class="cover">{{ a.inputPath | coverSvg | safe }}<b>{{ a.data.cover }}</b><span>Полный разбор</span></div>
+        <div class="cover">{{ a.inputPath | coverSvg | safe }}<b>{{ a.data.cover }}</b><span>Разбор</span></div>
         <div class="meta"><span>{{ a.date | ruDate }}</span><span class="dot" style="--c:{{ topics[a.data.topic] }}">{{ a.data.topic }}</span><span>{{ a.data.author }}</span><span>{{ a.inputPath | readMin }} мин чтения</span></div>
         <h3>{{ a.data.title }}</h3>
         <p>{{ a.data.teaser }}</p>
@@ -294,16 +293,16 @@ section{padding-block:4.5rem}
 
       <div>
         <ul class="posts" id="posts">
-          {%- for n in collections.journalList %}
+          {#- На главной только 4 последних материала, остальные на странице журнала -#}
+          {%- for n in collections.journalList.slice(0, 4) %}
           {%- if n.data.layout == "layouts/article.njk" %}
-          <li data-t="{{ n.data.topic }}"><a href="{{ n.url | rel(page.url) }}"><span class="meta"><span>{{ n.date | ruDay }}</span><span class="dot" style="--c:{{ topics[n.data.topic] }}">{{ n.data.topic }}</span><span class="kind">полный разбор</span></span><h4>{{ n.data.title }}</h4></a></li>
+          <li data-t="{{ n.data.topic }}"><a href="{{ n.url | rel(page.url) }}"><span class="meta"><span>{{ n.date | ruDay }}</span><span class="dot" style="--c:{{ topics[n.data.topic] }}">{{ n.data.topic }}</span><span class="kind">разбор</span></span><h4>{{ n.data.title }}</h4></a></li>
           {%- else %}
           <li data-t="{{ n.data.topic }}"><details><summary><span class="meta"><span>{{ n.date | ruDay }}</span><span class="dot" style="--c:{{ topics[n.data.topic] }}">{{ n.data.topic }}</span><span class="kind">короткая заметка</span></span><h4>{{ n.data.title }}</h4></summary><div>{{ n.content | safe }}</div></details></li>
           {%- endif %}
           {%- endfor %}
         </ul>
-        <button class="more showall" type="button" id="showall" hidden>Показать все заметки</button>
-        <p style="margin:1rem 0 0"><a class="more" href="journal/">Все материалы журнала →</a></p>
+        <p style="margin:1.5rem 0 0"><a class="btn" href="journal/">Все материалы журнала →</a></p>
       </div>
     </div>
   </div>
@@ -485,24 +484,14 @@ colors.forEach((c,i)=>{
 pick(7);
 
 // Журнал собирается сам: самая новая статья — большая карточка, остальные статьи и заметки из src/notes/*.md — список. Здесь только фильтр по темам и «Показать все».
-const SHORT=4;
-const list=document.getElementById("posts"), tabs=document.getElementById("tabs"), showall=document.getElementById("showall");
+const list=document.getElementById("posts"), tabs=document.getElementById("tabs");
 const items=[...list.children];
-let topic="Все", expanded=false;
 tabs.querySelectorAll("button").forEach(b=>{
-  b.onclick=()=>{tabs.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));topic=b.textContent;render()};
+  b.onclick=()=>{
+    tabs.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+    items.forEach(li=>{li.hidden=b.textContent!=="Все"&&li.dataset.t!==b.textContent});
+  };
 });
-showall.onclick=()=>{expanded=true;render()};
-function render(){
-  let n=0;
-  items.forEach(li=>{
-    const ok=topic==="Все"||li.dataset.t===topic;
-    li.hidden=!ok||(!expanded&&n>=SHORT);
-    if(ok)n++;
-  });
-  showall.hidden=expanded||n<=SHORT;
-}
-render();
 
 document.getElementById("sub").addEventListener("submit",e=>{
   e.preventDefault();
