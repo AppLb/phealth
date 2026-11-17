@@ -14,10 +14,14 @@ body{font-size:1.125rem;line-height:1.75}
 .art>*{grid-column:2}
 .back{font-size:.95rem;color:var(--muted);text-decoration:none}
 .back:hover{color:var(--ink)}
+/* Баннер статьи: тот же узор, что на обложке в журнале (cover.svg), без букв */
+.banner{position:relative;overflow:hidden;height:11.5rem;margin-top:1.25rem;border-radius:1rem;background:#0E2A47}
+.banner .pat{position:absolute;inset:0;width:100%;height:100%;display:block}
+@media (max-width:720px){.banner{height:7rem;border-radius:.8rem;margin-top:1rem}}
 .meta{display:flex;flex-wrap:wrap;gap:1rem;margin:1.5rem 0 .75rem;font-size:.9rem;color:var(--muted)}
 .ph{display:inline-flex;align-items:center;gap:.4rem}
 .ph i{font:700 .72rem var(--display);font-style:normal;color:#fff;background:var(--c);border-radius:4px;padding:.15rem .4rem}
-.tag::before{content:"";display:inline-block;width:.6rem;height:.6rem;border-radius:50%;background:var(--sage);margin-right:.4rem;vertical-align:.05rem}
+.tag::before{content:"";display:inline-block;width:.6rem;height:.6rem;border-radius:50%;background:var(--c,var(--sage));margin-right:.4rem;vertical-align:.05rem}
 .by{display:inline-flex;align-items:center;gap:.35rem}
 .by .mark{width:1.3rem;height:1.3rem;border-radius:4px}
 .av{width:1.1rem;height:1.1rem;display:inline-flex;align-items:center;justify-content:center;font:700 .55rem var(--display);border-radius:3px;background:var(--accent);color:#fff}
@@ -87,11 +91,12 @@ p{margin:0 0 1rem}
 
   <article class="art" id="art">
     <a class="back" href="{{ '/journal/' | rel(page.url) }}">&larr; Все статьи</a>
+    <div class="banner" aria-hidden="true">{{ page.inputPath | coverSvg | safe }}</div>
 
     <div class="meta">
       <span>{{ page.date | ruDate }}</span>
       {% if ph %}<span class="ph" style="--c:{{ ph.color }}"><i>pH {{ ph.value }}</i>{{ ph.label }}</span>{% endif %}
-      <span class="tag">{{ topic }}</span>
+      <span class="tag" style="--c:{{ topics[topic] }}">{{ topic }}</span>
       <span class="by">{% if "pHealth" in author %}{% include "partials/mark.njk" %}{% else %}<span class="av">{{ author | first }}</span>{% endif %}{{ author }}</span>
     </div>
 
