@@ -17,6 +17,7 @@ export default {
   footer: [
     { title: "Журнал", links: [
       { href: "/journal/", label: "Все статьи" },
+      { href: "/slovar/", label: "Словарь" },
       { href: "/vitamin-d/", label: "Витамин D" },
       { href: "/co2-i-mozg/", label: "CO₂ и мозг" },
       { href: "/calculator/", label: "Калькулятор дозы" },
