@@ -1,6 +1,6 @@
 ---
 title: "Журнал — pHealth"
-description: "Все материалы pHealth: полные разборы с метками надёжности и короткие заметки."
+description: "Все материалы pHealth: разборы с метками надёжности и короткие заметки."
 nav: journal
 ---
 {% extends "layouts/base.njk" %}
@@ -51,7 +51,7 @@ section{padding-block:3.5rem}
 <div class="wrap jhead">
   <span class="eyebrow">Журнал</span>
   <h1>Все материалы</h1>
-  <p>Полные разборы с метками надёжности и короткие заметки. Новые сверху.</p>
+  <p>Разборы с метками надёжности и короткие заметки. Новые сверху.</p>
 </div>
 
 <section>
@@ -61,7 +61,7 @@ section{padding-block:3.5rem}
       {%- for a in collections.articles %}
       {%- set counts = a.inputPath | tally %}
       <a class="card" href="{{ a.url | rel(page.url) }}">
-        <div class="cover">{{ a.inputPath | coverSvg | safe }}<b>{{ a.data.cover }}</b><span>Полный разбор</span></div>
+        <div class="cover">{{ a.inputPath | coverSvg | safe }}<b>{{ a.data.cover }}</b><span>Разбор</span></div>
         <div class="meta"><span>{{ a.date | ruDate }}</span><span class="dot" style="--c:{{ topics[a.data.topic] }}">{{ a.data.topic }}</span><span>{{ a.data.author }}</span><span>{{ a.inputPath | readMin }} мин чтения</span></div>
         <h3>{{ a.data.title }}</h3>
         <p>{{ a.data.teaser }}</p>
