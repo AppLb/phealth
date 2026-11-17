@@ -23,6 +23,7 @@
 
   /* яркость радужной шкалы pH: в тёмной теме приглушаем */
   --scale-filter:none;
+  --card-ring:inset 0 0 0 1px var(--line); /* обводка блоков в светлой теме */
 
   --display:"Unbounded","Arial Black",system-ui,sans-serif;
   --text:"Literata",Georgia,"Times New Roman",serif;
@@ -41,6 +42,7 @@
     --cover-a:#5A4A16; --cover-b:#4A4A1A; --cover-ink:#F1EBD4; --chip-bg:rgba(0,0,0,.35);
     --l1:#6E7C83; --l0:#26343B;
     --scale-filter:saturate(.82) brightness(.86);
+    --card-ring:none;
     --foot:#F4F7F6;
     color-scheme:dark;
   }
@@ -54,6 +56,7 @@
   --cover-a:#5A4A16; --cover-b:#4A4A1A; --cover-ink:#F1EBD4; --chip-bg:rgba(0,0,0,.35);
   --l1:#6E7C83; --l0:#26343B;
   --scale-filter:saturate(.82) brightness(.86);
+  --card-ring:none;
   --foot:#F4F7F6;
   color-scheme:dark;
 }
