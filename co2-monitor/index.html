@@ -53,8 +53,8 @@ section{padding-block:4rem}
 .facts li{display:grid;gap:.15rem;padding:.85rem 0;border-top:1px solid var(--line)}
 .facts b{font:600 1rem var(--ui)}.facts span{color:var(--muted);font-size:.95rem}
 
-/* Блок «Как читать цифры»: в светлой теме тёмно-синий, как логотип; в тёмной — фон --paper и карточка со шкалой */
-#zones{background:#0E2A47;--ink:#EEF3F1;--muted:#AFC0C7;color:var(--ink);--zc-bg:transparent;--zc-pad:0;--zc-pad-m:0;--zc-ring:none}
+/* Блок «Как читать цифры»: в светлой теме тёмный, как блок «Заказать»; в тёмной — фон --paper и карточка со шкалой */
+#zones{background:var(--band-bg);--ink:var(--band-ink);--muted:var(--band-muted);color:var(--ink);--zc-bg:transparent;--zc-pad:0;--zc-pad-m:0;--zc-ring:none}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #zones{background:var(--paper);color:var(--ink);--ink:inherit;--muted:inherit;--zc-bg:initial;--zc-pad:initial;--zc-pad-m:initial;--zc-ring:initial}}
 :root[data-theme="dark"] #zones{background:var(--paper);color:var(--ink);--ink:inherit;--muted:inherit;--zc-bg:initial;--zc-pad:initial;--zc-pad-m:initial;--zc-ring:initial}
 /* Шкала ppm: сплошная полоса, как шкала pH на главной; не кликается */
