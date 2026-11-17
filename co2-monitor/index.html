@@ -53,9 +53,12 @@ section{padding-block:4rem}
 .facts li{display:grid;gap:.15rem;padding:.85rem 0;border-top:1px solid var(--line)}
 .facts b{font:600 1rem var(--ui)}.facts span{color:var(--muted);font-size:.95rem}
 
-#zones{background:var(--paper)}
+/* Блок «Как читать цифры»: в светлой теме тёмно-синий, как логотип; в тёмной — фон --paper и карточка со шкалой */
+#zones{background:#0E2A47;--ink:#EEF3F1;--muted:#AFC0C7;color:var(--ink);--zc-bg:transparent;--zc-pad:0;--zc-pad-m:0;--zc-ring:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #zones{background:var(--paper);color:var(--ink);--ink:inherit;--muted:inherit;--zc-bg:initial;--zc-pad:initial;--zc-pad-m:initial;--zc-ring:initial}}
+:root[data-theme="dark"] #zones{background:var(--paper);color:var(--ink);--ink:inherit;--muted:inherit;--zc-bg:initial;--zc-pad:initial;--zc-pad-m:initial;--zc-ring:initial}
 /* Шкала ppm: сплошная полоса, как шкала pH на главной; не кликается */
-.zones{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:1.75rem 1.75rem 1.5rem;border-radius:1.25rem;background:var(--bg);box-shadow:var(--card-ring)}
+.zones{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:var(--zc-pad,1.75rem 1.75rem 1.5rem);border-radius:1.25rem;background:var(--zc-bg,var(--bg));box-shadow:var(--zc-ring,var(--card-ring))}
 .zones div{position:relative;display:grid;gap:.4rem;align-content:start;padding:3.9rem 1rem 0 0}
 .zones div::before{content:"";position:absolute;left:0;right:0;top:0;height:3rem;background:var(--c);filter:var(--scale-filter)}
 .zones div:first-child::before{border-radius:.6rem 0 0 .6rem}
@@ -104,7 +107,7 @@ section{padding-block:4rem}
 .use b{font:600 1.1rem var(--ui)}.use span{color:var(--muted);font-size:.98rem}
 .evbox .ev+.ev{margin-top:.15rem}
 @media (max-width:640px){.use{grid-template-columns:minmax(0,1fr);gap:1rem}
-  .zones{grid-template-columns:minmax(0,1fr);padding:1.25rem}
+  .zones{grid-template-columns:minmax(0,1fr);padding:var(--zc-pad-m,1.25rem)}
   .zones div{padding:.9rem 0 .9rem 2.2rem}
   .zones div::before{right:auto;bottom:0;width:1.2rem;height:auto}
   .zones div:first-child::before{border-radius:.6rem .6rem 0 0}
