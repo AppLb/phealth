@@ -66,6 +66,7 @@ select:focus,.num input:focus{outline:3px solid var(--accent);outline-offset:1px
 .tip{font:400 .92rem/1.5 var(--ui);color:var(--muted);margin:0}
 .tip b{color:var(--ink);font-weight:600}
 
+.artlink{max-width:44rem;margin:1.75rem 0 0;font:400 1rem/1.55 var(--ui);color:var(--muted)}
 /* Таблица форм */
 .forms{margin-top:2.5rem}
 .forms h2,.why h2,.src h2{font:700 1.3rem/1.25 var(--display);letter-spacing:-.02em;margin:0 0 .4rem}
@@ -119,7 +120,7 @@ tbody tr[aria-selected="true"] td:first-child{font-weight:600}
   <div class="intro">
     <span class="eyebrow">Калькулятор</span>
     <h1>Сколько на самом деле в таблетке</h1>
-    <p>На банке часто пишут вес соли, например «магния цитрат 500 мг». Самого магния в ней втрое меньше. Выберите минерал и форму с упаковки, и мы посчитаем, сколько вы получаете на самом деле.</p>
+    <p>На банке часто пишут вес соли, например «магния цитрат 500 мг». Самого магния в ней примерно в шесть раз меньше. Выберите минерал и форму с упаковки, и мы посчитаем, сколько вы получаете на самом деле.</p>
   </div>
 
   <div class="calc">
@@ -176,6 +177,8 @@ tbody tr[aria-selected="true"] td:first-child{font-weight:600}
     </section>
   </div>
 
+  <p class="artlink">Как читать состав и что здесь считается, подробно — в статье <a href="../sostav-bada/">«Как читать состав БАДа»</a>.</p>
+
   <section class="forms" aria-labelledby="forms-h">
     <h2 id="forms-h">Сколько минерала в разных формах</h2>
     <p id="forms-p">Нажмите на строку, чтобы подставить форму в калькулятор.</p>
@@ -199,7 +202,6 @@ tbody tr[aria-selected="true"] td:first-child{font-weight:600}
       <li>Institute of Medicine. Dietary Reference Intakes for Calcium, Phosphorus, Magnesium, Vitamin D, and Fluoride, 1997; for Vitamin A, Vitamin K, … Iron, … and Zinc, 2001; for Calcium and Vitamin D, 2011.</li>
     </ol>
     <p>Доля минерала посчитана по химической формуле соли и округлена. Она немного зависит от того, сколько воды в кристалле: производители используют разные варианты, поэтому реальная цифра может отличаться на несколько процентов. Нормы и пределы даны для взрослых, кроме беременных и кормящих. Калькулятор не заменяет консультацию врача.</p>
-    <p>Как читать состав и что здесь считается, подробно — в статье <a href="../sostav-bada/">«Как читать состав БАДа»</a>.</p>
   </section>
 </main>
 {% endblock %}
