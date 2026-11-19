@@ -74,11 +74,12 @@ select:focus,.num input:focus{outline:3px solid var(--accent);outline-offset:1px
 .tip{font:400 .92rem/1.5 var(--ui);color:var(--muted);margin:0}
 .tip b{color:var(--ink);font-weight:600}
 
-/* Ссылка на статью в жёлтой пунктирной рамке: на компьютере после калькулятора, на телефоне под вступлением */
-.artlink{max-width:44rem;box-sizing:border-box;margin:2rem 0 0;padding:.9rem 1.1rem;border-radius:.9rem;outline:3px dashed var(--l2);outline-offset:4px;font:400 1rem/1.55 var(--ui);color:var(--muted)}
+/* Ссылка на статью в рамке, как у блоков сайта: на компьютере по центру после калькулятора, на телефоне под вступлением */
+.artlink{max-width:44rem;box-sizing:border-box;margin:2rem auto 0;padding:.9rem 1.2rem;border-radius:1rem;border:1.5px solid var(--line);background:var(--paper);font:400 1rem/1.55 var(--ui);color:var(--muted);text-align:center}
 .artlink-top{display:none}
 @media (max-width:860px){
-  .artlink-top{display:block;margin:1.5rem 4px 0}
+  .artlink-top{display:block;text-align:left}
+  .intro p.artlink-top{margin:1.5rem 0 0;font-size:.98rem}
   .artlink-after{display:none}
 }
 /* Таблица форм */
