@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Как читать состав БАДа: что значит «в пересчёте на элементный магний» — pHealth</title>
+<meta name="description" content="Почему в «магнии 500 мг» магния бывает 80 мг, как отличить вес соли от веса минерала, что значат МЕ, «% от суточной нормы» и «рыбий жир 1000 мг». И как работает калькулятор pHealth.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;700;900&family=Literata:opsz,wght@7..72,400;7..72,600&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/theme.js"></script>
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+
+<style>
+/* Стили только статьи. Общие — в assets/style.css */
+body{font-size:1.125rem;line-height:1.75}
+.narrow{max-width:68rem}
+
+/* article grid: left rail (7rem) like the list on the main page */
+.art{display:grid;grid-template-columns:7rem minmax(0,40rem) 1fr;gap:1rem;padding:2.5rem 0 1rem}
+.art>*{grid-column:2}
+.back{font-size:.95rem;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--ink)}
+/* Баннер статьи: тот же узор, что на обложке в журнале (cover.svg), без букв */
+.banner{position:relative;overflow:hidden;height:11.5rem;margin-top:1.25rem;border-radius:1rem;background:#0E2A47}
+.banner .pat{position:absolute;inset:0;width:100%;height:100%;display:block}
+@media (max-width:720px){.banner{height:7rem;border-radius:.8rem;margin-top:1rem}}
+.meta{display:flex;flex-wrap:wrap;gap:.35rem 1rem;margin:1.5rem 0 .75rem;font-size:.9rem;color:var(--muted)}
+.ph{display:inline-flex;align-items:center;gap:.4rem}
+.ph i{font:700 .72rem var(--display);font-style:normal;color:#fff;background:var(--c);border-radius:4px;padding:.15rem .4rem}
+.tag::before{content:"";display:inline-block;width:.6rem;height:.6rem;border-radius:50%;background:var(--c,var(--sage));margin-right:.4rem;vertical-align:.05rem}
+.by{display:inline-flex;align-items:center;gap:.35rem}
+.ed{display:inline-grid;place-items:center;width:1.3rem;height:1.3rem;border-radius:4px;background:#0E2A47;flex:none}
+.ed svg{width:80%;height:80%;display:block}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ed{box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}}
+:root[data-theme="dark"] .ed{box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
+.av{width:1.1rem;height:1.1rem;display:inline-flex;align-items:center;justify-content:center;font:700 .55rem var(--display);border-radius:3px;background:var(--accent);color:#fff}
+h1{font:900 clamp(2rem,6vw,3.6rem)/1.05 var(--display);letter-spacing:-.03em;margin:0}
+.lead{font-size:1.25rem;color:var(--muted);margin:1.25rem 0 0}
+
+/* evidence badge: 4-segment meter + word, echoes the pH scale */
+.ev{display:inline-flex;align-items:center;gap:.45rem;font:700 .7rem var(--display);color:var(--ink);
+  background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:.2rem .65rem .2rem .45rem;
+  white-space:nowrap;vertical-align:.15rem;text-decoration:none;cursor:pointer}
+.ev .m{display:inline-grid;grid-template-columns:repeat(4,5px);gap:2px}
+.ev .m b{height:10px;border-radius:1.5px;background:var(--line)}
+.ev[data-l="4"] .m b{background:var(--l4)}
+.ev[data-l="3"] .m b:nth-child(-n+3){background:var(--l3)}
+.ev[data-l="2"] .m b:nth-child(-n+2){background:var(--l2)}
+.ev[data-l="1"] .m b:nth-child(1){background:var(--l1)}
+.ev[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+
+/* legend = the one bold element */
+.legend{margin:2.5rem 0 0;padding:1.25rem;background:var(--paper);border:1px solid var(--line);border-radius:10px}
+.legend h2{font:700 1rem var(--display);margin:0 0 .35rem}
+.legend p{margin:0 0 1rem;font-size:.95rem;color:var(--muted)}
+.lv{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem}
+.lv button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:.45rem;padding:.7rem;border-radius:8px;border:1px solid var(--line)}
+.lv button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.lv button[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.lv .bar{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+.lv .bar b{height:8px;border-radius:2px;background:var(--line)}
+.lv [data-l="4"] .bar b{background:var(--l4)}
+.lv [data-l="3"] .bar b:nth-child(-n+3){background:var(--l3)}
+.lv [data-l="2"] .bar b:nth-child(-n+2){background:var(--l2)}
+.lv [data-l="1"] .bar b:nth-child(1){background:var(--l1)}
+.lv strong{font:700 .8rem var(--display)}
+.lv span{font-size:.85rem;line-height:1.4;color:var(--muted)}
+.hint{min-height:1.5rem;margin-top:.75rem;font-size:.9rem;color:var(--muted)}
+.hint button{font:inherit;background:none;border:0;color:var(--accent);text-decoration:underline;cursor:pointer;padding:0;margin-left:.4rem}
+
+.art h2.s{font:700 1.3rem/1.3 var(--display);margin:3rem 0 .25rem}
+.ctx{font-size:.95rem;color:var(--muted);margin:0 0 1rem}
+.claim{margin:0 0 1.25rem;transition:opacity .2s}
+.claim .ev{margin-right:.4rem}
+.dim .claim.off{opacity:.25}
+sup a{text-decoration:none;font-size:.75em;padding:0 .1em}
+p{margin:0 0 1rem}
+.note{margin:1.5rem 0;padding:.8rem 1rem;border-left:3px solid var(--accent);background:var(--paper);font-size:.95rem;color:var(--muted)}
+.note b{color:var(--ink)}
+.dispute{border-left-color:var(--l2)}
+/* Таблицы и списки в тексте статьи */
+.art table{width:100%;border-collapse:collapse;margin:.5rem 0 1.5rem;font-size:.95rem;font-variant-numeric:tabular-nums}
+.art th,.art td{text-align:left;padding:.55rem .75rem;border-bottom:1px solid var(--line)}
+.art th{font:600 .75rem var(--ui);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.art td:not(:first-child),.art th:not(:first-child){text-align:right;white-space:nowrap}
+.art>ul,.art>ol{margin:0 0 1.25rem;padding-left:1.4rem}
+.art>ul>li,.art>ol>li{margin-bottom:.5rem}
+@media (max-width:640px){.art th,.art td{padding:.5rem .4rem}}
+
+.src{margin:3rem 0 0;padding-top:1.5rem;border-top:1px solid var(--line)}
+.src h2{font:700 1rem var(--display);margin:0 0 .75rem}
+.src ol{margin:0;padding-left:1.4rem;font-size:.9rem;line-height:1.55;color:var(--muted)}
+.src li{margin-bottom:.5rem}
+.ai{font-size:.9rem;color:var(--muted);margin-top:1.5rem}
+
+@media (prefers-reduced-motion:reduce){.claim{transition:none}}
+@media (max-width:640px){
+  .art{grid-template-columns:minmax(0,1fr)}
+  .art>*{grid-column:1}
+  .lv{grid-template-columns:repeat(2,1fr)}
+}
+
+</style>
+
+</head>
+<body>
+<div class="launch"><div class="wrap">pHealth только запускается. Первые разборы уже вышли, новые статьи, чекапы и товары скоро.</div></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="../" aria-label="pHealth, на главную"><span class="mark" aria-hidden="true"><svg viewBox="0 0 200 200" aria-hidden="true"><polygon fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linejoin="miter" stroke-miterlimit="10" points="100.0,10.0 119.6,27.0 145.0,22.1 153.5,46.5 177.9,55.0 173.0,80.4 190.0,100.0 173.0,119.6 177.9,145.0 153.5,153.5 145.0,177.9 119.6,173.0 100.0,190.0 80.4,173.0 55.0,177.9 46.5,153.5 22.1,145.0 27.0,119.6 10.0,100.0 27.0,80.4 22.1,55.0 46.5,46.5 55.0,22.1 80.4,27.0"/><path fill="#FFFFFF" d="M100,72 L157,100 L100,128 L43,100 Z"/></svg></span><span class="word">pHealth</span></a>
+    <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Открыть меню">
+      <svg class="bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <div class="menu" id="menu">
+      <nav class="main" aria-label="Разделы">
+        <a href="../journal/">Журнал</a><a href="../calculator/">Калькулятор</a><a href="../#checkups">Чекапы</a><a href="../#shop">Товары</a><a href="../#money">Как мы выбираем товары</a><a href="../about/">О нас</a>
+      </nav>
+      <a class="btn accent" href="../#about">Подписаться</a>
+    </div>
+    <button class="theme" type="button" id="theme" aria-label="Включить тёмную тему">
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </div>
+</header>
+
+
+<div class="wrap narrow">
+
+  <article class="art" id="art">
+    <a class="back" href="../journal/">&larr; Все статьи</a>
+    <div class="banner" aria-hidden="true"><!-- Обложка статьи «Как читать состав БАДа»: кристаллическая решётка из ромбов логотипа, внутри неё звезда — «элемент» в цвете темы «Добавки» -->
+<svg class="pat" viewBox="0 0 360 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<path d="M-12.0,-16.7 L-4.0,-13.0 L-12.0,-9.3 L-20.0,-13.0 Z M12.0,-16.7 L20.0,-13.0 L12.0,-9.3 L4.0,-13.0 Z M-24.0,-3.7 L-16.0,0.0 L-24.0,3.7 L-32.0,0.0 Z M0.0,-3.7 L8.0,0.0 L0.0,3.7 L-8.0,0.0 Z M-12.0,9.3 L-4.0,13.0 L-12.0,16.7 L-20.0,13.0 Z M12.0,9.3 L20.0,13.0 L12.0,16.7 L4.0,13.0 Z M-24.0,22.3 L-16.0,26.0 L-24.0,29.7 L-32.0,26.0 Z M0.0,22.3 L8.0,26.0 L0.0,29.7 L-8.0,26.0 Z M-12.0,35.3 L-4.0,39.0 L-12.0,42.7 L-20.0,39.0 Z M12.0,35.3 L20.0,39.0 L12.0,42.7 L4.0,39.0 Z M-24.0,48.3 L-16.0,52.0 L-24.0,55.7 L-32.0,52.0 Z M0.0,48.3 L8.0,52.0 L0.0,55.7 L-8.0,52.0 Z M-12.0,61.3 L-4.0,65.0 L-12.0,68.7 L-20.0,65.0 Z M12.0,61.3 L20.0,65.0 L12.0,68.7 L4.0,65.0 Z M-24.0,74.3 L-16.0,78.0 L-24.0,81.7 L-32.0,78.0 Z M0.0,74.3 L8.0,78.0 L0.0,81.7 L-8.0,78.0 Z M-12.0,87.3 L-4.0,91.0 L-12.0,94.7 L-20.0,91.0 Z M12.0,87.3 L20.0,91.0 L12.0,94.7 L4.0,91.0 Z M-24.0,100.3 L-16.0,104.0 L-24.0,107.7 L-32.0,104.0 Z M0.0,100.3 L8.0,104.0 L0.0,107.7 L-8.0,104.0 Z M-12.0,113.3 L-4.0,117.0 L-12.0,120.7 L-20.0,117.0 Z M12.0,113.3 L20.0,117.0 L12.0,120.7 L4.0,117.0 Z M-24.0,126.3 L-16.0,130.0 L-24.0,133.7 L-32.0,130.0 Z M0.0,126.3 L8.0,130.0 L0.0,133.7 L-8.0,130.0 Z" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.1"/>
+<path d="M36.0,-16.7 L44.0,-13.0 L36.0,-9.3 L28.0,-13.0 Z M60.0,-16.7 L68.0,-13.0 L60.0,-9.3 L52.0,-13.0 Z M24.0,-3.7 L32.0,0.0 L24.0,3.7 L16.0,0.0 Z M48.0,-3.7 L56.0,0.0 L48.0,3.7 L40.0,0.0 Z M36.0,9.3 L44.0,13.0 L36.0,16.7 L28.0,13.0 Z M60.0,9.3 L68.0,13.0 L60.0,16.7 L52.0,13.0 Z M24.0,22.3 L32.0,26.0 L24.0,29.7 L16.0,26.0 Z M48.0,22.3 L56.0,26.0 L48.0,29.7 L40.0,26.0 Z M36.0,35.3 L44.0,39.0 L36.0,42.7 L28.0,39.0 Z M60.0,35.3 L68.0,39.0 L60.0,42.7 L52.0,39.0 Z M24.0,48.3 L32.0,52.0 L24.0,55.7 L16.0,52.0 Z M48.0,48.3 L56.0,52.0 L48.0,55.7 L40.0,52.0 Z M36.0,61.3 L44.0,65.0 L36.0,68.7 L28.0,65.0 Z M60.0,61.3 L68.0,65.0 L60.0,68.7 L52.0,65.0 Z M24.0,74.3 L32.0,78.0 L24.0,81.7 L16.0,78.0 Z M48.0,74.3 L56.0,78.0 L48.0,81.7 L40.0,78.0 Z M36.0,87.3 L44.0,91.0 L36.0,94.7 L28.0,91.0 Z M60.0,87.3 L68.0,91.0 L60.0,94.7 L52.0,91.0 Z M24.0,100.3 L32.0,104.0 L24.0,107.7 L16.0,104.0 Z M48.0,100.3 L56.0,104.0 L48.0,107.7 L40.0,104.0 Z M36.0,113.3 L44.0,117.0 L36.0,120.7 L28.0,117.0 Z M60.0,113.3 L68.0,117.0 L60.0,120.7 L52.0,117.0 Z M24.0,126.3 L32.0,130.0 L24.0,133.7 L16.0,130.0 Z M48.0,126.3 L56.0,130.0 L48.0,133.7 L40.0,130.0 Z" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.15"/>
+<path d="M84.0,-16.7 L92.0,-13.0 L84.0,-9.3 L76.0,-13.0 Z M72.0,-3.7 L80.0,0.0 L72.0,3.7 L64.0,0.0 Z M96.0,-3.7 L104.0,0.0 L96.0,3.7 L88.0,0.0 Z M84.0,9.3 L92.0,13.0 L84.0,16.7 L76.0,13.0 Z M72.0,22.3 L80.0,26.0 L72.0,29.7 L64.0,26.0 Z M96.0,22.3 L104.0,26.0 L96.0,29.7 L88.0,26.0 Z M84.0,35.3 L92.0,39.0 L84.0,42.7 L76.0,39.0 Z M72.0,48.3 L80.0,52.0 L72.0,55.7 L64.0,52.0 Z M96.0,48.3 L104.0,52.0 L96.0,55.7 L88.0,52.0 Z M84.0,61.3 L92.0,65.0 L84.0,68.7 L76.0,65.0 Z M72.0,74.3 L80.0,78.0 L72.0,81.7 L64.0,78.0 Z M96.0,74.3 L104.0,78.0 L96.0,81.7 L88.0,78.0 Z M84.0,87.3 L92.0,91.0 L84.0,94.7 L76.0,91.0 Z M72.0,100.3 L80.0,104.0 L72.0,107.7 L64.0,104.0 Z M96.0,100.3 L104.0,104.0 L96.0,107.7 L88.0,104.0 Z M84.0,113.3 L92.0,117.0 L84.0,120.7 L76.0,117.0 Z M72.0,126.3 L80.0,130.0 L72.0,133.7 L64.0,130.0 Z M96.0,126.3 L104.0,130.0 L96.0,133.7 L88.0,130.0 Z" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.2"/>
+<path d="M108.0,-16.7 L116.0,-13.0 L108.0,-9.3 L100.0,-13.0 Z M132.0,-16.7 L140.0,-13.0 L132.0,-9.3 L124.0,-13.0 Z M120.0,-3.7 L128.0,0.0 L120.0,3.7 L112.0,0.0 Z M144.0,-3.7 L152.0,0.0 L144.0,3.7 L136.0,0.0 Z M108.0,9.3 L116.0,13.0 L108.0,16.7 L100.0,13.0 Z M132.0,9.3 L140.0,13.0 L132.0,16.7 L124.0,13.0 Z M120.0,22.3 L128.0,26.0 L120.0,29.7 L112.0,26.0 Z M144.0,22.3 L152.0,26.0 L144.0,29.7 L136.0,26.0 Z M108.0,35.3 L116.0,39.0 L108.0,42.7 L100.0,39.0 Z M132.0,35.3 L140.0,39.0 L132.0,42.7 L124.0,39.0 Z M120.0,48.3 L128.0,52.0 L120.0,55.7 L112.0,52.0 Z M144.0,48.3 L152.0,52.0 L144.0,55.7 L136.0,52.0 Z M108.0,61.3 L116.0,65.0 L108.0,68.7 L100.0,65.0 Z M132.0,61.3 L140.0,65.0 L132.0,68.7 L124.0,65.0 Z M120.0,74.3 L128.0,78.0 L120.0,81.7 L112.0,78.0 Z M144.0,74.3 L152.0,78.0 L144.0,81.7 L136.0,78.0 Z M108.0,87.3 L116.0,91.0 L108.0,94.7 L100.0,91.0 Z M132.0,87.3 L140.0,91.0 L132.0,94.7 L124.0,91.0 Z M120.0,100.3 L128.0,104.0 L120.0,107.7 L112.0,104.0 Z M144.0,100.3 L152.0,104.0 L144.0,107.7 L136.0,104.0 Z M108.0,113.3 L116.0,117.0 L108.0,120.7 L100.0,117.0 Z M132.0,113.3 L140.0,117.0 L132.0,120.7 L124.0,117.0 Z M120.0,126.3 L128.0,130.0 L120.0,133.7 L112.0,130.0 Z M144.0,126.3 L152.0,130.0 L144.0,133.7 L136.0,130.0 Z" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.25"/>
+<path d="M156.0,-16.7 L164.0,-13.0 L156.0,-9.3 L148.0,-13.0 Z M180.0,-16.7 L188.0,-13.0 L180.0,-9.3 L172.0,-13.0 Z M168.0,-3.7 L176.0,0.0 L168.0,3.7 L160.0,0.0 Z M192.0,-3.7 L200.0,0.0 L192.0,3.7 L184.0,0.0 Z M156.0,9.3 L164.0,13.0 L156.0,16.7 L148.0,13.0 Z M180.0,9.3 L188.0,13.0 L180.0,16.7 L172.0,13.0 Z M168.0,22.3 L176.0,26.0 L168.0,29.7 L160.0,26.0 Z M192.0,22.3 L200.0,26.0 L192.0,29.7 L184.0,26.0 Z M156.0,35.3 L164.0,39.0 L156.0,42.7 L148.0,39.0 Z M180.0,35.3 L188.0,39.0 L180.0,42.7 L172.0,39.0 Z M168.0,48.3 L176.0,52.0 L168.0,55.7 L160.0,52.0 Z M192.0,48.3 L200.0,52.0 L192.0,55.7 L184.0,52.0 Z M156.0,61.3 L164.0,65.0 L156.0,68.7 L148.0,65.0 Z M180.0,61.3 L188.0,65.0 L180.0,68.7 L172.0,65.0 Z M168.0,74.3 L176.0,78.0 L168.0,81.7 L160.0,78.0 Z M192.0,74.3 L200.0,78.0 L192.0,81.7 L184.0,78.0 Z M156.0,87.3 L164.0,91.0 L156.0,94.7 L148.0,91.0 Z M180.0,87.3 L188.0,91.0 L180.0,94.7 L172.0,91.0 Z M168.0,100.3 L176.0,104.0 L168.0,107.7 L160.0,104.0 Z M192.0,100.3 L200.0,104.0 L192.0,107.7 L184.0,104.0 Z M156.0,113.3 L164.0,117.0 L156.0,120.7 L148.0,117.0 Z M180.0,113.3 L188.0,117.0 L180.0,120.7 L172.0,117.0 Z M168.0,126.3 L176.0,130.0 L168.0,133.7 L160.0,130.0 Z M192.0,126.3 L200.0,130.0 L192.0,133.7 L184.0,130.0 Z" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.3"/>
+<path d="M204.0,-16.7 L212.0,-13.0 L204.0,-9.3 L196.0,-13.0 Z M228.0,-16.7 L236.0,-13.0 L228.0,-9.3 L220.0,-13.0 Z M216.0,-3.7 L224.0,0.0 L216.0,3.7 L208.0,0.0 Z M204.0,9.3 L212.0,13.0 L204.0,16.7 L196.0,13.0 Z M228.0,9.3 L236.0,13.0 L228.0,16.7 L220.0,13.0 Z M216.0,22.3 L224.0,26.0 L216.0,29.7 L208.0,26.0 Z M204.0,35.3 L212.0,39.0 L204.0,42.7 L196.0,39.0 Z M204.0,61.3 L212.0,65.0 L204.0,68.7 L196.0,65.0 Z M204.0,87.3 L212.0,91.0 L204.0,94.7 L196.0,91.0 Z M216.0,100.3 L224.0,104.0 L216.0,107.7 L208.0,104.0 Z M204.0,113.3 L212.0,117.0 L204.0,120.7 L196.0,117.0 Z M228.0,113.3 L236.0,117.0 L228.0,120.7 L220.0,117.0 Z M216.0,126.3 L224.0,130.0 L216.0,133.7 L208.0,130.0 Z" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.35"/>
+<path d="M252.0,-16.7 L260.0,-13.0 L252.0,-9.3 L244.0,-13.0 Z M276.0,-16.7 L284.0,-13.0 L276.0,-9.3 L268.0,-13.0 Z M240.0,-3.7 L248.0,0.0 L240.0,3.7 L232.0,0.0 Z M264.0,-3.7 L272.0,0.0 L264.0,3.7 L256.0,0.0 Z M252.0,113.3 L260.0,117.0 L252.0,120.7 L244.0,117.0 Z M276.0,113.3 L284.0,117.0 L276.0,120.7 L268.0,117.0 Z M240.0,126.3 L248.0,130.0 L240.0,133.7 L232.0,130.0 Z M264.0,126.3 L272.0,130.0 L264.0,133.7 L256.0,130.0 Z" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.4"/>
+<path d="M300.0,-16.7 L308.0,-13.0 L300.0,-9.3 L292.0,-13.0 Z M288.0,-3.7 L296.0,0.0 L288.0,3.7 L280.0,0.0 Z M312.0,-3.7 L320.0,0.0 L312.0,3.7 L304.0,0.0 Z M300.0,113.3 L308.0,117.0 L300.0,120.7 L292.0,117.0 Z M288.0,126.3 L296.0,130.0 L288.0,133.7 L280.0,130.0 Z M312.0,126.3 L320.0,130.0 L312.0,133.7 L304.0,130.0 Z" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.45"/>
+<path d="M324.0,-16.7 L332.0,-13.0 L324.0,-9.3 L316.0,-13.0 Z M348.0,-16.7 L356.0,-13.0 L348.0,-9.3 L340.0,-13.0 Z M372.0,-16.7 L380.0,-13.0 L372.0,-9.3 L364.0,-13.0 Z M396.0,-16.7 L404.0,-13.0 L396.0,-9.3 L388.0,-13.0 Z M336.0,-3.7 L344.0,0.0 L336.0,3.7 L328.0,0.0 Z M360.0,-3.7 L368.0,0.0 L360.0,3.7 L352.0,0.0 Z M384.0,-3.7 L392.0,0.0 L384.0,3.7 L376.0,0.0 Z M348.0,9.3 L356.0,13.0 L348.0,16.7 L340.0,13.0 Z M372.0,9.3 L380.0,13.0 L372.0,16.7 L364.0,13.0 Z M396.0,9.3 L404.0,13.0 L396.0,16.7 L388.0,13.0 Z M384.0,22.3 L392.0,26.0 L384.0,29.7 L376.0,26.0 Z M396.0,35.3 L404.0,39.0 L396.0,42.7 L388.0,39.0 Z M396.0,61.3 L404.0,65.0 L396.0,68.7 L388.0,65.0 Z M384.0,74.3 L392.0,78.0 L384.0,81.7 L376.0,78.0 Z M372.0,87.3 L380.0,91.0 L372.0,94.7 L364.0,91.0 Z M396.0,87.3 L404.0,91.0 L396.0,94.7 L388.0,91.0 Z M360.0,100.3 L368.0,104.0 L360.0,107.7 L352.0,104.0 Z M384.0,100.3 L392.0,104.0 L384.0,107.7 L376.0,104.0 Z M324.0,113.3 L332.0,117.0 L324.0,120.7 L316.0,117.0 Z M348.0,113.3 L356.0,117.0 L348.0,120.7 L340.0,117.0 Z M372.0,113.3 L380.0,117.0 L372.0,120.7 L364.0,117.0 Z M396.0,113.3 L404.0,117.0 L396.0,120.7 L388.0,117.0 Z M336.0,126.3 L344.0,130.0 L336.0,133.7 L328.0,130.0 Z M360.0,126.3 L368.0,130.0 L360.0,133.7 L352.0,130.0 Z M384.0,126.3 L392.0,130.0 L384.0,133.7 L376.0,130.0 Z" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.5"/>
+<path d="M228.0,35.3 L236.0,39.0 L228.0,42.7 L220.0,39.0 Z M216.0,48.3 L224.0,52.0 L216.0,55.7 L208.0,52.0 Z M228.0,61.3 L236.0,65.0 L228.0,68.7 L220.0,65.0 Z M216.0,74.3 L224.0,78.0 L216.0,81.7 L208.0,78.0 Z M228.0,87.3 L236.0,91.0 L228.0,94.7 L220.0,91.0 Z" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.55"/>
+<path d="M252.0,9.3 L260.0,13.0 L252.0,16.7 L244.0,13.0 Z M276.0,9.3 L284.0,13.0 L276.0,16.7 L268.0,13.0 Z M240.0,22.3 L248.0,26.0 L240.0,29.7 L232.0,26.0 Z M264.0,22.3 L272.0,26.0 L264.0,29.7 L256.0,26.0 Z M252.0,35.3 L260.0,39.0 L252.0,42.7 L244.0,39.0 Z M240.0,48.3 L248.0,52.0 L240.0,55.7 L232.0,52.0 Z M240.0,74.3 L248.0,78.0 L240.0,81.7 L232.0,78.0 Z M252.0,87.3 L260.0,91.0 L252.0,94.7 L244.0,91.0 Z M276.0,87.3 L284.0,91.0 L276.0,94.7 L268.0,91.0 Z M240.0,100.3 L248.0,104.0 L240.0,107.7 L232.0,104.0 Z M264.0,100.3 L272.0,104.0 L264.0,107.7 L256.0,104.0 Z" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.6"/>
+<path d="M300.0,9.3 L308.0,13.0 L300.0,16.7 L292.0,13.0 Z M288.0,22.3 L296.0,26.0 L288.0,29.7 L280.0,26.0 Z M312.0,22.3 L320.0,26.0 L312.0,29.7 L304.0,26.0 Z M300.0,87.3 L308.0,91.0 L300.0,94.7 L292.0,91.0 Z M288.0,100.3 L296.0,104.0 L288.0,107.7 L280.0,104.0 Z M312.0,100.3 L320.0,104.0 L312.0,107.7 L304.0,104.0 Z" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.65"/>
+<path d="M324.0,9.3 L332.0,13.0 L324.0,16.7 L316.0,13.0 Z M336.0,22.3 L344.0,26.0 L336.0,29.7 L328.0,26.0 Z M360.0,22.3 L368.0,26.0 L360.0,29.7 L352.0,26.0 Z M348.0,35.3 L356.0,39.0 L348.0,42.7 L340.0,39.0 Z M372.0,35.3 L380.0,39.0 L372.0,42.7 L364.0,39.0 Z M360.0,48.3 L368.0,52.0 L360.0,55.7 L352.0,52.0 Z M384.0,48.3 L392.0,52.0 L384.0,55.7 L376.0,52.0 Z M348.0,61.3 L356.0,65.0 L348.0,68.7 L340.0,65.0 Z M372.0,61.3 L380.0,65.0 L372.0,68.7 L364.0,65.0 Z M336.0,74.3 L344.0,78.0 L336.0,81.7 L328.0,78.0 Z M360.0,74.3 L368.0,78.0 L360.0,81.7 L352.0,78.0 Z M324.0,87.3 L332.0,91.0 L324.0,94.7 L316.0,91.0 Z M348.0,87.3 L356.0,91.0 L348.0,94.7 L340.0,91.0 Z M336.0,100.3 L344.0,104.0 L336.0,107.7 L328.0,104.0 Z" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.7"/>
+<path d="M296.0,21.0 L305.1,26.1 L315.5,26.2 L320.8,35.2 L329.8,40.5 L329.9,50.9 L335.0,60.0 L329.9,69.1 L329.8,79.5 L320.8,84.8 L315.5,93.8 L305.1,93.9 L296.0,99.0 L286.9,93.9 L276.5,93.8 L271.2,84.8 L262.2,79.5 L262.1,69.1 L257.0,60.0 L262.1,50.9 L262.2,40.5 L271.2,35.2 L276.5,26.2 L286.9,26.1 Z" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.35"/>
+<path d="M296.0,30.0 L303.0,33.9 L311.0,34.0 L315.1,40.9 L322.0,45.0 L322.1,53.0 L326.0,60.0 L322.1,67.0 L322.0,75.0 L315.1,79.1 L311.0,86.0 L303.0,86.1 L296.0,90.0 L289.0,86.1 L281.0,86.0 L276.9,79.1 L270.0,75.0 L269.9,67.0 L266.0,60.0 L269.9,53.0 L270.0,45.0 L276.9,40.9 L281.0,34.0 L289.0,33.9 Z" fill="#3E55B8" stroke="#FFFFFF" stroke-width="1.2" stroke-opacity="0.8"/>
+<path d="M296.0,54.0 L309.0,60.0 L296.0,66.0 L283.0,60.0 Z" fill="#FFFFFF"/>
+</svg>
+</div>
+
+    <div class="meta">
+      <span>19 ноября 2026</span>
+      
+      <span class="tag" style="--c:#3E55B8">Добавки</span>
+      <span class="by"><span class="ed" aria-hidden="true"><svg viewBox="0 0 200 200" aria-hidden="true"><path fill="#FFFFFF" d="M100,62 L176,100 L100,138 L24,100 Z"/></svg></span>Редакция pHealth</span>
+      <span>9 мин чтения</span>
+    </div>
+
+    <h1>Как читать состав БАДа: что значит «в пересчёте на элементный магний»</h1>
+    <p class="lead">На банке крупно написано «магний 500 мг», а самого магния в таблетке может быть 80 мг. Это не обман: часто на этикетке стоит вес соли, а не минерала. Разбираем, как понять, какую цифру вы видите, где ещё прячутся такие пересчёты и как наш калькулятор считает настоящую дозу.</p>
+
+    <section class="legend" aria-labelledby="lg">
+      <h2 id="lg">Как читать метки</h2>
+      <p>Метка стоит у каждого утверждения об эффекте и показывает, насколько надёжно он доказан. Нажмите на уровень, чтобы подсветить утверждения. Подробнее в статье <a href="../#evidence">«Как читать метки»</a>.</p>
+      <div class="lv" role="group" aria-label="Уровни доказательств">
+        <button type="button" data-l="4" aria-pressed="false"><span class="bar"><b></b><b></b><b></b><b></b></span><strong>Сильные</strong><span>Согласованные метаанализы клинических испытаний</span></button>
+        <button type="button" data-l="3" aria-pressed="false"><span class="bar"><b></b><b></b><b></b><b></b></span><strong>Умеренные</strong><span>Несколько испытаний, но с оговорками</span></button>
+        <button type="button" data-l="2" aria-pressed="false"><span class="bar"><b></b><b></b><b></b><b></b></span><strong>Ограниченные</strong><span>Мало данных, результаты расходятся</span></button>
+        <button type="button" data-l="1" aria-pressed="false"><span class="bar"><b></b><b></b><b></b><b></b></span><strong>Не подтверждено</strong><span>Испытания эффекта не нашли</span></button>
+      </div>
+      <div class="hint" id="hint" aria-live="polite"></div>
+    </section>
+
+<h2 class="s">Соль и минерал — две разные цифры</h2>
+<p>Магний, кальций, цинк и железо не бывают в таблетке сами по себе. Это металлы, и в добавку их кладут в виде соли: в паре с другой молекулой, которая держит металл и помогает ему раствориться. Цитрат, оксид, глицинат, малат — это и есть эти пары.</p>
+<p>Вес соли складывается из веса металла и веса его «напарника». Поэтому у одной и той же таблетки есть две цифры:</p>
+<ul>
+<li><strong>вес соли</strong> — сколько весит всё соединение, например 500 мг цитрата магния;</li>
+<li><strong><a class="term" href="../slovar/#elementnyy" data-t="Элементный минерал" data-s="Сколько самого минерала в соли. В 500 мг цитрата магния около 80 мг элементного магния.">элементный магний</a></strong> — сколько в этой соли самого магния, например 80 мг.</li>
+</ul>
+<p>Организму нужна вторая цифра. Нормы, верхние пределы и дозы в исследованиях почти всегда считают по элементному минералу. «В пересчёте на элементный магний» значит ровно это: производитель уже вычел вес напарника и пишет, сколько магния вы получаете.</p>
+<p>Пересчёт простой: вес соли × доля минерала. 500 мг × 16% = 80 мг.</p>
+<h2 class="s">Как понять, какую цифру вы видите</h2>
+<p class="ctx">Смотрите не на крупную цифру на лицевой стороне, а на строку в составе.</p>
+<p>На этикетках встречаются три варианта записи:</p>
+<ul>
+<li><strong>«Магний (в форме цитрата) — 100 мг»</strong>, по-английски «Magnesium (as magnesium citrate) 100 mg». Сначала минерал, форма в скобках. Это элементный магний, пересчитывать не нужно.</li>
+<li><strong>«Магния цитрат — 500 мг»</strong>. Сначала соль. Это вес соединения, магния в нём меньше.</li>
+<li><strong>«Магния цитрат 500 мг (в пересчёте на магний — 80 мг)»</strong>. Указаны обе цифры. Лучший вариант.</li>
+</ul>
+<p>В США закон требует писать в таблице состава добавки вес самого минерала, а не соли: вес кальция, а не карбоната кальция.<sup><a href="#s5">5</a></sup> Поэтому в таблице «Supplement Facts» на банках с iHerb стоит элементная доза, а форма указана в скобках.<sup><a href="#s1">1</a></sup></p>
+<p>В ЕАЭС, куда входит Казахстан, на БАДе должен быть указан процент от суточной потребности по каждому веществу, ради которого его пьют.<sup><a href="#s6">6</a></sup> Это помогает проверить себя. Для магния суточная потребность для этикеток — 400 мг.<sup><a href="#s6">6</a></sup> Если в составе «магния цитрат 500 мг», а рядом «20%», значит, проценты посчитаны от 80 мг элементного магния. Если стоит «125%», производитель посчитал от веса соли, и это ошибка.</p>
+<div class="note"><b>Частая ошибка — пересчитать дважды.</b> Если на банке уже элементный магний, а вы ещё раз умножите его на 16%, получится в шесть раз меньше реальной дозы. Пересчитывайте только вес соли.</div>
+<h2 class="s">Почему доля такая разная</h2>
+<p>Доля зависит от того, сколько весит напарник. Атом магния лёгкий. У оксида напарник — один атом кислорода, ещё легче, поэтому магний занимает 60% веса. У цитрата напарник — крупная молекула лимонной кислоты, и магния остаётся 16%. У таурата и аспартата молекулы ещё тяжелее, и магния меньше 10%.</p>
+<table>
+<thead>
+<tr>
+<th>Форма магния</th>
+<th>Доля магния</th>
+<th>В 500 мг соли</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Оксид</td>
+<td>60%</td>
+<td>300 мг</td>
+</tr>
+<tr>
+<td>Карбонат</td>
+<td>28%</td>
+<td>140 мг</td>
+</tr>
+<tr>
+<td>Цитрат</td>
+<td>16%</td>
+<td>80 мг</td>
+</tr>
+<tr>
+<td>Малат</td>
+<td>15%</td>
+<td>75 мг</td>
+</tr>
+<tr>
+<td>Бисглицинат (хелат)</td>
+<td>14%</td>
+<td>70 мг</td>
+</tr>
+<tr>
+<td>Хлорид</td>
+<td>12%</td>
+<td>60 мг</td>
+</tr>
+<tr>
+<td>Лактат</td>
+<td>12%</td>
+<td>60 мг</td>
+</tr>
+<tr>
+<td>Сульфат</td>
+<td>10%</td>
+<td>50 мг</td>
+</tr>
+<tr>
+<td>Таурат</td>
+<td>9%</td>
+<td>45 мг</td>
+</tr>
+<tr>
+<td>L-треонат</td>
+<td>7%</td>
+<td>35 мг</td>
+</tr>
+</tbody>
+</table>
+<p>Доли посчитаны по химической формуле. Реальная цифра может отличаться на пару процентов: в кристаллах соли бывает связанная вода, и она тоже весит. Сухой цитрат магния — это 16% магния, а цитрат с девятью молекулами воды — уже около 12%. Какой вариант в банке, производитель пишет не всегда, поэтому любой пересчёт по весу соли — оценка, а не точная цифра.</p>
+<h2 class="s">Больше магния в таблетке — не значит больше в крови</h2>
+<p class="ctx">Доля минерала в соли и то, сколько его всосётся, — разные вещи.</p>
+<p><a class="term" href="../slovar/#biodostupnost" data-t="Биодоступность" data-s="Какая часть принятого вещества всасывается и попадает в кровь.">Биодоступность</a> показывает, какая часть принятого минерала попадает в кровь. Оксид выигрывает по весу, но растворяется хуже.</p>
+<p class="claim" data-l="2"><span class="ev" data-l="2" role="button" tabindex="0"><span class="m"><b></b><b></b><b></b><b></b></span>Ограниченные</span>Оксид против других форм. В небольшом исследовании на добровольцах из оксида всасывалось около 4% магния, а хлорид, лактат и аспартат усваивались заметно лучше и примерно одинаково.<sup><a href="#s7">7</a></sup> Несколько других небольших работ дали похожий результат для цитрата.<sup><a href="#s1">1</a></sup></p>
+<p class="claim" data-l="2"><span class="ev" data-l="2" role="button" tabindex="0"><span class="m"><b></b><b></b><b></b><b></b></span>Ограниченные</span>«Премиальные» формы. Что бисглицинат или треонат усваиваются лучше цитрата, хорошие сравнительные испытания не показали: их почти нет. Разница в цене между формами больше, чем доказанная разница в усвоении.</p>
+<p class="claim" data-l="4"><span class="ev" data-l="4" role="button" tabindex="0"><span class="m"><b></b><b></b><b></b><b></b></span>Сильные</span>Большие дозы магния из добавок вызывают диарею. На этом построен верхний безопасный предел, и именно так работают слабительные на основе магния. Чаще жалуются на карбонат, хлорид, глюконат и оксид.<sup><a href="#s1">1</a></sup></p>
+<h2 class="s">Не только магний</h2>
+<p class="ctx">Та же логика работает с другими минералами, а у витаминов свои пересчёты.</p>
+<p><strong>Кальций.</strong> В карбонате кальция 40% кальция, в цитрате — 21%.<sup><a href="#s2">2</a></sup> Две таблетки по 1000 мг дадут 400 и 210 мг кальция соответственно.</p>
+<p class="claim" data-l="3"><span class="ev" data-l="3" role="button" tabindex="0"><span class="m"><b></b><b></b><b></b><b></b></span>Умеренные</span>Кальций из добавки лучше всего усваивается, если за один раз принять не больше 500 мг. Большую дозу стоит разделить на два приёма.<sup><a href="#s2">2</a></sup></p>
+<p><strong>Железо.</strong> В фумарате 33% железа, в сульфате — 20%, в глюконате — 12%.<sup><a href="#s3">3</a></sup> «Железа сульфат 325 мг» — это около 65 мг железа. Для женщины это больше трёх суточных норм, поэтому такие дозы назначают при дефиците, а не «для профилактики».</p>
+<p><strong>Цинк.</strong> В глюконате около 14% цинка, в сульфате — 23%, в пиколинате — 20%. Цинк часто есть сразу в нескольких добавках, и его нужно складывать.</p>
+<p class="claim" data-l="2"><span class="ev" data-l="2" role="button" tabindex="0"><span class="m"><b></b><b></b><b></b><b></b></span>Ограниченные</span>Формы цинка различаются по усвоению несильно: из цитрата и глюконата у молодых взрослых всасывалось около 61% цинка, из оксида — около 50%.<sup><a href="#s4">4</a></sup></p>
+<p><strong>Витамин D.</strong> Здесь соли нет, но есть две единицы: микрограммы и <a class="term" href="../slovar/#me" data-t="МЕ" data-s="Международная единица — мера дозы, например витамина D.">МЕ</a>. 1 мкг = 40 МЕ.<sup><a href="#s8">8</a></sup> 2000 МЕ — это 50 мкг. Если в составе «50 мкг», а рядом не стоит МЕ, это та же доза.</p>
+<p><strong>Витамин E.</strong> МЕ пересчитывается по-разному для натуральной и синтетической формы. 1 МЕ натурального витамина E (на этикетке d-alpha-tocopherol) — это 0,67 мг, а синтетического (dl-alpha-tocopherol) — 0,45 мг.<sup><a href="#s9">9</a></sup> То есть при одинаковых МЕ синтетического нужно больше по весу, а при одинаковых миллиграммах он слабее.</p>
+<p><strong>Витамин A.</strong> 1 МЕ ретинола — это 0,3 мкг.<sup><a href="#s10">10</a></sup> 10 000 МЕ ретинола — уже 3000 мкг, это верхний безопасный предел для взрослых.<sup><a href="#s10">10</a></sup></p>
+<p><strong>Фолиевая кислота.</strong> Иногда пишут не микрограммы, а «мкг ДФЭ» — пищевой фолатный эквивалент. Синтетическая фолиевая кислота усваивается лучше фолатов из еды, поэтому её пересчитывают с запасом: 400 мкг фолиевой кислоты, принятые с едой, — это около 667 мкг ДФЭ.<sup><a href="#s11">11</a></sup> Цифра выросла, доза не изменилась.</p>
+<p><strong>Омега-3.</strong> «Рыбий жир 1000 мг» — это вес всего жира в капсуле. Омега-3 жирных кислот EPA и DHA в типичной капсуле около 300 мг: 180 и 120 мг.<sup><a href="#s12">12</a></sup> Если в исследовании или у врача речь о дозе омега-3, сравнивайте её с суммой EPA и DHA, а не с весом жира.</p>
+<h2 class="s">Порция и проценты</h2>
+<p><strong>Смотрите, что считается порцией.</strong> Цифры в составе часто даны «на порцию», а порция — это две или три капсулы. «Магний 400 мг» при порции в три капсулы — это 133 мг в капсуле. Если пьёте одну, делите.</p>
+<p><strong>Проценты на этикетках ЕАЭС считают от старых норм.</strong> Для витамина D суточная потребность для этикеток — 5 мкг, или 200 МЕ.<sup><a href="#s6">6</a></sup> Поэтому на обычной банке с 2000 МЕ пишут «1000%». Это не значит, что доза в десять раз опасна. Чтобы понять, не много ли, сравнивайте не с процентом, а с <a class="term" href="../slovar/#verkhniy-predel" data-t="Верхний безопасный предел" data-s="Самая большая суточная доза, при которой у большинства взрослых не ждут вреда. Потолок, а не цель.">верхним безопасным пределом</a>: для витамина D это 4000 МЕ в сутки.<sup><a href="#s8">8</a></sup> Подробнее — в нашей <a href="../vitamin-d/">статье про витамин D</a>.</p>
+<p>То же с цинком: база для этикеток — 15 мг,<sup><a href="#s6">6</a></sup> а верхний предел для взрослых — 40 мг в сутки из всех источников.<sup><a href="#s4">4</a></sup></p>
+<h2 class="s">Как считает наш калькулятор</h2>
+<p><a href="../calculator/">Калькулятор pHealth</a> делает пересчёт из этой статьи за вас. Вот что происходит внутри.</p>
+<ol>
+<li><strong>Вы выбираете минерал и форму, как на упаковке.</strong> Для каждой формы в калькуляторе записана доля минерала: те же проценты, что в таблице выше. Они посчитаны по химической формуле и округлены.</li>
+<li><strong>Вводите вес соли в одной порции и сколько порций пьёте в день.</strong> Калькулятор умножает: вес соли × доля × число порций. 2 порции по 500 мг цитрата магния = 2 × 500 × 16% = 160 мг магния в день.</li>
+<li><strong>Сравнивает результат с нормой и пределом.</strong> На шкале закрашена суточная норма для взрослых, а за чертой верхнего предела — штриховка. Пределы взяты из американских норм: 350 мг для магния, 2000 мг для кальция, 45 мг для железа, 40 мг для цинка.<sup><a href="#s1">1</a></sup><sup><a href="#s2">2</a></sup><sup><a href="#s3">3</a></sup><sup><a href="#s4">4</a></sup></li>
+<li><strong>Учитывает, откуда считается предел.</strong> Для магния предел 350 мг относится только к добавкам и лекарствам, магний из еды в него не входит.<sup><a href="#s1">1</a></sup> Поэтому для магния норма на шкале не закрашена: её закрывают еда и добавка вместе, а сравнивать с пределом нужно только добавку. Для кальция, железа и цинка предел общий, и дозу из добавки нужно сложить с едой.</li>
+<li><strong>Считает в обратную сторону.</strong> Под результатом написано, сколько соли нужно, чтобы получить разумную дозу: например, около 1250 мг цитрата магния ради 200 мг магния.</li>
+<li><strong>Показывает все формы рядом.</strong> В таблице под калькулятором видно, сколько минерала даст тот же вес соли в каждой форме. Нажмите на строку, и форма подставится в расчёт.</li>
+</ol>
+<p>Чего калькулятор не делает. Он не знает, сколько воды в кристаллах соли в вашей банке, поэтому ошибается на несколько процентов. Он не учитывает биодоступность: 80 мг магния из цитрата и 80 мг из оксида на экране одинаковые, а в крови — нет. Нормы в нём для взрослых, кроме беременных и кормящих. И если на банке уже указан элементный минерал, калькулятор не нужен: эта цифра и есть ваша доза.</p>
+<h2 class="s">Сколько стоит миллиграмм</h2>
+<p>Пересчёт полезен и при выборе банки. Цену сравнивают не за таблетку, а за 100 мг элементного минерала.</p>
+<p>Пример с условными ценами. Банка А: 90 таблеток по 500 мг цитрата магния за 6000 ₸. В ней 90 × 80 = 7200 мг магния, то есть около 83 ₸ за 100 мг. Банка Б: 60 капсул по 100 мг элементного магния за 4500 ₸. В ней 6000 мг магния, 75 ₸ за 100 мг. Банка А выглядит выгоднее — «500 мг» и таблеток больше, — но магний в ней дороже.</p>
+<h2 class="s">Проверка за полминуты</h2>
+<ol>
+<li>Найдите в составе строку с минералом. Что идёт первым: минерал или соль?</li>
+<li>Если первым идёт соль, умножьте её вес на долю из таблицы или посчитайте в <a href="../calculator/">калькуляторе</a>.</li>
+<li>Проверьте, сколько капсул в порции.</li>
+<li>Сложите один и тот же минерал из всех добавок, которые пьёте, включая мультивитамины.</li>
+<li>Сравните сумму с верхним пределом, а не с «% от нормы».</li>
+</ol>
+<div class="note"><b>Коротко.</b> На этикетке бывает вес соли, а не минерала. «Магния цитрат 500 мг» — это около 80 мг магния. Ищите строку «в пересчёте на…» или «(в форме…)», проверяйте, сколько капсул в порции, и сравнивайте дозу с верхним пределом. Самая «тяжёлая» по магнию форма, оксид, при этом усваивается хуже остальных.</div>
+
+    <section class="src" aria-labelledby="sr">
+      <h2 id="sr">Источники</h2>
+      <ol>
+        <li id="s1"><a href="https://ods.od.nih.gov/factsheets/Magnesium-HealthProfessional/" target="_blank" rel="noopener">NIH Office of Dietary Supplements. Magnesium: Fact Sheet for Health Professionals.</a></li>
+        <li id="s2"><a href="https://ods.od.nih.gov/factsheets/Calcium-HealthProfessional/" target="_blank" rel="noopener">NIH Office of Dietary Supplements. Calcium: Fact Sheet for Health Professionals.</a></li>
+        <li id="s3"><a href="https://ods.od.nih.gov/factsheets/Iron-HealthProfessional/" target="_blank" rel="noopener">NIH Office of Dietary Supplements. Iron: Fact Sheet for Health Professionals.</a></li>
+        <li id="s4"><a href="https://ods.od.nih.gov/factsheets/Zinc-HealthProfessional/" target="_blank" rel="noopener">NIH Office of Dietary Supplements. Zinc: Fact Sheet for Health Professionals.</a></li>
+        <li id="s5"><a href="https://www.law.cornell.edu/cfr/text/21/101.36" target="_blank" rel="noopener">21 CFR § 101.36. Nutrition labeling of dietary supplements (правила этикеток добавок в США).</a></li>
+        <li id="s6"><a href="https://zakon.uchet.kz/rus/docs/H11T0000881" target="_blank" rel="noopener">Технический регламент Таможенного союза ТР ТС 022/2011 «Пищевая продукция в части ее маркировки», ч. 4.9 и приложение 2.</a></li>
+        <li id="s7"><a href="https://pubmed.ncbi.nlm.nih.gov/11794633/" target="_blank" rel="noopener">Firoz M, Graber M. Bioavailability of US commercial magnesium preparations. Magnesium Research, 2001.</a></li>
+        <li id="s8"><a href="https://ods.od.nih.gov/factsheets/VitaminD-HealthProfessional/" target="_blank" rel="noopener">NIH Office of Dietary Supplements. Vitamin D: Fact Sheet for Health Professionals.</a></li>
+        <li id="s9"><a href="https://ods.od.nih.gov/factsheets/VitaminE-HealthProfessional/" target="_blank" rel="noopener">NIH Office of Dietary Supplements. Vitamin E: Fact Sheet for Health Professionals.</a></li>
+        <li id="s10"><a href="https://ods.od.nih.gov/factsheets/VitaminA-HealthProfessional/" target="_blank" rel="noopener">NIH Office of Dietary Supplements. Vitamin A: Fact Sheet for Health Professionals.</a></li>
+        <li id="s11"><a href="https://ods.od.nih.gov/factsheets/Folate-HealthProfessional/" target="_blank" rel="noopener">NIH Office of Dietary Supplements. Folate: Fact Sheet for Health Professionals.</a></li>
+        <li id="s12"><a href="https://www.nowfoods.com/products/supplements/omega-3-molecularly-distilled-fish-softgels" target="_blank" rel="noopener">Пример этикетки рыбьего жира: NOW Foods, Omega-3 Molecularly Distilled (1000 мг жира, 180 мг EPA и 120 мг DHA в капсуле).</a></li>
+      </ol>
+      <p class="ai">Статья подготовлена с помощью нейросети. Мы проверяем источники и обновим эту отметку после проверки.</p>
+    </section>
+  </article>
+
+</div>
+
+
+<footer class="site">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="logo" href="../"><span class="mark" aria-hidden="true"><svg viewBox="0 0 200 200" aria-hidden="true"><polygon fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linejoin="miter" stroke-miterlimit="10" points="100.0,10.0 119.6,27.0 145.0,22.1 153.5,46.5 177.9,55.0 173.0,80.4 190.0,100.0 173.0,119.6 177.9,145.0 153.5,153.5 145.0,177.9 119.6,173.0 100.0,190.0 80.4,173.0 55.0,177.9 46.5,153.5 22.1,145.0 27.0,119.6 10.0,100.0 27.0,80.4 22.1,55.0 46.5,46.5 55.0,22.1 80.4,27.0"/><path fill="#FFFFFF" d="M100,72 L157,100 L100,128 L43,100 Z"/></svg></span><span class="word">pHealth</span></a>
+        <p>Здоровье без мифов: журнал, анализы и товары в Алматы.</p>
+      </div>
+      <div><h4>Журнал</h4><ul><li><a href="../journal/">Все статьи</a></li><li><a href="../slovar/">Словарь</a></li><li><a href="../vitamin-d/">Витамин D</a></li><li><a href="../co2-i-mozg/">CO₂ и мозг</a></li><li><a href="../calculator/">Калькулятор дозы</a></li><li><a href="../#evidence">Как читать метки</a></li></ul></div>
+      <div><h4>Сервис</h4><ul><li><a href="../#checkups">Чекапы</a></li><li><a href="../#shop">Товары</a></li><li><a href="../#checkups">Доставка и оплата</a></li></ul></div>
+      <div><h4>О проекте</h4><ul><li><a href="../about/">О нас</a></li><li><a href="../#money">Как мы выбираем товары</a></li><li><a href="../about/#fact-check">Как мы проверяем факты</a></li><li><a href="../about/#contacts">Контакты</a></li></ul></div>
+      
+    </div>
+    <div class="fstrip" aria-hidden="true"></div>
+    <div class="legal"><span>© 2026 pHealth · phealth.kz</span><span>Материалы носят информационный характер и не заменяют консультацию врача. БАД не является лекарственным средством.</span></div>
+  </div>
+</footer>
+
+
+<script src="../assets/site.js"></script>
+
+<script>
+const art=document.getElementById("art"), hint=document.getElementById("hint");
+const names={4:"Сильные",3:"Умеренные",2:"Ограниченные",1:"Не подтверждено"};
+let cur=null;
+function set(l){
+  cur=(cur===l)?null:l;
+  art.classList.toggle("dim",cur!==null);
+  art.querySelectorAll(".claim").forEach(c=>c.classList.toggle("off",c.dataset.l!==cur));
+  document.querySelectorAll(".lv button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===cur));
+  art.querySelectorAll(".claim .ev").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===cur));
+  if(cur){
+    const n=art.querySelectorAll(`.claim[data-l="${cur}"]`).length;
+    hint.innerHTML=`Подсвечено: <b>${names[cur]}</b>, утверждений: ${n}. <button type="button" id="rs">Показать все</button>`;
+    document.getElementById("rs").onclick=()=>set(cur);
+  } else hint.textContent="";
+}
+document.querySelectorAll(".lv button").forEach(b=>b.onclick=()=>set(b.dataset.l));
+art.querySelectorAll(".claim .ev").forEach(b=>{
+  b.onclick=()=>{set(b.dataset.l);document.querySelector(".legend").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth",block:"nearest"})};
+  b.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();b.click()}};
+});
+</script>
+
+</body>
+</html>
