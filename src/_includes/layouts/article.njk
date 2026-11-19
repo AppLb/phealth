@@ -80,6 +80,18 @@ p{margin:0 0 1rem}
 .art>ul,.art>ol{margin:0 0 1.25rem;padding-left:1.4rem}
 .art>ul>li,.art>ol>li{margin-bottom:.5rem}
 @media (max-width:640px){.art th,.art td{padding:.5rem .4rem}}
+/* Спойлеры в тексте статьи: <details class="sp"> */
+.art details.sp{border-top:1px solid var(--line)}
+.art details.sp + details.sp{border-top:0}
+.art details.sp{border-bottom:1px solid var(--line)}
+.art details.sp summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:baseline;gap:1rem;padding:.85rem 0;font:700 1.05rem var(--display);color:var(--ink)}
+.art details.sp summary::-webkit-details-marker{display:none}
+.art details.sp summary::after{content:"+";font:500 1.3rem/1 var(--ui);color:var(--muted)}
+.art details.sp[open] summary::after{content:"–"}
+.art details.sp summary:hover{color:var(--accent)}
+.art details.sp summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.art details.sp>:last-child{margin-bottom:1.25rem}
+.art details.sp + :not(details){margin-top:1.5rem}
 
 .src{margin:3rem 0 0;padding-top:1.5rem;border-top:1px solid var(--line)}
 .src h2{font:700 1rem var(--display);margin:0 0 .75rem}
@@ -154,6 +166,7 @@ function set(l){
   document.querySelectorAll(".lv button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===cur));
   art.querySelectorAll(".claim .ev").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===cur));
   if(cur){
+    art.querySelectorAll("details.sp").forEach(d=>{if(d.querySelector(`.claim[data-l="${cur}"]`))d.open=true});
     const n=art.querySelectorAll(`.claim[data-l="${cur}"]`).length;
     hint.innerHTML=`Подсвечено: <b>${names[cur]}</b>, утверждений: ${n}. <button type="button" id="rs">Показать все</button>`;
     document.getElementById("rs").onclick=()=>set(cur);
