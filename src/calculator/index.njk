@@ -66,13 +66,10 @@ select:focus,.num input:focus{outline:3px solid var(--accent);outline-offset:1px
 .tip{font:400 .92rem/1.5 var(--ui);color:var(--muted);margin:0}
 .tip b{color:var(--ink);font-weight:600}
 
-/* Ссылка на статью в рамке, как у блоков сайта: на компьютере полосой на всю ширину под калькулятором (текст слева, кнопка справа), на телефоне под вступлением */
+/* Ссылка на статью в рамке, как у блоков сайта: на компьютере полосой на всю ширину под калькулятором, текст по центру; на телефоне под вступлением */
 .artlink{max-width:44rem;box-sizing:border-box;margin:2rem auto 0;padding:.9rem 1.2rem;border-radius:1rem;border:1.5px solid var(--line);background:var(--paper);font:400 1rem/1.55 var(--ui);color:var(--muted);text-align:center}
 .artlink-top{display:none}
-.artlink-after{max-width:none;margin:1rem 0 0;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;text-align:left;padding:1.1rem 1.1rem 1.1rem 1.75rem;border-radius:1.5rem}
-.artlink-after .go{flex:none;padding:.65rem 1.1rem;border-radius:999px;background:var(--accent);color:var(--on-accent);text-decoration:none;font:600 .95rem var(--ui)}
-.artlink-after .go:hover{filter:brightness(1.08)}
-.artlink-after .go:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.artlink-after{max-width:none;margin:1rem 0 0;text-align:center;padding:1.3rem 1.75rem;border-radius:1.5rem}
 @media (max-width:860px){
   .artlink-top{display:block;text-align:left}
   .intro p.artlink-top{margin:1.5rem 0 0;font-size:.98rem}
@@ -189,7 +186,7 @@ tbody tr[aria-selected="true"] td:first-child{font-weight:600}
     </section>
   </div>
 
-  <div class="artlink artlink-after"><span>Как читать состав и что здесь считается, подробно — в статье <a href="../sostav-bada/">«Как читать состав БАДа»</a>.</span><a class="go" href="../sostav-bada/">Читать статью →</a></div>
+  <p class="artlink artlink-after">Как читать состав и что здесь считается, подробно — в статье <a href="../sostav-bada/">«Как читать состав БАДа»</a>.</p>
 
   <section class="forms" aria-labelledby="forms-h">
     <h2 id="forms-h">Сколько минерала в разных формах</h2>
