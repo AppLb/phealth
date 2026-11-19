@@ -72,6 +72,14 @@ p{margin:0 0 1rem}
 .note{margin:1.5rem 0;padding:.8rem 1rem;border-left:3px solid var(--accent);background:var(--paper);font-size:.95rem;color:var(--muted)}
 .note b{color:var(--ink)}
 .dispute{border-left-color:var(--l2)}
+/* Таблицы и списки в тексте статьи */
+.art table{width:100%;border-collapse:collapse;margin:.5rem 0 1.5rem;font-size:.95rem;font-variant-numeric:tabular-nums}
+.art th,.art td{text-align:left;padding:.55rem .75rem;border-bottom:1px solid var(--line)}
+.art th{font:600 .75rem var(--ui);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.art td:not(:first-child),.art th:not(:first-child){text-align:right;white-space:nowrap}
+.art>ul,.art>ol{margin:0 0 1.25rem;padding-left:1.4rem}
+.art>ul>li,.art>ol>li{margin-bottom:.5rem}
+@media (max-width:640px){.art th,.art td{padding:.5rem .4rem}}
 
 .src{margin:3rem 0 0;padding-top:1.5rem;border-top:1px solid var(--line)}
 .src h2{font:700 1rem var(--display);margin:0 0 .75rem}
