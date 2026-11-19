@@ -74,7 +74,13 @@ select:focus,.num input:focus{outline:3px solid var(--accent);outline-offset:1px
 .tip{font:400 .92rem/1.5 var(--ui);color:var(--muted);margin:0}
 .tip b{color:var(--ink);font-weight:600}
 
-.artlink{max-width:44rem;margin:1.75rem 0 0;font:400 1rem/1.55 var(--ui);color:var(--muted)}
+/* Ссылка на статью в жёлтой пунктирной рамке: на компьютере после калькулятора, на телефоне под вступлением */
+.artlink{max-width:44rem;box-sizing:border-box;margin:2rem 0 0;padding:.9rem 1.1rem;border-radius:.9rem;outline:3px dashed var(--l2);outline-offset:4px;font:400 1rem/1.55 var(--ui);color:var(--muted)}
+.artlink-top{display:none}
+@media (max-width:860px){
+  .artlink-top{display:block;margin:1.5rem 4px 0}
+  .artlink-after{display:none}
+}
 /* Таблица форм */
 .forms{margin-top:2.5rem}
 .forms h2,.why h2,.src h2{font:700 1.3rem/1.25 var(--display);letter-spacing:-.02em;margin:0 0 .4rem}
@@ -152,6 +158,7 @@ tbody tr[aria-selected="true"] td:first-child{font-weight:600}
     <span class="eyebrow">Калькулятор</span>
     <h1>Сколько на самом деле в таблетке</h1>
     <p>На банке часто пишут вес соли, например «магния цитрат 500 мг». Самого магния в ней примерно в шесть раз меньше. Выберите минерал и форму с упаковки, и мы посчитаем, сколько вы получаете на самом деле.</p>
+    <p class="artlink artlink-top">Как читать состав и что здесь считается, подробно — в статье <a href="../sostav-bada/">«Как читать состав БАДа»</a>.</p>
   </div>
 
   <div class="calc">
@@ -208,7 +215,7 @@ tbody tr[aria-selected="true"] td:first-child{font-weight:600}
     </section>
   </div>
 
-  <p class="artlink">Как читать состав и что здесь считается, подробно — в статье <a href="../sostav-bada/">«Как читать состав БАДа»</a>.</p>
+  <p class="artlink artlink-after">Как читать состав и что здесь считается, подробно — в статье <a href="../sostav-bada/">«Как читать состав БАДа»</a>.</p>
 
   <section class="forms" aria-labelledby="forms-h">
     <h2 id="forms-h">Сколько минерала в разных формах</h2>
